@@ -1,53 +1,20 @@
 import { NextResponse } from "next/server";
 import { validate, type ContactData } from "@/lib/contact";
+import {
+  createResendPayload,
+  isValidRuntimeContactConfig,
+} from "@/lib/contact-delivery";
 import { env as workerEnv } from "cloudflare:workers";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
-function escapeHtml(value: string) {
-  return value.replace(
-    /[&<>'\"]/g,
-    (character) =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "'": "&#39;",
-        '"': "&quot;",
-      })[character] ?? character,
-  );
-}
-
-function getRuntimeValue(name: "RESEND_API_KEY" | "CONTACT_TO" | "CONTACT_FROM") {
+function readRuntimeValueExactly(
+  name: "RESEND_API_KEY" | "CONTACT_TO" | "CONTACT_FROM",
+) {
   return (
     (workerEnv as Record<string, unknown>)[name] ??
     (process.env as Record<string, string | undefined>)[name]
   );
-}
-
-function formatLead(data: ContactData) {
-  const fields = [
-    ["First name", data.firstName],
-    ["Last name", data.lastName],
-    ["Company", data.company],
-    ["Email", data.email],
-    ["Phone", data.phone],
-    ["Industry", data.industry],
-    ["Monthly estimate volume", data.volume],
-    ["CRM / FSM", data.crm || "Not provided"],
-    ["Message", data.message || "Not provided"],
-  ] as const;
-  const text = fields.map(([label, value]) => `${label}: ${value}`).join("\n");
-  const html = fields
-    .map(
-      ([label, value]) =>
-        `<tr><th align="left" valign="top">${escapeHtml(label)}</th><td>${escapeHtml(value).replaceAll("\n", "<br>")}</td></tr>`,
-    )
-    .join("");
-  return {
-    text,
-    html: `<h1>MONARDAS Revenue Recovery Audit</h1><table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse">${html}</table>`,
-  };
 }
 
 export async function POST(request: Request) {
@@ -121,29 +88,27 @@ export async function POST(request: Request) {
         { error: "Please check your contact details.", errors },
         { status: 400 },
       );
-    const apiKey = getRuntimeValue("RESEND_API_KEY");
-    const to = getRuntimeValue("CONTACT_TO");
-    const from = getRuntimeValue("CONTACT_FROM");
-    if (!apiKey || !to || !from)
+    const apiKey = readRuntimeValueExactly("RESEND_API_KEY");
+    const to = readRuntimeValueExactly("CONTACT_TO");
+    const from = readRuntimeValueExactly("CONTACT_FROM");
+    if (
+      typeof apiKey !== "string" ||
+      typeof to !== "string" ||
+      typeof from !== "string" ||
+      !isValidRuntimeContactConfig({ to, from })
+    )
       return NextResponse.json(
         { error: "Lead delivery is temporarily unavailable. Please try again later." },
         { status: 503 },
       );
-    const lead = formatLead(data);
+    const lead = createResendPayload(data, { to, from });
     const resend = await fetch(RESEND_ENDPOINT, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        from,
-        to,
-        reply_to: data.email,
-        subject: `MONARDAS Revenue Recovery Audit — ${data.company}`,
-        text: lead.text,
-        html: lead.html,
-      }),
+      body: JSON.stringify(lead),
     });
     if (!resend.ok)
       return NextResponse.json(
