@@ -5,6 +5,9 @@ const config = [
   {
     ignores: [
       ".next/**",
+      "dist/**",
+      ".vinext/**",
+      ".wrangler/**",
       "node_modules/**",
       "next-env.d.ts",
       "test-results/**",

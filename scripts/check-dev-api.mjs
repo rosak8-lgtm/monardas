@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-const base = "http://127.0.0.1:3000";
+const base = process.env.QA_BASE_URL || "http://127.0.0.1:3000";
 const valid = {
   firstName: "QA",
   lastName: "Operator",

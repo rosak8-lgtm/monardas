@@ -13,6 +13,44 @@ Open **http://127.0.0.1:3000**. Production preview: `npm run build`, then `npm r
 
 This workspace's RTK instruction can be followed with `rtk proxy npm run dev` (and the same prefix for other commands).
 
+## Cloudflare Workers (vinext)
+
+The Workers setup follows [Cloudflare's existing Next.js project guide](https://developers.cloudflare.com/workers/framework-guides/web-apps/nextjs/) and runs alongside the original Next.js scripts. Use Node.js 22 or newer and `npm ci` to install the locked dependencies.
+
+```sh
+npm run dev:vinext
+npm run build:vinext
+npm run start:vinext -- --port 3001
+```
+
+The vinext development server uses port 3001. `start:vinext` previews the production bundle locally in the Workers runtime; run it after building, with the development server stopped.
+
+`next.config.ts` places the original Next.js build in `.next/nextjs`. This keeps Next's generated route validators separate from vinext's `.next/types` files, allowing both toolchains to coexist. `next dev`, `next build`, and `next start` all use this configuration automatically.
+
+`vite.config.ts` connects vinext's App Router RSC and SSR environments to the Cloudflare Vite plugin. `wrangler.jsonc` names the Worker `monardas`, enables `nodejs_compat`, and binds the generated client assets. The build writes `dist/client` and `dist/server`, including `dist/server/wrangler.json`. Pages and `/api/contact` run through the Worker; this is not a static export. No KV, external cache, or Cloudflare Images binding is required by this application.
+
+Cloudflare build command:
+
+```sh
+npm run build:vinext
+```
+
+Cloudflare deploy command (run only when ready to publish):
+
+```sh
+npm run deploy
+```
+
+The deploy script uses the installed `vinext-cloudflare deploy --config dist/server/wrangler.json`, equivalent to the guide's `npx @vinext/cloudflare deploy` with the generated configuration selected explicitly. It builds before publishing. After a separate successful build, `npm run deploy -- --skip-build` reuses that output. `npm run deploy -- --dry-run` only validates configuration and does not build or publish.
+
+Set the existing public `NEXT_PUBLIC_SITE_URL` build variable to the confirmed production origin before the Cloudflare build, as described below. Authenticate with Cloudflare separately when actually deploying; no credentials or secrets are stored in this project. Local Workers variable files (`.dev.vars*`) and generated output are ignored by Git.
+
+The contact handler uses standard `Request`, `URL`, and Web Crypto APIs plus vinext's `NextResponse` compatibility layer. Its existing production HTTP 503 response remains intentional until delivery is configured. The local development validation adapter is preserved.
+
+For browser verification against the built Worker, set `QA_BASE_URL=http://127.0.0.1:3001` in the shell and run `npm run test:e2e`. Use `QA_DEV=1` only when checking the development server. The original `npm run build` still performs the Next.js production build and TypeScript validation.
+
+To check the contact development adapter directly, set `QA_BASE_URL=http://localhost:3001` while `dev:vinext` is running, then run `node scripts/check-dev-api.mjs`. This exercises valid submissions, validation errors, the honeypot, payload limits, origin checks, and content-type checks without sending or storing a lead.
+
 ## Routes
 
 - Corporate: `/`, `/systems`, `/ventures`, `/capital`, `/commerce`, `/nature`, `/strategy`, `/founder`.

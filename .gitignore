@@ -6,3 +6,7 @@ dev.log
 test-results/
 playwright-report/
 qa-reports/
+/dist/
+.vinext/
+.wrangler/
+.dev.vars*
