@@ -32,18 +32,13 @@ export function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      const result = await response.json();
-      if (!response.ok)
-        throw new Error(result.error || "Unable to submit. Please try again.");
+      if (!response.ok) throw new Error("delivery-failed");
       setState("success");
-      setMessage(result.message);
-      form.reset();
-    } catch (error) {
+      setMessage("Thanks — we’ll review your revenue recovery opportunities and get back to you shortly.");
+    } catch {
       setState("error");
       setMessage(
-        error instanceof Error
-          ? error.message
-          : "Unable to submit. Please try again.",
+        "We couldn't send your request. Please try again, or contact us directly at yurii@monardas.com.",
       );
     }
   }
@@ -162,19 +157,23 @@ export function ContactForm() {
       </div>
       <button
         className="button button-dark form-submit"
-        disabled={state === "loading"}
+        disabled={state === "loading" || state === "success"}
         type="submit"
       >
         {state === "loading"
           ? "Validating…"
-          : "Request a Revenue Recovery Audit"}
+          : state === "success"
+            ? "Request received"
+            : "Request a Revenue Recovery Audit"}
         <ArrowUpRight size={18} />
       </button>
       <div aria-live="polite" role="status">
         {state === "success" && (
           <p className="form-success">
             <Check size={18} />
-            {message}
+            <span>
+              <strong>Request received.</strong> {message}
+            </span>
           </p>
         )}
         {state === "error" && <p className="field-error">{message}</p>}

@@ -188,7 +188,7 @@ test("form validation and honest delivery state", async ({ page, request }) => {
   const response = await submitted;
   expect(response.status()).toBe(503);
   await expect(page.getByRole("status")).toContainText(
-    "temporarily unavailable",
+    "We couldn't send your request",
   );
   const bad = await request.post("/api/contact", { data: { email: "bad" } });
   expect(bad.status()).toBe(400);
