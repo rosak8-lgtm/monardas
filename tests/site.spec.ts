@@ -186,17 +186,10 @@ test("form validation and honest delivery state", async ({ page, request }) => {
     .getByRole("button", { name: "Request a Revenue Recovery Audit" })
     .click();
   const response = await submitted;
-  if (process.env.QA_DEV === "1") {
-    expect(response.status()).toBe(201);
-    await expect(page.getByRole("status")).toContainText(
-      "No message was sent or stored",
-    );
-    const bad = await request.post("/api/contact", { data: { email: "bad" } });
-    expect(bad.status()).toBe(400);
-  } else {
-    expect(response.status()).toBe(503);
-    await expect(page.getByRole("status")).toContainText(
-      "does not send or store",
-    );
-  }
+  expect(response.status()).toBe(503);
+  await expect(page.getByRole("status")).toContainText(
+    "temporarily unavailable",
+  );
+  const bad = await request.post("/api/contact", { data: { email: "bad" } });
+  expect(bad.status()).toBe(400);
 });

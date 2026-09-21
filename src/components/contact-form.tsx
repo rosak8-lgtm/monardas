@@ -180,9 +180,7 @@ export function ContactForm() {
         {state === "error" && <p className="field-error">{message}</p>}
       </div>
       <p className="form-note">
-        Local demonstration: submissions are validated but not stored or
-        delivered. Production submissions remain disabled until delivery is
-        configured.
+        Your details are used to review your request and follow up with you.
       </p>
     </form>
   );

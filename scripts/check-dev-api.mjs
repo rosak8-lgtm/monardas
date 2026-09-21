@@ -20,9 +20,9 @@ async function send(body, options = {}) {
   });
 }
 const success = await send(valid);
-assert.equal(success.status, 201);
-assert.match((await success.json()).message, /No message was sent or stored/);
-assert.equal((await send(valid, { headers: { Origin: base } })).status, 201);
+assert.equal(success.status, 503);
+assert.match((await success.json()).error, /temporarily unavailable/);
+assert.equal((await send(valid, { headers: { Origin: base } })).status, 503);
 for (const body of [
   "{",
   null,

@@ -103,12 +103,12 @@ export default async function Page({
         <h1>{page === "privacy" ? "Privacy notice" : "Website terms"}</h1>
         <p>
           {page === "privacy"
-            ? "This is a placeholder, not a finalized privacy policy. The local demonstration form validates submissions but does not store or deliver contact details. Its development logs contain only a random submission ID and timestamp. Production submission is disabled until delivery is configured."
+            ? "This is a placeholder, not a finalized privacy policy. The contact form sends validated submissions through Resend to the MONARDAS lead inbox. The form does not store submissions in this application or log personal details."
             : "This is a placeholder, not finalized website terms. No service agreement is created by browsing this site. Pilot scope, pricing and responsibilities must be agreed separately before work begins."}
         </p>
         <p>
           {page === "privacy"
-            ? "The published notice must identify the operator, hosting and delivery providers, purposes, retention periods and contact method before live lead capture is enabled."
+            ? "The published notice must identify the operator, hosting and delivery providers, purposes, retention periods and contact method."
             : "Final terms must identify the operating entity, applicable conditions and a contact method before commercial launch."}
         </p>
         <Button href="/" secondary>

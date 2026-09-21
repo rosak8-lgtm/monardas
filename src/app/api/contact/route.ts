@@ -1,16 +1,56 @@
 import { NextResponse } from "next/server";
 import { validate, type ContactData } from "@/lib/contact";
-// Local development adapter only. Never logs personal details or pretends to deliver leads.
-// Replace with durable delivery, abuse controls and a published privacy notice before enabling production.
+import { env as workerEnv } from "cloudflare:workers";
+
+const RESEND_ENDPOINT = "https://api.resend.com/emails";
+
+function escapeHtml(value: string) {
+  return value.replace(
+    /[&<>'\"]/g,
+    (character) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;",
+      })[character] ?? character,
+  );
+}
+
+function getRuntimeValue(name: "RESEND_API_KEY" | "CONTACT_TO" | "CONTACT_FROM") {
+  return (
+    (workerEnv as Record<string, unknown>)[name] ??
+    (process.env as Record<string, string | undefined>)[name]
+  );
+}
+
+function formatLead(data: ContactData) {
+  const fields = [
+    ["First name", data.firstName],
+    ["Last name", data.lastName],
+    ["Company", data.company],
+    ["Email", data.email],
+    ["Phone", data.phone],
+    ["Industry", data.industry],
+    ["Monthly estimate volume", data.volume],
+    ["CRM / FSM", data.crm || "Not provided"],
+    ["Message", data.message || "Not provided"],
+  ] as const;
+  const text = fields.map(([label, value]) => `${label}: ${value}`).join("\n");
+  const html = fields
+    .map(
+      ([label, value]) =>
+        `<tr><th align="left" valign="top">${escapeHtml(label)}</th><td>${escapeHtml(value).replaceAll("\n", "<br>")}</td></tr>`,
+    )
+    .join("");
+  return {
+    text,
+    html: `<h1>MONARDAS Revenue Recovery Audit</h1><table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse">${html}</table>`,
+  };
+}
+
 export async function POST(request: Request) {
-  if (process.env.NODE_ENV !== "development")
-    return NextResponse.json(
-      {
-        error:
-          "Lead delivery has not been configured. This demonstration does not send or store your message.",
-      },
-      { status: 503 },
-    );
   if (!request.headers.get("content-type")?.includes("application/json"))
     return NextResponse.json(
       { error: "Expected a JSON submission." },
@@ -34,7 +74,15 @@ export async function POST(request: Request) {
         { error: "Submission is too large." },
         { status: 413 },
       );
-    const body: unknown = JSON.parse(raw);
+    let body: unknown;
+    try {
+      body = JSON.parse(raw);
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid submission." },
+        { status: 400 },
+      );
+    }
     if (!body || typeof body !== "object" || Array.isArray(body))
       return NextResponse.json(
         { error: "Invalid submission." },
@@ -73,23 +121,47 @@ export async function POST(request: Request) {
         { error: "Please check your contact details.", errors },
         { status: 400 },
       );
-    const id = crypto.randomUUID();
-    console.info("[MONARDAS local contact]", {
-      id,
-      receivedAt: new Date().toISOString(),
+    const apiKey = getRuntimeValue("RESEND_API_KEY");
+    const to = getRuntimeValue("CONTACT_TO");
+    const from = getRuntimeValue("CONTACT_FROM");
+    if (!apiKey || !to || !from)
+      return NextResponse.json(
+        { error: "Lead delivery is temporarily unavailable. Please try again later." },
+        { status: 503 },
+      );
+    const lead = formatLead(data);
+    const resend = await fetch(RESEND_ENDPOINT, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to,
+        reply_to: data.email,
+        subject: `MONARDAS Revenue Recovery Audit — ${data.company}`,
+        text: lead.text,
+        html: lead.html,
+      }),
     });
+    if (!resend.ok)
+      return NextResponse.json(
+        { error: "We could not send your request right now. Please try again later." },
+        { status: 502 },
+      );
+    const result = (await resend.json()) as { id?: string };
     return NextResponse.json(
       {
-        message:
-          "Your local test submission was validated successfully. No message was sent or stored.",
-        id,
+        message: "Thanks — your request was sent successfully. We’ll be in touch soon.",
+        id: result.id ?? crypto.randomUUID(),
       },
       { status: 201 },
     );
   } catch {
     return NextResponse.json(
-      { error: "Invalid submission. Please try again." },
-      { status: 400 },
+      { error: "We could not send your request right now. Please try again later." },
+      { status: 502 },
     );
   }
 }

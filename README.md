@@ -45,7 +45,7 @@ The deploy script uses the installed `vinext-cloudflare deploy --config dist/ser
 
 Set the existing public `NEXT_PUBLIC_SITE_URL` build variable to the confirmed production origin before the Cloudflare build, as described below. Authenticate with Cloudflare separately when actually deploying; no credentials or secrets are stored in this project. Local Workers variable files (`.dev.vars*`) and generated output are ignored by Git.
 
-The contact handler uses standard `Request`, `URL`, and Web Crypto APIs plus vinext's `NextResponse` compatibility layer. Its existing production HTTP 503 response remains intentional until delivery is configured. The local development validation adapter is preserved.
+The contact handler uses standard `Request`, `URL`, Web Crypto, and `fetch` APIs plus vinext's `NextResponse` compatibility layer. It reads `RESEND_API_KEY`, `CONTACT_TO`, and `CONTACT_FROM` from Cloudflare's runtime environment and sends validated submissions through Resend. The API key is a Cloudflare secret and is never stored in this repository.
 
 For browser verification against the built Worker, set `QA_BASE_URL=http://127.0.0.1:3001` in the shell and run `npm run test:e2e`. Use `QA_DEV=1` only when checking the development server. The original `npm run build` still performs the Next.js production build and TypeScript validation.
 
@@ -68,7 +68,7 @@ All pre-existing public routes remain available. There are no ecommerce routes o
 - `src/components/ai-page.tsx`: commercial recovery workflow and pilot offer.
 - `src/components/system-map.tsx`: lightweight original SVG architecture visual.
 - `src/components/calculator.tsx`: bounded interactive scenario model.
-- `src/components/contact-form.tsx`, `src/lib/contact.ts`, `src/app/api/contact/route.ts`: client/server validation and local demonstration endpoint.
+- `src/components/contact-form.tsx`, `src/lib/contact.ts`, `src/app/api/contact/route.ts`: client/server validation and Resend lead delivery.
 - `src/app/globals.css`: responsive editorial design system, focus states and reduced-motion support.
 - `src/lib/pages.ts`, `src/lib/seo.ts`: route descriptions and metadata.
 
@@ -84,12 +84,12 @@ The last amount is an upper-bound scenario assuming **every reopened opportunity
 
 ## Contact behavior
 
-The development endpoint validates input and logs only a random submission ID and timestamp. It does **not** store, email or deliver contact details. The UI states this explicitly. In production it returns HTTP 503 without accepting a lead. A real delivery provider, durable storage or delivery confirmation, abuse controls and finalized privacy notice are prerequisites for enabling live submissions.
+The endpoint validates input and sends accepted submissions to Resend. It returns success only after Resend accepts the email, and returns a generic 5xx response when delivery configuration or the provider is unavailable. It does not log personal details or expose provider errors. The API key remains a Cloudflare secret; the non-secret recipient and sender variables are kept in `wrangler.jsonc` for deployment consistency.
 
 ## Deployment gates
 
 1. Set `NEXT_PUBLIC_SITE_URL` to the confirmed HTTPS corporate origin **before building**. Without it, canonicals are omitted, the sitemap is empty and social-image URLs use the explicit local development origin. No public domain is guessed.
-2. Configure live lead delivery and publish approved privacy/terms. The current legal pages are intentionally labeled placeholders.
+2. Publish approved privacy/terms. The current legal pages are intentionally labeled placeholders.
 3. Inventory the existing botanical store's exact indexed product/category URLs, product metadata, cart, checkout, account and payment routes. They are not present here. Preserve them through the existing storefront or an explicitly reviewed routing integration before replacing any homepage. No ecommerce URL rewrites or redirects have been added.
 4. Confirm content, product availability and commercial pilot terms with the operator. No customers, acquired businesses, returns or operating metrics are invented.
 
