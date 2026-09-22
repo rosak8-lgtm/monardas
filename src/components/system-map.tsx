@@ -63,7 +63,7 @@ export function SystemMap() {
         </text>
       </svg>
       <div className="map-bottom">
-        <span>Complexity</span>
+        <span>Friction</span>
         <span>System</span>
         <span>Asset ↗</span>
       </div>

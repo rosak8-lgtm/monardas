@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowUpRight, Check } from "lucide-react";
 import {
   industries,
@@ -8,7 +8,12 @@ import {
   type ContactData,
   type Errors,
 } from "@/lib/contact";
-export function ContactForm() {
+export function ContactForm({
+  foundingPartner = false,
+}: {
+  foundingPartner?: boolean;
+}) {
+  const submissionLocked = useRef(false);
   const [errors, setErrors] = useState<Errors>({});
   const [state, setState] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
@@ -16,6 +21,7 @@ export function ContactForm() {
   const [message, setMessage] = useState("");
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (submissionLocked.current) return;
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form)) as ContactData;
     const found = validate(data);
@@ -26,6 +32,7 @@ export function ContactForm() {
       return;
     }
     setState("loading");
+    submissionLocked.current = true;
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -34,8 +41,11 @@ export function ContactForm() {
       });
       if (!response.ok) throw new Error("delivery-failed");
       setState("success");
-      setMessage("Thanks — we’ll review your revenue recovery opportunities and get back to you shortly.");
+      setMessage(
+        "Thanks — we’ll review your revenue recovery opportunities and get back to you shortly.",
+      );
     } catch {
+      submissionLocked.current = false;
       setState("error");
       setMessage(
         "We couldn't send your request. Please try again, or contact us directly at yurii@monardas.com.",
@@ -52,7 +62,11 @@ export function ContactForm() {
   ] as const;
   return (
     <form className="contact-form" onSubmit={submit} noValidate>
-      <h2>Let’s look at your pipeline.</h2>
+      <h2>
+        {foundingPartner
+          ? "Apply as a Founding Partner."
+          : "Let’s look at your pipeline."}
+      </h2>
       <p>
         Required fields are marked *. CRM / FSM and your message are optional.
       </p>
@@ -94,10 +108,17 @@ export function ContactForm() {
         ))}
         {(
           [
-            { name: "industry", label: "Industry", options: industries },
+            {
+              name: "industry",
+              label: "Industry",
+              options: [
+                "HVAC",
+                ...industries.filter((industry) => industry !== "HVAC"),
+              ],
+            },
             {
               name: "volume",
-              label: "Monthly estimate volume",
+              label: "Unsold estimates per month",
               options: volumes,
             },
           ] as const
@@ -111,7 +132,9 @@ export function ContactForm() {
               id={name}
               name={name}
               required
-              defaultValue=""
+              defaultValue={
+                foundingPartner && name === "industry" ? "HVAC" : ""
+              }
               aria-invalid={!!errors[name]}
               aria-describedby={errors[name] ? `${name}-error` : undefined}
             >
@@ -138,6 +161,11 @@ export function ContactForm() {
             name="message"
             rows={4}
             maxLength={3000}
+            defaultValue={
+              foundingPartner
+                ? "I’d like to apply as an HVAC Founding Partner."
+                : ""
+            }
             placeholder="Where does follow-up drop off in your pipeline?"
             aria-invalid={!!errors.message}
             aria-describedby={errors.message ? "message-error" : undefined}
@@ -161,13 +189,13 @@ export function ContactForm() {
         type="submit"
       >
         {state === "loading"
-          ? "Validating…"
+          ? "Sending…"
           : state === "success"
             ? "Request received"
             : "Request a Revenue Recovery Audit"}
         <ArrowUpRight size={18} />
       </button>
-      <div aria-live="polite" role="status">
+      <div aria-live="polite" aria-atomic="true" role="status">
         {state === "success" && (
           <p className="form-success">
             <Check size={18} />

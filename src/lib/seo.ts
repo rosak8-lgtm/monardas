@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+export const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://monardas.com";
 export function pageMetadata(
   title: string,
   description: string,

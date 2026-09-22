@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight, Plus } from "lucide-react";
+import { productGroups } from "@/lib/navigation";
 export function Logo() {
   return (
     <Link href="/" className="logo" aria-label="MONARDAS home">
@@ -63,7 +64,7 @@ export const groups = {
     ["Contact", "/contact"],
   ],
 };
-export function Footer() {
+export function Footer({ product = false }: { product?: boolean }) {
   return (
     <footer className="footer">
       <div className="container">
@@ -71,20 +72,23 @@ export function Footer() {
           <div>
             <Logo />
             <p>
-              We build systems and businesses designed to compound value through
-              technology, distribution and ownership.
+              {product
+                ? "Revenue systems for businesses with existing demand. A MONARDAS company built on intelligence, systems and ownership."
+                : "We build systems and businesses designed to compound value through technology, distribution and ownership."}
             </p>
           </div>
-          {Object.entries(groups).map(([name, links]) => (
-            <div className="footer-column" key={name}>
-              <h2>{name}</h2>
-              {links.map(([label, url]) => (
-                <Link key={url} href={url}>
-                  {label}
-                </Link>
-              ))}
-            </div>
-          ))}
+          {Object.entries(product ? productGroups : groups).map(
+            ([name, links]) => (
+              <div className="footer-column" key={name}>
+                <h2>{name}</h2>
+                {links.map(([label, url]) => (
+                  <Link key={url} href={url}>
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            ),
+          )}
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} MONARDAS</span>

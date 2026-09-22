@@ -1,9 +1,28 @@
-export const pages: Record<string, { title: string; description: string }> = {
+export const commercialPages = {
   ai: {
+    title: "MONARDAS AI — Revenue Recovery Systems",
+    description:
+      "Revenue-recovery systems for home-service businesses with existing demand. Identify missed opportunities, qualify buying intent and return it to your team. Starting with HVAC.",
+  },
+  hvac: {
+    title: "HVAC Revenue Recovery — Missed Calls & Unsold Estimates",
+    description:
+      "Missed call recovery and unsold estimate recovery for growing HVAC companies. Diagnose follow-up gaps with a Revenue Recovery Audit.",
+  },
+  roofing: {
+    title: "Roofing Unsold Estimate Recovery",
+    description:
+      "Explore the next MONARDAS AI vertical: structured follow-up for dormant roofing estimates, homeowner intent and qualified sales handoffs.",
+  },
+  "current-focus": {
     title: "Current Focus — HVAC Revenue Recovery",
     description:
-      "Recover missed HVAC leads and unsold estimates automatically. Request a Revenue Recovery Audit to identify follow-up gaps in your existing pipeline.",
+      "HVAC is the first commercial focus of MONARDAS AI. Explore missed call recovery, unsold replacement estimate recovery and the founding partner program.",
   },
+};
+
+// Core commercial routes have explicit App Router pages, not dynamic entries.
+export const pages: Record<string, { title: string; description: string }> = {
   systems: {
     title: "MONARDAS Systems — From Work to Workflow",
     description:
@@ -38,16 +57,6 @@ export const pages: Record<string, { title: string; description: string }> = {
     title: "Yurii Shalygin — Founder of MONARDAS",
     description:
       "Entrepreneur, system builder and owner. The operating philosophy behind MONARDAS.",
-  },
-  roofing: {
-    title: "Roofing Unsold Estimate Recovery",
-    description:
-      "Re-engage cold roofing estimates and return interested homeowners to your sales team with context.",
-  },
-  hvac: {
-    title: "HVAC Replacement Estimate Recovery",
-    description:
-      "Reconnect with homeowners considering AC, furnace, heat pump and system replacement estimates.",
   },
   "how-it-works": {
     title: "How Estimate Recovery Works",

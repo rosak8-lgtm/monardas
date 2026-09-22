@@ -3,6 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 const routes = [
   "/",
   "/ai",
+  "/current-focus",
   "/systems",
   "/ventures",
   "/capital",
@@ -135,20 +136,22 @@ test("desktop and mobile navigation support keyboard and dismissal", async ({
   await expect(page.locator("#mobile-navigation")).toHaveCount(0);
 });
 test("calculator scenarios, bounds and reduced motion", async ({ page }) => {
-  await page.goto("/ai");
-  await expect(page.locator(".big-result strong")).toHaveText("$42,000");
-  await expect(page.locator(".small-result").nth(1)).toContainText("3.5");
-  await page.locator("#calc-0").fill("0");
+  await page.goto("/hvac");
+  await expect(page.locator(".big-result strong")).toHaveText("$42,500");
+  await expect(page.getByTestId("recovery-formula")).toHaveText(
+    "100 × $8,500 × 5% = $42,500",
+  );
+  await page.locator("#calc-estimates").fill("0");
   await expect(page.locator(".big-result strong")).toHaveText("$0");
-  await page.locator("#calc-0").fill("100");
-  await page.locator("#calc-2").fill("100");
+  await page.locator("#calc-estimates").fill("100");
+  await page.locator("#calc-rate").fill("2.5");
+  await expect(page.locator(".big-result strong")).toHaveText("$21,250");
+  await page.locator("#calc-rate").fill("200");
+  await expect(page.locator("#calc-rate")).toHaveValue("100");
+  await expect(page.locator(".big-result strong")).toHaveText("$850,000");
+  await page.locator("#calc-ticket").fill("-1");
+  await expect(page.locator("#calc-ticket")).toHaveValue("0");
   await expect(page.locator(".big-result strong")).toHaveText("$0");
-  await page.locator("#calc-2").fill("0");
-  await page.locator("#calc-3").fill("200");
-  await expect(page.locator("#calc-3")).toHaveValue("100");
-  await expect(page.locator(".big-result strong")).toHaveText("$1,200,000");
-  await page.locator("#calc-1").fill("-1");
-  await expect(page.locator("#calc-1")).toHaveValue("0");
   await page.emulateMedia({ reducedMotion: "reduce" });
   expect(
     await page
@@ -162,6 +165,9 @@ test("calculator scenarios, bounds and reduced motion", async ({ page }) => {
   ).toBe("auto");
 });
 test("form validation and honest delivery state", async ({ page, request }) => {
+  await page.route("**/api/contact", (route) =>
+    route.fulfill({ status: 503, json: { error: "Delivery unavailable" } }),
+  );
   await page.goto("/contact");
   await page
     .getByRole("button", { name: "Request a Revenue Recovery Audit" })

@@ -4,10 +4,15 @@ import { Eyebrow } from "@/components/site";
 import { ContactForm } from "@/components/contact-form";
 export const metadata = pageMetadata(
   "Request a Revenue Recovery Audit",
-  "Explore a focused roofing or HVAC estimate recovery pilot. Share your pipeline, estimate volume and sales workflow.",
+  "Identify missed-call and unsold-estimate follow-up gaps in your HVAC business. Start with a focused Revenue Recovery Audit or founding partner conversation.",
   "/contact",
 );
-export default function Contact() {
+export default async function Contact({
+  searchParams,
+}: {
+  searchParams: Promise<{ intent?: string }>;
+}) {
+  const foundingPartner = (await searchParams).intent === "founding-partner";
   return (
     <section className="container contact-page">
       <div className="contact-copy">
@@ -46,7 +51,7 @@ export default function Contact() {
           </p>
         </div>
       </div>
-      <ContactForm />
+      <ContactForm foundingPartner={foundingPartner} />
     </section>
   );
 }

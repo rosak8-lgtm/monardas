@@ -17,8 +17,8 @@ const units = [
   [
     "AI",
     "Scalable software. Measurable outcomes.",
-    "Vertical AI and revenue systems, starting with unsold estimate recovery for home services.",
-    "Current focus",
+    "Revenue-recovery systems for businesses with existing demand. Starting with HVAC.",
+    "Product platform",
   ],
   [
     "Systems",
@@ -73,7 +73,7 @@ export default function Home() {
             <div className="button-row">
               <Button href="#architecture">Explore Monardas</Button>
               <Button href="/ai" secondary>
-                Current Focus
+                Explore MONARDAS AI
               </Button>
             </div>
           </div>
@@ -108,36 +108,30 @@ export default function Home() {
       <section className="focus-section section">
         <div className="container split">
           <div>
-            <Eyebrow>02 / Where we are building now</Eyebrow>
+            <Eyebrow>02 / MONARDAS AI</Eyebrow>
             <h2>
-              Revenue already earned
-              <br />a place in your pipeline.
-              <br />
-              <em>Give it a second look.</em>
+              Revenue systems for businesses <em>with existing demand.</em>
             </h2>
             <p className="lead">
-              Before buying more leads, recover the opportunities already in
-              your pipeline.
+              We identify measurable friction, build systems around it and scale
+              what works.
             </p>
-            <Button href="/ai">Explore Monardas AI</Button>
+            <Button href="/ai">Explore MONARDAS AI</Button>
           </div>
           <div className="focus-index">
             <div className="focus-label">
               MONARDAS AI <span>REVENUE RECOVERY</span>
             </div>
-            <Link href="/roofing">
-              <span>01 / Primary focus</span>
-              <h3>Roofing</h3>
-              <p>Unsold Estimate Recovery</p>
-              <b aria-hidden="true">↗</b>
-            </Link>
             <Link href="/hvac">
-              <span>02 / Secondary focus</span>
+              <span>01 / First commercial vertical</span>
               <h3>HVAC</h3>
-              <p>Replacement Estimate Recovery</p>
+              <p>Missed Call &amp; Unsold Estimate Recovery</p>
               <b aria-hidden="true">↗</b>
             </Link>
-            <p>Re-engage. Understand intent. Hand off to the salesperson.</p>
+            <p>
+              A focused starting point. Prove the workflow before expanding into
+              future verticals.
+            </p>
           </div>
         </div>
       </section>

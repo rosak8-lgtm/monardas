@@ -4,12 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { groups, Logo } from "./site";
+import { isProductPath, productGroups } from "@/lib/navigation";
 export function Header() {
   const [active, setActive] = useState<string | null>(null);
   const [mobile, setMobile] = useState(false);
   const ref = useRef<HTMLElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
   const path = usePathname();
+  const product = isProductPath(path);
+  const navigationGroups = product ? productGroups : groups;
   useEffect(() => {
     function dismiss(e: PointerEvent) {
       if (!ref.current?.contains(e.target as Node)) {
@@ -41,7 +44,7 @@ export function Header() {
   }
   return (
     <header
-      className="header"
+      className={`header${product ? " product-header" : ""}`}
       ref={ref}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) close();
@@ -50,37 +53,51 @@ export function Header() {
       <div className="container header-inner">
         <Logo />
         <nav className="desktop-nav" aria-label="Main navigation">
-          {Object.entries(groups).map(([name, links]) => (
-            <div className="nav-group" key={name}>
-              <button
-                aria-expanded={active === name}
-                aria-controls={`nav-${name}`}
-                onClick={() => setActive(active === name ? null : name)}
-              >
-                {name}
-                <ChevronDown size={13} />
-              </button>
-              {active === name && (
-                <div className="nav-dropdown" id={`nav-${name}`}>
-                  <span className="eyebrow">MONARDAS / {name}</span>
-                  {links.map(([label, url]) => (
-                    <Link
-                      href={url}
-                      key={url}
-                      onClick={close}
-                      aria-current={path === url ? "page" : undefined}
-                    >
-                      {label}
-                      <ArrowUpRight size={16} />
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+          <Link
+            className="nav-direct"
+            href="/ai"
+            onClick={close}
+            aria-current={path === "/ai" ? "page" : undefined}
+          >
+            MONARDAS AI
+          </Link>
+          {Object.entries(navigationGroups)
+            .filter(([name]) => !product || name !== "Next step")
+            .map(([name, links]) => (
+              <div className="nav-group" key={name}>
+                <button
+                  aria-expanded={active === name}
+                  aria-controls={`nav-${name}`}
+                  onClick={() => setActive(active === name ? null : name)}
+                >
+                  {name}
+                  <ChevronDown size={13} />
+                </button>
+                {active === name && (
+                  <div className="nav-dropdown" id={`nav-${name}`}>
+                    <span className="eyebrow">MONARDAS / {name}</span>
+                    {links.map(([label, url]) => (
+                      <Link
+                        href={url}
+                        key={url}
+                        onClick={close}
+                        aria-current={path === url ? "page" : undefined}
+                      >
+                        {label}
+                        <ArrowUpRight size={16} />
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
         </nav>
-        <Link className="header-cta" href="/current-focus" onClick={close}>
-          Current Focus
+        <Link
+          className="header-cta"
+          href={product ? "/contact" : "/current-focus"}
+          onClick={close}
+        >
+          {product ? "Revenue Recovery Audit" : "Current Focus"}
           <ArrowUpRight size={15} />
         </Link>
         <button
@@ -100,7 +117,7 @@ export function Header() {
           id="mobile-navigation"
           aria-label="Mobile navigation"
         >
-          {Object.entries(groups).map(([name, links]) => (
+          {Object.entries(navigationGroups).map(([name, links]) => (
             <div key={name}>
               <span className="eyebrow">{name}</span>
               {links.map(([label, url]) => (

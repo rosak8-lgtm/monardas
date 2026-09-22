@@ -1,6 +1,4 @@
 import { notFound } from "next/navigation";
-import { AIPage } from "@/components/ai-page";
-import { CurrentFocusPage } from "@/components/current-focus-page";
 import { CompanyPage } from "@/components/company-page";
 import {
   Button,
@@ -39,13 +37,6 @@ export default async function Page({
 }) {
   const { page } = await params;
   if (!pages[page]) notFound();
-  if (page === "ai") return <CurrentFocusPage />;
-  if (["ai", "roofing", "hvac"].includes(page))
-    return (
-      <AIPage
-        industry={page === "ai" ? undefined : (page as "roofing" | "hvac")}
-      />
-    );
   if (page === "pricing")
     return (
       <>

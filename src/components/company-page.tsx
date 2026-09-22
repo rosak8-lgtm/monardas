@@ -162,7 +162,7 @@ export function CompanyPage({ page }: { page: string }) {
           <Rows items={principles.slice(0, 3)} />
         </section>
         <Philosophy />
-        <End href="/ai" label="See the Current Focus" />
+        <End href="/current-focus" label="See the Current Focus" />
       </>
     );
   if (page === "ventures")
@@ -637,7 +637,9 @@ export function CompanyPage({ page }: { page: string }) {
             <article>
               <Eyebrow>Now</Eyebrow>
               <h3>Revenue Recovery</h3>
-              <p>Initial verticals: Roofing and HVAC.</p>
+              <p>
+                First commercial vertical: HVAC. Roofing is a future direction.
+              </p>
             </article>
             <article>
               <Eyebrow>Next / Expansion architecture</Eyebrow>
@@ -686,7 +688,7 @@ export function CompanyPage({ page }: { page: string }) {
         <Rows items={principles} />
       </section>
       <End
-        href="/ai"
+        href="/current-focus"
         label="Explore the Current Focus"
         title="Start where the value is already visible."
       />

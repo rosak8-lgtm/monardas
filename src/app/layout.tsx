@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Footer } from "@/components/site";
+import { SiteFooter } from "@/components/site-footer";
 import { Header } from "@/components/header";
 import localFont from "next/font/local";
 import { siteUrl } from "@/lib/seo";
@@ -58,7 +58,7 @@ export default function RootLayout({
         </a>
         <Header />
         <main id="main">{children}</main>
-        <Footer />
+        <SiteFooter />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
