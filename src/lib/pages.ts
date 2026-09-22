@@ -1,8 +1,8 @@
 export const pages: Record<string, { title: string; description: string }> = {
   ai: {
-    title: "Revenue Recovery for Home Services",
+    title: "Current Focus — HVAC Revenue Recovery",
     description:
-      "Re-engage dormant roofing and HVAC estimates, understand homeowner intent and return interested opportunities to your sales team.",
+      "Recover missed HVAC leads and unsold estimates automatically. Request a Revenue Recovery Audit to identify follow-up gaps in your existing pipeline.",
   },
   systems: {
     title: "MONARDAS Systems — From Work to Workflow",
