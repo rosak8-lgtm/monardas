@@ -79,7 +79,7 @@ export function Header() {
             </div>
           ))}
         </nav>
-        <Link className="header-cta" href="/ai" onClick={close}>
+        <Link className="header-cta" href="/current-focus" onClick={close}>
           Current Focus
           <ArrowUpRight size={15} />
         </Link>
