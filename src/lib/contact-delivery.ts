@@ -39,14 +39,34 @@ export function createResendPayload(
   data: ContactData,
   config: RuntimeContactConfig,
 ) {
+  const pilot = data.intent === "hvac-pilot";
+  const title = pilot
+    ? "MONARDAS HVAC Revenue Recovery Audit"
+    : "MONARDAS Revenue Recovery Audit";
   const fields = [
+    ...(pilot
+      ? [
+          [
+            "Request",
+            "Free initial review of unsold replacement estimates; no commitment to a paid pilot.",
+          ],
+        ]
+      : []),
     ["First name", data.firstName],
     ["Last name", data.lastName],
     ["Company", data.company],
+    ...(pilot
+      ? [["Company website", data.companyWebsite || "Not provided"]]
+      : []),
     ["Email", data.email],
     ["Phone", data.phone],
     ["Industry", data.industry],
-    ["Monthly estimate volume", data.volume],
+    [
+      pilot
+        ? "Approximate unsold replacement estimates"
+        : "Monthly estimate volume",
+      data.volume || "Not provided",
+    ],
     ["CRM / FSM", data.crm || "Not provided"],
     ["Message", data.message || "Not provided"],
   ] as const;
@@ -61,8 +81,8 @@ export function createResendPayload(
     from: config.from,
     to: config.to,
     reply_to: data.email,
-    subject: `MONARDAS Revenue Recovery Audit — ${data.company}`,
+    subject: `${title} — ${data.company}`,
     text,
-    html: `<h1>MONARDAS Revenue Recovery Audit</h1><table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse">${rows}</table>`,
+    html: `<h1>${title}</h1><table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse">${rows}</table>`,
   };
 }

@@ -5,7 +5,7 @@ const headings: Record<string, RegExp> = {
   "/": /Intelligence\.Systems\.Ownership\./,
   "/ai": /Recover revenue from opportunities you already paid to generate\./,
   "/hvac":
-    /Recover revenue from HVAC opportunities you’ve already paid to generate\./,
+    /Recover revenue from HVAC estimates you've already paid to generate\./,
   "/roofing": /Roofing UnsoldEstimate Recovery\./,
   "/current-focus": /HVAC revenue recovery\.Our first commercial focus\./,
 };
@@ -101,21 +101,20 @@ test("holding to AI to HVAC and secondary roofing use client navigation", async 
   expect((await page.reload())?.status()).toBe(200);
 });
 
-test("founding partner CTA preserves application intent in the existing form", async ({
+test("founder pilot CTA preserves HVAC intent in the form", async ({
   page,
 }) => {
   await page.goto("/hvac");
   await page
-    .getByRole("link", { name: "Apply as a Founding Partner", exact: true })
+    .locator("#founding-partners")
+    .getByRole("link", { name: "Discuss a Recovery Pilot", exact: true })
     .click();
-  await expect(page).toHaveURL(/\/contact\?intent=founding-partner$/);
+  await expect(page).toHaveURL(/\/contact\?intent=hvac-pilot$/);
   await expect(page.locator(".contact-form h2")).toHaveText(
-    "Apply as a Founding Partner.",
+    "Request a Revenue Recovery Audit",
   );
-  await expect(page.locator("#industry")).toHaveValue("HVAC");
-  await expect(page.locator("#message")).toHaveValue(
-    "I’d like to apply as an HVAC Founding Partner.",
-  );
+  await expect(page.locator("#companyWebsite")).toBeVisible();
+  await expect(page.locator('input[name="intent"]')).toHaveValue("hvac-pilot");
 });
 
 test("sitemap includes explicit commercial routes once", async ({

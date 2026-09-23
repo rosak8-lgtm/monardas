@@ -10,8 +10,10 @@ import {
 } from "@/lib/contact";
 export function ContactForm({
   foundingPartner = false,
+  hvacPilot = false,
 }: {
   foundingPartner?: boolean;
+  hvacPilot?: boolean;
 }) {
   const submissionLocked = useRef(false);
   const [errors, setErrors] = useState<Errors>({});
@@ -42,7 +44,9 @@ export function ContactForm({
       if (!response.ok) throw new Error("delivery-failed");
       setState("success");
       setMessage(
-        "Thanks — we’ll review your revenue recovery opportunities and get back to you shortly.",
+        hvacPilot
+          ? "We’ll review the information you provided and contact you to discuss your estimate backlog and whether a focused 25–50 estimate pilot makes sense."
+          : "Thanks — we’ll review your revenue recovery opportunities and get back to you shortly.",
       );
     } catch {
       submissionLocked.current = false;
@@ -52,49 +56,96 @@ export function ContactForm({
       );
     }
   }
-  const fields = [
-    ["firstName", "First name", "text"],
-    ["lastName", "Last name", "text"],
-    ["company", "Company", "text"],
-    ["email", "Email", "email"],
-    ["phone", "Phone", "tel"],
-    ["crm", "CRM / FSM", "text"],
-  ] as const;
+  const fields: ReadonlyArray<readonly [keyof ContactData, string, string]> =
+    hvacPilot
+      ? [
+          ["firstName", "First name", "text"],
+          ["company", "Company", "text"],
+          ["companyWebsite", "Company website", "text"],
+          ["email", "Work email", "email"],
+          ["phone", "Phone", "tel"],
+          ["crm", "CRM/FSM or export format", "text"],
+          [
+            "volume",
+            "Approximate number of unsold replacement estimates",
+            "number",
+          ],
+        ]
+      : ([
+          ["firstName", "First name", "text"],
+          ["lastName", "Last name", "text"],
+          ["company", "Company", "text"],
+          ["email", "Email", "email"],
+          ["phone", "Phone", "tel"],
+          ["crm", "CRM / FSM", "text"],
+        ] as const);
+  const required = (name: keyof ContactData) =>
+    hvacPilot
+      ? ["firstName", "company", "companyWebsite", "email"].includes(name)
+      : name !== "crm";
   return (
     <form className="contact-form" onSubmit={submit} noValidate>
+      {hvacPilot && (
+        <>
+          <input type="hidden" name="intent" value="hvac-pilot" />
+          <input type="hidden" name="lastName" value="" />
+          <input type="hidden" name="industry" value="HVAC" />
+        </>
+      )}
       <h2>
-        {foundingPartner
-          ? "Apply as a Founding Partner."
-          : "Let’s look at your pipeline."}
+        {hvacPilot
+          ? "Request a Revenue Recovery Audit"
+          : foundingPartner
+            ? "Apply as a Founding Partner."
+            : "Let’s look at your pipeline."}
       </h2>
       <p>
-        Required fields are marked *. CRM / FSM and your message are optional.
+        {hvacPilot
+          ? "Start with a review of your estimate backlog. Required fields are marked *."
+          : "Required fields are marked *. CRM / FSM and your message are optional."}
       </p>
       <div className="form-grid">
         {fields.map(([name, label, type]) => (
           <div
-            className={["company", "crm"].includes(name) ? "full-field" : ""}
+            className={
+              ["company", "crm", "companyWebsite", "volume"].includes(name)
+                ? "full-field"
+                : ""
+            }
             key={name}
           >
             <label htmlFor={name}>
               {label}
-              {name !== "crm" && <span aria-hidden="true"> *</span>}
+              {required(name) ? (
+                <span aria-hidden="true"> *</span>
+              ) : (
+                hvacPilot && <span className="optional"> (optional)</span>
+              )}
             </label>
             <input
               id={name}
               name={name}
               type={type}
-              required={name !== "crm"}
+              required={required(name)}
+              min={name === "volume" ? 0 : undefined}
+              max={name === "volume" ? 1000000 : undefined}
+              step={name === "volume" ? 1 : undefined}
+              placeholder={
+                name === "companyWebsite" ? "yourcompany.com" : undefined
+              }
               maxLength={name === "phone" ? 25 : 200}
               autoComplete={
-                {
-                  firstName: "given-name",
-                  lastName: "family-name",
-                  company: "organization",
-                  email: "email",
-                  phone: "tel",
-                  crm: "off",
-                }[name]
+                (
+                  {
+                    firstName: "given-name",
+                    lastName: "family-name",
+                    company: "organization",
+                    email: "email",
+                    phone: "tel",
+                    crm: "off",
+                    companyWebsite: "url",
+                  } as Partial<Record<keyof ContactData, string>>
+                )[name]
               }
               aria-invalid={!!errors[name]}
               aria-describedby={errors[name] ? `${name}-error` : undefined}
@@ -106,55 +157,57 @@ export function ContactForm({
             )}
           </div>
         ))}
-        {(
-          [
-            {
-              name: "industry",
-              label: "Industry",
-              options: [
-                "HVAC",
-                ...industries.filter((industry) => industry !== "HVAC"),
-              ],
-            },
-            {
-              name: "volume",
-              label: "Unsold estimates per month",
-              options: volumes,
-            },
-          ] as const
-        ).map(({ name, label, options }) => (
-          <div key={name}>
-            <label htmlFor={name}>
-              {label}
-              <span aria-hidden="true"> *</span>
-            </label>
-            <select
-              id={name}
-              name={name}
-              required
-              defaultValue={
-                foundingPartner && name === "industry" ? "HVAC" : ""
-              }
-              aria-invalid={!!errors[name]}
-              aria-describedby={errors[name] ? `${name}-error` : undefined}
-            >
-              <option value="" disabled>
-                Select an option
-              </option>
-              {options.map((o) => (
-                <option key={o}>{o}</option>
-              ))}
-            </select>
-            {errors[name] && (
-              <span className="field-error" id={`${name}-error`}>
-                {errors[name]}
-              </span>
-            )}
-          </div>
-        ))}
+        {!hvacPilot &&
+          (
+            [
+              {
+                name: "industry",
+                label: "Industry",
+                options: [
+                  "HVAC",
+                  ...industries.filter((industry) => industry !== "HVAC"),
+                ],
+              },
+              {
+                name: "volume",
+                label: "Unsold estimates per month",
+                options: volumes,
+              },
+            ] as const
+          ).map(({ name, label, options }) => (
+            <div key={name}>
+              <label htmlFor={name}>
+                {label}
+                <span aria-hidden="true"> *</span>
+              </label>
+              <select
+                id={name}
+                name={name}
+                required
+                defaultValue={
+                  foundingPartner && name === "industry" ? "HVAC" : ""
+                }
+                aria-invalid={!!errors[name]}
+                aria-describedby={errors[name] ? `${name}-error` : undefined}
+              >
+                <option value="" disabled>
+                  Select an option
+                </option>
+                {options.map((o) => (
+                  <option key={o}>{o}</option>
+                ))}
+              </select>
+              {errors[name] && (
+                <span className="field-error" id={`${name}-error`}>
+                  {errors[name]}
+                </span>
+              )}
+            </div>
+          ))}
         <div className="full-field">
           <label htmlFor="message">
-            Message <span className="optional">(optional)</span>
+            {hvacPilot ? "Anything we should know?" : "Message"}{" "}
+            <span className="optional">(optional)</span>
           </label>
           <textarea
             id="message"
@@ -166,7 +219,11 @@ export function ContactForm({
                 ? "I’d like to apply as an HVAC Founding Partner."
                 : ""
             }
-            placeholder="Where does follow-up drop off in your pipeline?"
+            placeholder={
+              hvacPilot
+                ? "The type and age of your estimates, where records are stored, and who would follow up with interested homeowners."
+                : "Where does follow-up drop off in your pipeline?"
+            }
             aria-invalid={!!errors.message}
             aria-describedby={errors.message ? "message-error" : undefined}
           />
@@ -200,14 +257,21 @@ export function ContactForm({
           <p className="form-success">
             <Check size={18} />
             <span>
-              <strong>Request received.</strong> {message}
+              <strong>
+                {hvacPilot
+                  ? "Thanks — your request has been received."
+                  : "Request received."}
+              </strong>{" "}
+              {message}
             </span>
           </p>
         )}
         {state === "error" && <p className="field-error">{message}</p>}
       </div>
       <p className="form-note">
-        Your details are used to review your request and follow up with you.
+        {hvacPilot
+          ? "Your details are used to review and respond to your request. Submitting this form does not commit you to a paid pilot."
+          : "Your details are used to review your request and follow up with you."}
       </p>
     </form>
   );

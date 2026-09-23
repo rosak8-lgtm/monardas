@@ -5,9 +5,9 @@ export const commercialPages = {
       "Revenue-recovery systems for home-service businesses with existing demand. Identify missed opportunities, qualify buying intent and return it to your team. Starting with HVAC.",
   },
   hvac: {
-    title: "HVAC Revenue Recovery — Missed Calls & Unsold Estimates",
+    title: "HVAC Unsold Replacement Estimate Recovery",
     description:
-      "Missed call recovery and unsold estimate recovery for growing HVAC companies. Diagnose follow-up gaps with a Revenue Recovery Audit.",
+      "Recover opportunities from unsold HVAC replacement estimates. Start with a revenue recovery audit and a founder-led managed pilot of 25–50 estimates.",
   },
   roofing: {
     title: "Roofing Unsold Estimate Recovery",
@@ -69,13 +69,13 @@ export const pages: Record<string, { title: string; description: string }> = {
       "Start with 25–50 old estimates. Agree on recovery scope and pricing based on volume and data readiness.",
   },
   privacy: {
-    title: "Privacy Notice — Publication Pending",
+    title: "Privacy Policy — MONARDAS",
     description:
-      "Status of the MONARDAS privacy notice and the local contact-form demonstration.",
+      "How the MONARDAS website handles contact information and inquiry submissions.",
   },
   terms: {
-    title: "Website Terms — Publication Pending",
+    title: "Terms of Use — MONARDAS",
     description:
-      "Status of MONARDAS website terms. Commercial scope and pricing require a separate agreement.",
+      "MONARDAS website use, inquiries and the separate agreement required for a paid recovery pilot.",
   },
 };

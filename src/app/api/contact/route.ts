@@ -56,6 +56,11 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     const values = body as Record<string, unknown>;
+    if (values.intent !== undefined && values.intent !== "hvac-pilot")
+      return NextResponse.json(
+        { error: "Invalid request intent." },
+        { status: 400 },
+      );
     const keys = [
       "firstName",
       "lastName",
@@ -69,6 +74,15 @@ export async function POST(request: Request) {
       "website",
     ] as const;
     const data = {} as ContactData;
+    if (values.intent === "hvac-pilot") {
+      if (typeof values.companyWebsite !== "string")
+        return NextResponse.json(
+          { error: "Company website is required." },
+          { status: 400 },
+        );
+      data.intent = "hvac-pilot";
+      data.companyWebsite = values.companyWebsite.trim();
+    }
     for (const key of keys) {
       if (typeof values[key] !== "string")
         return NextResponse.json(
@@ -98,7 +112,10 @@ export async function POST(request: Request) {
       !isValidRuntimeContactConfig({ to, from })
     )
       return NextResponse.json(
-        { error: "Lead delivery is temporarily unavailable. Please try again later." },
+        {
+          error:
+            "Lead delivery is temporarily unavailable. Please try again later.",
+        },
         { status: 503 },
       );
     const lead = createResendPayload(data, { to, from });
@@ -112,20 +129,27 @@ export async function POST(request: Request) {
     });
     if (!resend.ok)
       return NextResponse.json(
-        { error: "We could not send your request right now. Please try again later." },
+        {
+          error:
+            "We could not send your request right now. Please try again later.",
+        },
         { status: 502 },
       );
     const result = (await resend.json()) as { id?: string };
     return NextResponse.json(
       {
-        message: "Thanks — your request was sent successfully. We’ll be in touch soon.",
+        message:
+          "Thanks — your request was sent successfully. We’ll be in touch soon.",
         id: result.id ?? crypto.randomUUID(),
       },
       { status: 201 },
     );
   } catch {
     return NextResponse.json(
-      { error: "We could not send your request right now. Please try again later." },
+      {
+        error:
+          "We could not send your request right now. Please try again later.",
+      },
       { status: 502 },
     );
   }
