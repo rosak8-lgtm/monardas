@@ -11,14 +11,15 @@ const currency = (value: number) =>
   }).format(value);
 
 export function Calculator() {
-  const [estimates, setEstimates] = useState(100);
-  const [ticket, setTicket] = useState(8500);
-  const [rate, setRate] = useState(5);
-  const revenue = (estimates * ticket * rate) / 100;
+  const [estimates, setEstimates] = useState<number | "">(25);
+  const [ticket, setTicket] = useState<number | "">("");
+  const [rate, setRate] = useState<number | "">("");
+  const complete = estimates !== "" && ticket !== "" && rate !== "";
+  const revenue = (Number(estimates) * Number(ticket) * Number(rate)) / 100;
   const fields = [
     {
       id: "estimates",
-      label: "Unsold estimates per month",
+      label: "Unsold estimates in the batch",
       value: estimates,
       set: setEstimates,
       max: 10000,
@@ -27,7 +28,7 @@ export function Calculator() {
     },
     {
       id: "ticket",
-      label: "Average replacement ticket",
+      label: "Average replacement job value",
       value: ticket,
       set: setTicket,
       max: 100000,
@@ -36,7 +37,7 @@ export function Calculator() {
     },
     {
       id: "rate",
-      label: "Illustrative recovery rate",
+      label: "Assumed share that become closed jobs",
       value: rate,
       set: setRate,
       max: 100,
@@ -71,6 +72,10 @@ export function Calculator() {
                   step={field.step}
                   value={field.value}
                   onChange={(event) => {
+                    if (event.target.value === "") {
+                      field.set("");
+                      return;
+                    }
                     const value = Number(event.target.value);
                     field.set(
                       Number.isFinite(value)
@@ -88,7 +93,7 @@ export function Calculator() {
               min={0}
               max={field.max}
               step={field.step}
-              value={field.value}
+              value={field.value === "" ? 0 : field.value}
               onChange={(event) => field.set(Number(event.target.value))}
             />
           </div>
@@ -100,7 +105,7 @@ export function Calculator() {
       </div>
       <div className="calculator-results">
         <span className="calculator-label">
-          Illustrative recovered revenue / month
+          Illustrative gross revenue from recovered jobs
         </span>
         <output
           className="big-result"
@@ -108,26 +113,33 @@ export function Calculator() {
           aria-atomic="true"
           htmlFor="calc-estimates calc-ticket calc-rate"
         >
-          <span>Illustrative recovered revenue</span>
-          <strong>{currency(revenue)}</strong>
-          <span>per month</span>
-          <span data-testid="recovery-formula">
-            {estimates.toLocaleString("en-US")} × {currency(ticket)} × {rate}% ={" "}
-            {currency(revenue)}
-          </span>
+          {complete ? (
+            <>
+              <strong>{currency(revenue)}</strong>
+              <span data-testid="recovery-formula">
+                {Number(estimates).toLocaleString("en-US")} ×{" "}
+                {currency(Number(ticket))} × {rate}% = {currency(revenue)}
+              </span>
+            </>
+          ) : (
+            <span>Enter your assumptions to see a scenario.</span>
+          )}
         </output>
-        <p>Unsold estimates × average ticket × recovery rate.</p>
+        <p>
+          Estimates in the batch × average job value × assumed closed-job rate.
+        </p>
         <small className="formula-note">
-          Recovery rate here means the share of unsold estimates that become
-          closed jobs. It is an illustrative input, not an observed result.
+          The assumed rate is the share of estimates that become closed jobs—not
+          the share that reply. It is your scenario input, not a measured
+          MONARDAS conversion rate.
         </small>
-        <Link href="/contact">
-          Get a Revenue Recovery Audit <ArrowUpRight size={18} />
+        <Link href="/contact?intent=hvac-pilot">
+          Discuss a Recovery Pilot <ArrowUpRight size={18} />
         </Link>
         <p>
-          Illustration only. This is not a forecast or guarantee. Actual
-          recovery depends on lead quality, timing, sales process and market
-          conditions.
+          This is gross revenue, not profit or ROI. It excludes pilot fees,
+          equipment, labor and other job costs. Actual results may include no
+          recovered jobs.
         </p>
       </div>
     </div>

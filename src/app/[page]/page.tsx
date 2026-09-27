@@ -1,3 +1,4 @@
+import { LegalPage } from "@/components/legal-page";
 import { notFound } from "next/navigation";
 import { CompanyPage } from "@/components/company-page";
 import {
@@ -89,25 +90,6 @@ export default async function Page({
         <FinalCTA />
       </>
     );
-  if (page === "privacy" || page === "terms")
-    return (
-      <section className="container page-hero legal">
-        <Eyebrow>Publication pending</Eyebrow>
-        <h1>{page === "privacy" ? "Privacy notice" : "Website terms"}</h1>
-        <p>
-          {page === "privacy"
-            ? "This is a placeholder, not a finalized privacy policy. The contact form sends validated submissions through Resend to the MONARDAS lead inbox. The form does not store submissions in this application or log personal details."
-            : "This is a placeholder, not finalized website terms. No service agreement is created by browsing this site. Pilot scope, pricing and responsibilities must be agreed separately before work begins."}
-        </p>
-        <p>
-          {page === "privacy"
-            ? "The published notice must identify the operator, hosting and delivery providers, purposes, retention periods and contact method."
-            : "Final terms must identify the operating entity, applicable conditions and a contact method before commercial launch."}
-        </p>
-        <Button href="/" secondary>
-          Return to Monardas
-        </Button>
-      </section>
-    );
+  if (page === "privacy" || page === "terms") return <LegalPage page={page} />;
   return <CompanyPage page={page} />;
 }

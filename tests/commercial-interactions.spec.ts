@@ -19,19 +19,23 @@ test("calculator inputs stay local and reset after reload", async ({
     );
   const before = await readStorage();
   await page
-    .getByLabel("Unsold estimates per month", { exact: true })
+    .getByLabel("Unsold estimates in the batch", { exact: true })
     .fill("20");
   await page
-    .getByLabel("Average replacement ticket (USD)", { exact: true })
+    .getByLabel("Average replacement job value (USD)", { exact: true })
     .fill("10000");
   await page
-    .getByLabel("Illustrative recovery rate (%)", { exact: true })
+    .getByLabel("Assumed share that become closed jobs (%)", { exact: true })
     .fill("10");
   await expect(page.locator(".big-result strong")).toHaveText("$20,000");
   expect(await readStorage()).toBe(before);
   expect(outgoing).toEqual([]);
   await page.reload();
-  await expect(page.locator(".big-result strong")).toHaveText("$42,500");
+  await expect(page.locator(".big-result")).toContainText(
+    "Enter your assumptions",
+  );
+  await expect(page.locator("#calc-ticket")).toHaveValue("");
+  await expect(page.locator("#calc-rate")).toHaveValue("");
 });
 
 test("successful form delivery is announced and duplicate submissions are blocked", async ({

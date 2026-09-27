@@ -94,7 +94,13 @@ export function Header() {
         </nav>
         <Link
           className="header-cta"
-          href={product ? "/contact" : "/current-focus"}
+          href={
+            path === "/hvac"
+              ? "/contact?intent=hvac-pilot"
+              : product
+                ? "/contact"
+                : "/current-focus"
+          }
           onClick={close}
         >
           {product ? "Revenue Recovery Audit" : "Current Focus"}

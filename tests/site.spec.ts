@@ -137,6 +137,12 @@ test("desktop and mobile navigation support keyboard and dismissal", async ({
 });
 test("calculator scenarios, bounds and reduced motion", async ({ page }) => {
   await page.goto("/hvac");
+  await expect(page.locator(".big-result")).toContainText(
+    "Enter your assumptions",
+  );
+  await page.locator("#calc-estimates").fill("100");
+  await page.locator("#calc-ticket").fill("8500");
+  await page.locator("#calc-rate").fill("5");
   await expect(page.locator(".big-result strong")).toHaveText("$42,500");
   await expect(page.getByTestId("recovery-formula")).toHaveText(
     "100 × $8,500 × 5% = $42,500",

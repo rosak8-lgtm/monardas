@@ -1,5 +1,174 @@
 @import "tailwindcss";
 
+/* HVAC pilot: scoped additions preserve the other product pages. */
+.hvac-page,
+.hvac-pilot-contact {
+  --hvac-accent: #5b2027;
+}
+.hvac-page .final-cta {
+  background: #eee8db;
+}
+.hvac-page .product-hero h1 em {
+  color: var(--ink);
+}
+.hvac-page .hvac-support {
+  font-size: 18px;
+  color: var(--ink);
+}
+.hvac-page .hvac-hero-baseline {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gold);
+  font-size: 12px;
+  color: var(--muted);
+}
+.hvac-page .hvac-intro {
+  max-width: 760px;
+  margin-top: 24px;
+}
+.hvac-page .hvac-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  margin-top: 36px;
+}
+.hvac-page .hvac-cards article {
+  border-top: 1px solid var(--gold);
+  padding-top: 24px;
+}
+.hvac-page .hvac-cards h3,
+.hvac-page .hvac-sequence h3 {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+.hvac-page .hvac-cards p,
+.hvac-page .hvac-sequence p,
+.hvac-page dd {
+  font-size: 15px;
+  line-height: 1.75;
+}
+.hvac-page .hvac-pilot-next {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  margin-top: 36px;
+}
+.hvac-page .hvac-pilot-next .fine-print {
+  max-width: 410px;
+}
+.hvac-page .hvac-tint {
+  background: #b89b5e0b;
+  border-block: 1px solid var(--line);
+}
+.hvac-page .hvac-demo,
+.hvac-page .hvac-readiness {
+  margin-top: 40px;
+}
+.hvac-page .hvac-sequence {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.hvac-page .hvac-sequence li {
+  display: flex;
+  gap: 20px;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
+}
+.hvac-page .hvac-sequence li > span {
+  color: var(--burgundy);
+  font-size: 12px;
+  padding-top: 5px;
+}
+.hvac-page .hvac-handoff {
+  padding: 32px;
+  background: var(--paper);
+  border: 1px solid var(--gold);
+  align-self: start;
+}
+.hvac-page .hvac-handoff h3 {
+  font-size: 30px;
+  margin-bottom: 24px;
+}
+.hvac-page .hvac-handoff dl > div,
+.hvac-page .hvac-list > div {
+  border-top: 1px solid var(--line);
+  padding: 18px 0;
+}
+.hvac-page dt {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.hvac-page dd {
+  margin: 0;
+  color: var(--muted);
+}
+.hvac-page .hvac-process-title {
+  margin-top: 48px;
+  font-size: 28px;
+}
+.hvac-page .hvac-readiness h3 {
+  font-size: 28px;
+  margin-bottom: 22px;
+}
+.hvac-page .hvac-founder {
+  border-block: 1px solid var(--gold);
+}
+.hvac-page .hvac-founder .eyebrow {
+  color: var(--burgundy);
+}
+.hvac-page .hvac-founder-name {
+  margin-top: 30px;
+  font-weight: 600;
+}
+.hvac-page .hvac-founder-name span {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.hvac-page .hvac-faq details {
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
+}
+.hvac-page .hvac-faq summary {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+}
+.hvac-page .hvac-faq details p {
+  margin-top: 18px;
+  font-size: 15px;
+}
+.hvac-page #system,
+.hvac-page #founding-partners,
+.hvac-page #audit {
+  scroll-margin-top: 100px;
+}
+.hvac-pilot-contact .contact-copy h1 {
+  font-size: clamp(42px, 4.5vw, 68px);
+}
+@media (max-width: 767px) {
+  .hvac-page .hvac-cards {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .hvac-page .hvac-pilot-next {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hvac-page .hvac-handoff {
+    padding: 24px;
+  }
+  .hvac-page .product-hero h1 {
+    font-size: clamp(38px, 10vw, 60px);
+  }
+}
+
 /* Product information uses the holding palette and local typefaces. */
 .product-page {
   --burgundy: #5b2027;
@@ -100,6 +269,7 @@
   --gold: #b89b5e;
   --sage: #758077;
   --teal: #536e6c;
+  --control-border: #85847e;
   --font-sans: var(--font-geist), Arial, sans-serif;
 }
 * {
@@ -173,7 +343,7 @@ h4 {
 }
 em {
   font-weight: 400;
-  color: var(--teal);
+  color: var(--hvac-accent, var(--teal));
 }
 p {
   font-size: 15px;
@@ -198,11 +368,12 @@ summary:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--teal);
+  outline: 2px solid var(--hvac-accent, var(--teal));
   outline-offset: 5px;
 }
 .dark :focus-visible,
-.footer :focus-visible {
+.footer :focus-visible,
+.calculator-results :focus-visible {
   outline-color: var(--gold);
 }
 .container {
@@ -291,8 +462,8 @@ textarea:focus-visible {
   color: var(--paper);
 }
 .button-dark:hover {
-  background: var(--teal);
-  border-color: var(--teal);
+  background: var(--hvac-accent, var(--teal));
+  border-color: var(--hvac-accent, var(--teal));
 }
 .button-outline {
   background: transparent;
@@ -333,7 +504,7 @@ textarea:focus-visible {
   margin-top: 26px;
 }
 .text-link:hover {
-  color: var(--teal);
+  color: var(--hvac-accent, var(--teal));
 }
 .header {
   position: sticky;
@@ -1156,7 +1327,7 @@ textarea:focus-visible {
   align-items: center;
 }
 .contact-copy li svg {
-  color: var(--teal);
+  color: var(--hvac-accent, var(--teal));
 }
 .contact-next {
   margin-top: 45px;
@@ -1199,7 +1370,7 @@ textarea:focus-visible {
   width: 100%;
   min-width: 0;
   min-height: 46px;
-  border: 1px solid #aba79c;
+  border: 1px solid var(--control-border);
   padding: 11px 12px;
   font-size: 14px;
   background: transparent;
@@ -1208,6 +1379,11 @@ textarea:focus-visible {
 }
 .form-grid textarea {
   resize: vertical;
+}
+.form-grid input::placeholder,
+.form-grid textarea::placeholder {
+  color: var(--muted);
+  opacity: 1;
 }
 .form-grid input[aria-invalid="true"],
 .form-grid select[aria-invalid="true"],
@@ -1287,7 +1463,7 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   padding: 8px 10px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--control-border);
   font-size: 13px;
 }
 .number-wrap input {
@@ -1308,7 +1484,7 @@ textarea:focus-visible {
 .calc-field input[type="range"] {
   display: block;
   width: 100%;
-  accent-color: var(--teal);
+  accent-color: var(--hvac-accent, var(--teal));
   height: 22px;
   margin: 0;
   cursor: pointer;
