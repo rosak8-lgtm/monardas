@@ -10,3 +10,7 @@ qa-reports/
 .vinext/
 .wrangler/
 .dev.vars*
+WISE-BUSINESS-VERIFICATION.local.md
+private-compliance/
+/LEGAL-RELEASE.md
+/cd

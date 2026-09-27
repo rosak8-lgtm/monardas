@@ -17,14 +17,12 @@ export function RoofingPage() {
           return interested homeowners to your sales team.
         </p>
         <div className="button-row">
-          <Button>Discuss Roofing Recovery</Button>
-          <Button href="/hvac" secondary>
-            Explore our primary HVAC focus
-          </Button>
+          <Button href="/hvac">Explore HVAC Revenue Recovery</Button>
         </div>
         <p className="fine-print">
-          Roofing is a secondary direction. HVAC remains our first go-to-market
-          vertical.
+          Future direction only. No roofing pilot is currently offered. HVAC
+          unsold replacement estimate recovery is our current commercial
+          workflow.
         </p>
       </section>
       <section className="dark section">
@@ -93,9 +91,10 @@ export function RoofingPage() {
               and sales process. No native integration, launch timeline or
               recovery result is assumed.
             </p>
-            <Button>Request a Revenue Recovery Audit</Button>
+            <Button href="/hvac">Explore the current HVAC workflow</Button>
             <p className="fine-print">
-              A conversation about fit, not a promise of a live roofing product.
+              This describes a possible future workflow, not an available
+              roofing service.
             </p>
           </div>
         </div>

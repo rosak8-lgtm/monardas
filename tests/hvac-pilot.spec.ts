@@ -70,18 +70,35 @@ test("HVAC anchors, pilot form validation, failure and success", async ({
   page,
 }) => {
   await page.goto("/hvac");
+  await expect(page.locator("h1")).toHaveText(
+    "Recover revenue from HVAC estimates you've already paid to generate.",
+  );
+  await expect(page.locator(".hvac-hero-baseline li")).toHaveText([
+    "25–50 estimates",
+    "Founder-led managed pilot",
+    "No CRM migration required",
+    "Your sales team closes",
+  ]);
   await expect(page.locator(".hvac-page > section")).toHaveCount(10);
   await expect(page.locator(".product-hero")).toContainText(
-    "Free initial review. No commitment.",
+    "Free initial review. No commitment to a paid pilot.",
   );
+  await expect(page.locator("#system .hvac-sequence > li")).toHaveCount(5);
+  await expect(page.locator("#system .hvac-handoff")).toContainText(
+    "Illustrative example only. Not a customer case study or recorded result.",
+  );
+  await expect(page.locator("#calc-rate")).toHaveValue("");
   await expect(page.locator(".header-cta")).toHaveAttribute(
     "href",
     "/contact?intent=hvac-pilot",
   );
+  await expect(page.locator(".header-cta")).toHaveText(
+    "Request a Free Estimate Recovery Audit",
+  );
   await expect(
     page
       .locator(".product-hero")
-      .getByRole("link", { name: "Request a Revenue Recovery Audit" }),
+      .getByRole("link", { name: "Request a Free Estimate Recovery Audit" }),
   ).toHaveAttribute("href", "/contact?intent=hvac-pilot");
   await page
     .getByRole("link", { name: "See How It Works", exact: true })
@@ -91,7 +108,7 @@ test("HVAC anchors, pilot form validation, failure and success", async ({
   await page.goto("/current-focus");
   await page
     .getByRole("link", {
-      name: "Explore the Founding Partner Program",
+      name: "Explore the Founder-led Recovery Pilot",
       exact: true,
     })
     .click();
@@ -132,10 +149,10 @@ test("HVAC anchors, pilot form validation, failure and success", async ({
   });
   await page.locator(".form-submit").click();
   await expect(page.getByRole("status")).toContainText(
-    "Thanks — your request has been received.",
+    "Thanks — your audit request has been received.",
   );
   await expect(page.getByRole("status")).toContainText(
-    "whether a focused 25–50 estimate pilot makes sense.",
+    "whether your estimate backlog looks suitable for a focused recovery pilot.",
   );
   await expect(page.locator(".form-submit")).toBeDisabled();
   await page.screenshot({
@@ -162,7 +179,7 @@ test("free audit entry explains the transition to a paid pilot on desktop and mo
     for (const question of [
       "How long does the pilot run?",
       "How will homeowners be contacted?",
-      "Is the review free, and how is the pilot priced?",
+      "How much does the pilot cost?",
     ]) {
       const detail = page
         .locator(".hvac-faq details")
@@ -173,19 +190,19 @@ test("free audit entry explains the transition to a paid pilot on desktop and mo
     await page
       .locator(".product-hero")
       .getByRole("link", {
-        name: "Request a Revenue Recovery Audit",
+        name: "Request a Free Estimate Recovery Audit",
         exact: true,
       })
       .click();
     await expect(page).toHaveURL(/intent=hvac-pilot$/);
     await expect(page.locator("h1")).toHaveText(
-      "Request a Revenue Recovery Audit",
+      "Request a Free Estimate Recovery Audit",
     );
     await expect(page.locator(".hvac-pilot-contact")).toContainText(
-      "The initial review is free and does not commit you to a paid pilot.",
+      "The initial review is free. Submitting the form does not commit you to a paid engagement.",
     );
     await expect(page.locator(".form-submit")).toHaveText(
-      "Request a Revenue Recovery Audit",
+      "Request a Free Estimate Recovery Audit",
     );
     await expect(
       page.getByLabel("CRM/FSM or export format (optional)"),
@@ -237,14 +254,16 @@ test("HVAC desktop/mobile accessibility and screenshots", async ({ page }) => {
   }
 });
 
-test("legacy founding partner form remains available", async ({ page }) => {
+test("founder-led recovery pilot form keeps legacy intent behavior", async ({
+  page,
+}) => {
   await page.goto("/contact?intent=founding-partner");
   await expect(page.locator(".contact-form h2")).toHaveText(
-    "Apply as a Founding Partner.",
+    "Discuss a Founder-led Recovery Pilot",
   );
   await expect(page.locator("#industry")).toHaveValue("HVAC");
   await expect(page.locator("#message")).toHaveValue(
-    "I’d like to apply as an HVAC Founding Partner.",
+    "I’d like to discuss an HVAC Recovery Pilot.",
   );
 });
 

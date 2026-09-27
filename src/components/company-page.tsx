@@ -489,7 +489,7 @@ export function CompanyPage({ page }: { page: string }) {
     return (
       <>
         <Hero
-          label="YURII SHALYGIN / Founder of MONARDAS"
+          label="IURII SHALYGIN / Founder of MONARDAS"
           title={
             <>
               Build systems.
@@ -505,7 +505,7 @@ export function CompanyPage({ page }: { page: string }) {
           <div className="container split">
             <div>
               <Eyebrow>Entrepreneur / System Builder / Owner</Eyebrow>
-              <h2>Yurii Shalygin</h2>
+              <h2>Iurii Shalygin</h2>
             </div>
             <p className="lead">
               The founder’s role should evolve with the business: from doing the

@@ -6,18 +6,23 @@ export function CurrentFocusPage() {
       <section className="container page-hero product-hero">
         <Eyebrow>Current Focus / MONARDAS AI</Eyebrow>
         <h1>
-          HVAC revenue recovery.
+          HVAC estimate recovery.
           <br />
-          <em>Our first commercial focus.</em>
+          <em>Our first commercial workflow.</em>
         </h1>
         <p>
-          We’re building systems for growing HVAC companies that already
-          generate demand but lose opportunities during follow-up. The starting
-          point: missed calls and unsold replacement estimates.
+          We’re starting with unsold HVAC replacement estimates: opportunities
+          your team already generated, quoted and paid to acquire. For U.S. HVAC
+          contractors, a focused paid pilot combines structured, founder-led
+          follow-up with a human sales handoff.
         </p>
         <div className="button-row">
-          <Button href="/hvac">Explore HVAC Revenue Recovery</Button>
-          <Button secondary>Get a Revenue Recovery Audit</Button>
+          <Button href="/contact?intent=hvac-pilot">
+            Request a Free Estimate Recovery Audit
+          </Button>
+          <Button href="/hvac" secondary>
+            Explore HVAC Revenue Recovery
+          </Button>
         </div>
       </section>
       <section className="dark section">
@@ -25,52 +30,45 @@ export function CurrentFocusPage() {
           <div>
             <Eyebrow>A focused starting point</Eyebrow>
             <h2>
-              Two gaps.
+              Dormant estimates.
               <br />
-              <em>One recovery system.</em>
+              <em>A clear next conversation.</em>
             </h2>
           </div>
-          <div className="steps">
-            <article>
-              <span>01</span>
-              <div>
-                <h3>Missed calls</h3>
-                <p>
-                  A homeowner called. The team was busy. Fast, relevant
-                  follow-up can restart the conversation.
-                </p>
+          <dl className="focus-facts">
+            {[
+              ["Who", "U.S. HVAC contractors"],
+              ["What", "Unsold replacement estimates"],
+              ["How", "Structured follow-up + human sales handoff"],
+              ["Stage", "Focused paid pilot"],
+            ].map(([label, value]) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
               </div>
-            </article>
-            <article>
-              <span>02</span>
-              <div>
-                <h3>Unsold replacement estimates</h3>
-                <p>
-                  The job was quoted. The decision went quiet. Structured
-                  follow-up brings intent back into view.
-                </p>
-              </div>
-            </article>
-          </div>
+            ))}
+          </dl>
         </div>
       </section>
       <section className="section container split">
         <div>
-          <Eyebrow>Founding Partner Program</Eyebrow>
+          <Eyebrow>Founder-led Recovery Pilot</Eyebrow>
           <h2>Build around the operation you already have.</h2>
         </div>
         <div className="product-copy">
           <p>
-            We’re inviting HVAC operators to help shape the first workflows,
-            integrations and operating processes through direct founder
-            involvement.
+            Start with a free backlog review, with no commitment. If there’s a
+            fit, we agree on a paid pilot of 25–50 estimates, using a CRM/FSM
+            export or existing list. Scope and terms are confirmed before
+            launch.
           </p>
           <Button href="/hvac#founding-partners">
-            Explore the Founding Partner Program
+            Explore the Founder-led Recovery Pilot
           </Button>
           <p>
-            MONARDAS AI is the product platform. HVAC is the first vertical. The
-            broader MONARDAS thesis remains intelligence, systems and ownership.
+            You work directly with the person designing and operating the pilot.
+            The broader MONARDAS thesis remains intelligence, systems and
+            ownership.
           </p>
           <Button href="/ai" secondary>
             Explore MONARDAS AI

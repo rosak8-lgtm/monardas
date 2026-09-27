@@ -34,6 +34,13 @@ test("public routes, metadata, links, accessibility and browser errors", async (
     const response = await page.goto(route);
     expect(response?.status(), route).toBe(200);
     await expect(page.locator("h1")).toHaveCount(1);
+    await expect(page.locator(".header-cta")).toHaveAttribute(
+      "href",
+      "/contact?intent=hvac-pilot",
+    );
+    await expect(page.locator(".header-cta")).toContainText(
+      "Request a Free Estimate Recovery Audit",
+    );
     const title = await page.title();
     expect(titles.has(title), `Unique title for ${route}`).toBe(false);
     titles.add(title);
@@ -176,7 +183,7 @@ test("form validation and honest delivery state", async ({ page, request }) => {
   );
   await page.goto("/contact");
   await page
-    .getByRole("button", { name: "Request a Revenue Recovery Audit" })
+    .getByRole("button", { name: "Request a Free Estimate Recovery Audit" })
     .click();
   await expect(page.locator("#firstName")).toBeFocused();
   await expect(page.locator("#email-error")).toContainText("required");
@@ -188,14 +195,14 @@ test("form validation and honest delivery state", async ({ page, request }) => {
   await page.locator("#industry").selectOption("Roofing");
   await page.locator("#volume").selectOption("50–100");
   await page
-    .getByRole("button", { name: "Request a Revenue Recovery Audit" })
+    .getByRole("button", { name: "Request a Free Estimate Recovery Audit" })
     .click();
   await expect(page.locator("#email-error")).toContainText("valid email");
   await page.locator("#email").fill("test@example.com");
   await page.locator("#crm").fill("CSV export");
   const submitted = page.waitForResponse("/api/contact");
   await page
-    .getByRole("button", { name: "Request a Revenue Recovery Audit" })
+    .getByRole("button", { name: "Request a Free Estimate Recovery Audit" })
     .click();
   const response = await submitted;
   expect(response.status()).toBe(503);

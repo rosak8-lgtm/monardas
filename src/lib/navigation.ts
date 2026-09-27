@@ -11,7 +11,7 @@ export function isProductPath(path: string | null) {
 }
 
 export const productGroups = {
-  Platform: [
+  Recovery: [
     ["MONARDAS AI", "/ai"],
     ["HVAC Revenue Recovery", "/hvac"],
     ["Current Focus", "/current-focus"],
@@ -22,7 +22,7 @@ export const productGroups = {
     ["Strategy", "/strategy"],
   ],
   "Next step": [
-    ["Revenue Recovery Audit", "/contact"],
-    ["Founding Partner Program", "/hvac#founding-partners"],
+    ["Request a Free Estimate Recovery Audit", "/contact?intent=hvac-pilot"],
+    ["Founder-led Recovery Pilot", "/hvac#founding-partners"],
   ],
 };

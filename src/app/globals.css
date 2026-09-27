@@ -16,13 +16,19 @@
   color: var(--ink);
 }
 .hvac-page .hvac-hero-baseline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  list-style: none;
+  padding-left: 0;
   margin-top: 32px;
   padding-top: 20px;
   border-top: 1px solid var(--gold);
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 .hvac-page .hvac-intro {
+  font-size: 16px;
   max-width: 760px;
   margin-top: 24px;
 }
@@ -2353,6 +2359,108 @@ textarea:focus-visible {
   }
   .product-header .header-cta {
     max-width: 110px;
+    line-height: 1.4;
+  }
+}
+/* v1.1: editorial emphasis and readable commercial copy. */
+.corporate-hero .home-commercial-focus {
+  max-width: 480px;
+  margin-top: 28px;
+  font-size: 16px;
+  color: var(--paper);
+}
+.home-commercial-focus > span {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--gold);
+}
+.home-commercial-focus > strong {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 18px;
+}
+.hvac-fit-note,
+.hvac-process-cta {
+  margin-top: 28px;
+}
+.hvac-fit-note {
+  font-size: 16px;
+}
+.hvac-handoff > .fine-print {
+  margin-bottom: 20px;
+}
+.focus-facts > div {
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+.focus-facts dt {
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.focus-facts dd {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+}
+.footer .footer-identity {
+  color: #85847e;
+  max-width: 75ch;
+  margin-top: 24px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.footer-identity a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.audit-contact .contact-copy h1 {
+  font-size: clamp(42px, 4.5vw, 68px);
+}
+.legal > div + div {
+  margin-top: 32px;
+}
+.legal h1 {
+  margin-bottom: 40px;
+}
+.legal h2 {
+  margin-bottom: 16px;
+}
+.legal p {
+  max-width: 75ch;
+}
+.product-page .product-copy > p:not(.fine-print),
+.product-page .steps p,
+.product-page .section-heading > p,
+.hvac-page .hvac-cards p,
+.hvac-page .hvac-sequence p,
+.hvac-page dd,
+.hvac-page .hvac-faq details p,
+.contact-page .contact-copy > p,
+.contact-page .contact-next p {
+  font-size: 16px;
+  line-height: 1.75;
+}
+.product-page .button,
+.contact-page .form-submit,
+.corporate-hero .button {
+  font-size: 14px;
+}
+.header .header-cta {
+  font-size: 13px;
+}
+@media (max-width: 640px) {
+  .header .header-inner {
+    gap: 12px;
+  }
+  .header .header-cta {
+    max-width: 148px;
+    font-size: 12px;
     line-height: 1.4;
   }
 }

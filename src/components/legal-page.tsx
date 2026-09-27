@@ -3,7 +3,7 @@ import { Button, Eyebrow } from "@/components/site";
 const privacy = [
   [
     "Website operator",
-    "MONARDAS is operated by Yurii Shalygin, Individual Entrepreneur registered in Georgia. Business/legal address: Georgia, Kutaisi, Paliashvilli str., 35-34. Privacy and support contact: yurii@monardas.com.",
+    "MONARDAS is operated by Iurii Shalygin in Georgia. MONARDAS provides B2B revenue-recovery and workflow automation services for home-service businesses, with a current focus on recovering unsold HVAC replacement estimates. Privacy and support contact: yurii@monardas.com.",
   ],
   [
     "Scope and contact",
@@ -27,7 +27,7 @@ const privacy = [
   ],
   [
     "Access and retention",
-    "Within MONARDAS, inquiry access is currently limited to Yurii Shalygin. We retain inquiry data only for as long as reasonably necessary to respond to the inquiry, manage a potential business relationship, and comply with applicable legal obligations.",
+    "Within MONARDAS, inquiry access is currently limited to Iurii Shalygin. We retain inquiry data only for as long as reasonably necessary to respond to the inquiry, manage a potential business relationship, and comply with applicable legal obligations.",
   ],
   [
     "Stored correspondence and requests",
@@ -42,15 +42,15 @@ const privacy = [
 const terms = [
   [
     "Website operator",
-    "MONARDAS is operated by Yurii Shalygin, Individual Entrepreneur registered in Georgia. Business/legal address: Georgia, Kutaisi, Paliashvilli str., 35-34. Contact: yurii@monardas.com.",
+    "MONARDAS is operated by Iurii Shalygin in Georgia. MONARDAS provides B2B revenue-recovery and workflow automation services for home-service businesses, with a current focus on recovering unsold HVAC replacement estimates. Contact: yurii@monardas.com.",
   ],
   [
     "About this website",
-    "The MONARDAS website provides business information and a way to inquire about services. Questions about the website or these terms can be sent to yurii@monardas.com. These terms concern website use; they are not an agreement to deliver a recovery pilot.",
+    "The MONARDAS website provides business information and a way to inquire about B2B revenue-recovery and workflow automation services for home-service businesses. The current focus is recovering unsold HVAC replacement estimates. Questions about the website or these terms can be sent to yurii@monardas.com. These terms concern website use; they are not an agreement to deliver services.",
   ],
   [
     "Inquiries and pilot agreements",
-    "The initial HVAC revenue recovery review is free and does not commit you to a paid pilot. A pilot is paid. Pricing, scope, timing, responsibilities, messaging, contact method, exclusions and sales handoff are agreed separately before homeowner outreach begins. Sending a form does not purchase a service, reserve capacity or authorize homeowner outreach.",
+    "The initial HVAC revenue-recovery review is free and does not commit you to a paid pilot. Any pilot is paid and custom. Its scope, timing, responsibilities, pricing and other commercial terms are agreed before work begins; messaging, contact method, exclusions and sales handoff are agreed before homeowner outreach. Payment is due under the agreed terms and invoice. Sending a form does not purchase a service, reserve capacity or authorize homeowner outreach.",
   ],
   [
     "Information you submit",
