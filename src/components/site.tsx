@@ -96,6 +96,7 @@ export function Footer({ product = false }: { product?: boolean }) {
           <div>
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
+            <Link href="/refund-policy">Refunds & cancellation</Link>
           </div>
         </div>
         <p className="footer-identity">
@@ -163,7 +164,7 @@ export function FinalCTA() {
         </h2>
         <div>
           <Button href="/contact?intent=hvac-pilot">
-            Request a Free Estimate Recovery Audit
+            Get a Free Estimate Recovery Audit
           </Button>
           <p>A focused conversation. A practical next step.</p>
         </div>
@@ -260,21 +261,26 @@ export function PricingCards() {
   return (
     <div className="three-column">
       {[
-        ["Pilot", "Validate the opportunity with 25–50 old estimates."],
-        ["Core", "Standardize an ongoing estimate recovery process."],
         [
-          "Growth",
-          "Explore additional workflows after the economics are proven.",
+          "Free review",
+          "Review your unsold replacement estimate backlog. No commitment to a paid pilot.",
+        ],
+        [
+          "Founder-led Recovery Pilot",
+          "Start with 25–50 suitable estimates. Pilot pricing is agreed after scope review.",
+        ],
+        [
+          "Pilot report",
+          "Review follow-up activity, replies and sales handoffs. Decide on any next steps separately; no subscription is required.",
         ],
       ].map(([t, d]) => (
         <article key={t}>
           <Eyebrow>Scope agreed before launch</Eyebrow>
           <h3>{t}</h3>
           <p>{d}</p>
-          <p>
-            Pricing depends on volume, data readiness and implementation scope.
-          </p>
-          <Button secondary>Discuss {t}</Button>
+          <Button href="/contact?intent=hvac-pilot" secondary>
+            Get a Free Estimate Recovery Audit
+          </Button>
         </article>
       ))}
     </div>

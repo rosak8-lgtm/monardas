@@ -10,6 +10,7 @@ const routes = [
   "/contact?intent=hvac-pilot",
   "/privacy",
   "/terms",
+  "/refund-policy",
 ];
 
 test("commercial and legal pages: responsive layout, mobile axe and visual evidence", async ({

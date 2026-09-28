@@ -91,7 +91,7 @@ export function RecoveryAudit() {
             description="A focused review of what happens to qualified opportunities after they enter your business."
           />
           <Button href="/contact?intent=hvac-pilot">
-            Request a Free Estimate Recovery Audit
+            Get a Free Estimate Recovery Audit
           </Button>
           <p className="fine-print">
             Diagnosis first. We identify whether there is revenue worth
@@ -140,7 +140,7 @@ export function RevenueCTA() {
             lost in the demand you already have.
           </p>
           <Button href="/contact?intent=hvac-pilot">
-            Request a Free Estimate Recovery Audit
+            Get a Free Estimate Recovery Audit
           </Button>
           <p className="fine-print">
             Free initial review. No commitment. We assess your estimate backlog

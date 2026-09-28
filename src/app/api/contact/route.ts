@@ -5,6 +5,8 @@ import {
   isValidRuntimeContactConfig,
 } from "@/lib/contact-delivery";
 import { env as workerEnv } from "cloudflare:workers";
+import { sanitizeAttribution } from "@/lib/attribution";
+import { logFunnelEvent } from "@/lib/funnel";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
@@ -75,15 +77,26 @@ export async function POST(request: Request) {
     ] as const;
     const data = {} as ContactData;
     if (values.intent === "hvac-pilot") {
-      if (typeof values.companyWebsite !== "string")
+      if (
+        values.companyWebsite !== undefined &&
+        typeof values.companyWebsite !== "string"
+      )
         return NextResponse.json(
-          { error: "Company website is required." },
+          { error: "Invalid company website." },
           { status: 400 },
         );
       data.intent = "hvac-pilot";
-      data.companyWebsite = values.companyWebsite.trim();
+      data.companyWebsite =
+        (values.companyWebsite as string | undefined)?.trim() || "";
     }
     for (const key of keys) {
+      if (
+        values[key] === undefined &&
+        !["firstName", "company", "email"].includes(key)
+      ) {
+        data[key] = "";
+        continue;
+      }
       if (typeof values[key] !== "string")
         return NextResponse.json(
           { error: "Please complete the form fields." },
@@ -118,6 +131,7 @@ export async function POST(request: Request) {
         },
         { status: 503 },
       );
+    data.attribution = sanitizeAttribution(values.attribution);
     const lead = createResendPayload(data, { to, from });
     const resend = await fetch(RESEND_ENDPOINT, {
       method: "POST",
@@ -136,6 +150,12 @@ export async function POST(request: Request) {
         { status: 502 },
       );
     const result = (await resend.json()) as { id?: string };
+    if (
+      data.intent === "hvac-pilot" &&
+      request.headers.get("dnt") !== "1" &&
+      request.headers.get("sec-gpc") !== "1"
+    )
+      logFunnelEvent("hvac_audit_submit_success", "/contact");
     return NextResponse.json(
       {
         message:

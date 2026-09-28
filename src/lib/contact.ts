@@ -1,3 +1,4 @@
+import type { Attribution } from "./attribution";
 export const industries = [
   "Roofing",
   "HVAC",
@@ -8,6 +9,7 @@ export const industries = [
 ];
 export const volumes = ["Under 50", "50–100", "101–250", "251–500", "501+"];
 export type ContactData = {
+  attribution?: Attribution;
   intent?: "hvac-pilot";
   companyWebsite?: string;
   firstName: string;
@@ -25,17 +27,7 @@ export type Errors = Partial<Record<keyof ContactData, string>>;
 export function validate(data: ContactData): Errors {
   const errors: Errors = {};
   const pilot = data.intent === "hvac-pilot";
-  const required: (keyof ContactData)[] = pilot
-    ? ["firstName", "company", "companyWebsite", "email"]
-    : [
-        "firstName",
-        "lastName",
-        "company",
-        "email",
-        "phone",
-        "industry",
-        "volume",
-      ];
+  const required = ["firstName", "company", "email"] as const;
   for (const field of required) {
     if (!data[field]?.trim()) errors[field] = "This field is required.";
   }

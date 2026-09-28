@@ -18,7 +18,7 @@ export function CurrentFocusPage() {
         </p>
         <div className="button-row">
           <Button href="/contact?intent=hvac-pilot">
-            Request a Free Estimate Recovery Audit
+            Get a Free Estimate Recovery Audit
           </Button>
           <Button href="/hvac" secondary>
             Explore HVAC Revenue Recovery

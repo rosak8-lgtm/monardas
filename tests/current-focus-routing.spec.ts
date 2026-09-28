@@ -5,12 +5,12 @@ const headings: Record<string, RegExp> = {
   "/": /Intelligence\.Systems\.Ownership\./,
   "/ai": /Recover revenue from opportunities you've already paid to generate\./,
   "/hvac":
-    /Recover revenue from HVAC estimates you've already paid to generate\./,
+    /Recover revenue from HVAC replacement estimates that never closed\./,
   "/roofing": /Roofing UnsoldEstimate Recovery\./,
   "/current-focus": /HVAC estimate recovery\.Our first commercial workflow\./,
 };
 
-test("commercial routes return HTML on direct and refresh-equivalent requests for both hosts", async ({
+test("commercial routes serve apex HTML and permanently redirect www", async ({
   request,
 }) => {
   for (const host of ["monardas.com", "www.monardas.com"]) {
@@ -18,7 +18,13 @@ test("commercial routes return HTML on direct and refresh-equivalent requests fo
       for (let attempt = 0; attempt < 2; attempt++) {
         const response = await request.get(route, {
           headers: { Host: host, "Cache-Control": "no-cache" },
+          maxRedirects: 0,
         });
+        if (host === "www.monardas.com") {
+          expect(response.status()).toBe(308);
+          expect(response.headers().location).toBe(`https://monardas.com${route}`);
+          continue;
+        }
         expect(
           response.status(),
           `${host}${route}, request ${attempt + 1}`,
@@ -94,7 +100,7 @@ test("holding, AI and current focus use client navigation", async ({
     "/contact?intent=hvac-pilot",
   );
   await expect(page.locator(".header-cta")).toHaveText(
-    "Request a Free Estimate Recovery Audit",
+    "Get a Free Estimate Recovery Audit",
   );
   await page.locator(".header-cta").click();
   await expect(page).toHaveURL("/contact?intent=hvac-pilot");
@@ -122,7 +128,7 @@ test("founder pilot CTA preserves HVAC intent in the form", async ({
     .click();
   await expect(page).toHaveURL(/\/contact\?intent=hvac-pilot$/);
   await expect(page.locator(".contact-form h2")).toHaveText(
-    "Request a Free Estimate Recovery Audit",
+    "Get a Free Estimate Recovery Audit",
   );
   await expect(page.locator("#companyWebsite")).toBeVisible();
   await expect(page.locator('input[name="intent"]')).toHaveValue("hvac-pilot");

@@ -7,7 +7,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "contact",
     ...Object.keys(commercialPages),
-    ...Object.keys(pages).filter((p) => !["privacy", "terms"].includes(p)),
+    ...Object.keys(pages).filter(
+      (p) => !["privacy", "terms", "refund-policy"].includes(p),
+    ),
   ].map((path) => ({
     url: new URL(`/${path}`, siteUrl).href,
     changeFrequency: "monthly" as const,
