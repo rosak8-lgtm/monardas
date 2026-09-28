@@ -97,7 +97,7 @@ export function Header() {
           href="/contact?intent=hvac-pilot"
           onClick={close}
         >
-          Request a Free Estimate Recovery Audit
+          Get a Free Estimate Recovery Audit
           <ArrowUpRight size={15} />
         </Link>
         <button

@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Header } from "@/components/header";
 import localFont from "next/font/local";
 import { siteUrl } from "@/lib/seo";
+import { FunnelTracking } from "@/components/funnel-tracking";
 const sans = localFont({
   src: "./fonts/geist-latin.woff2",
   weight: "100 900",
@@ -59,6 +60,7 @@ export default function RootLayout({
         <Header />
         <main id="main">{children}</main>
         <SiteFooter />
+        <FunnelTracking />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -7,12 +7,12 @@ export const commercialPages = {
   hvac: {
     title: "HVAC Unsold Estimate Recovery",
     description:
-      "MONARDAS helps HVAC contractors re-engage unsold replacement estimates and return interested homeowners to their sales team through a focused recovery pilot.",
+      "Re-engage unsold HVAC replacement estimates with structured follow-up. A founder-led recovery pilot returns interested homeowners to your sales team. Start with a free audit.",
   },
   roofing: {
     title: "Roofing Unsold Estimate Recovery",
     description:
-      "Explore the next MONARDAS AI vertical: structured follow-up for dormant roofing estimates, homeowner intent and qualified sales handoffs.",
+      "Roofing is a future direction, not a current service. MONARDAS currently offers unsold replacement estimate recovery for HVAC contractors.",
   },
   "current-focus": {
     title: "Current Focus — HVAC Revenue Recovery",
@@ -77,5 +77,10 @@ export const pages: Record<string, { title: string; description: string }> = {
     title: "Terms of Use — MONARDAS",
     description:
       "MONARDAS website use, inquiries and the separate agreement required for a paid recovery pilot.",
+  },
+  "refund-policy": {
+    title: "Pilot Cancellation and Refund Policy",
+    description:
+      "Cancellation and refund requests for separately scoped MONARDAS B2B recovery pilots. No active subscription products.",
   },
 };

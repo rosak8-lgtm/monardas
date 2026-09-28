@@ -25,7 +25,7 @@ export async function generateMetadata({
   return data
     ? {
         ...pageMetadata(data.title, data.description, `/${page}`),
-        ...(["privacy", "terms"].includes(page)
+        ...(["privacy", "terms", "refund-policy"].includes(page)
           ? { robots: { index: false, follow: true } }
           : {}),
       }
@@ -75,7 +75,7 @@ export default async function Page({
             A practical process built around the people who close the job. Your
             team controls the messaging, the handoff and the sale.
           </p>
-          <Button>Recover Lost Revenue</Button>
+          <Button href="/contact?intent=hvac-pilot">Get a Free Estimate Recovery Audit</Button>
         </section>
         <section className="section stone">
           <div className="container split">
@@ -90,6 +90,6 @@ export default async function Page({
         <FinalCTA />
       </>
     );
-  if (page === "privacy" || page === "terms") return <LegalPage page={page} />;
+  if (page === "privacy" || page === "terms" || page === "refund-policy") return <LegalPage page={page} />;
   return <CompanyPage page={page} />;
 }

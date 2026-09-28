@@ -17,7 +17,7 @@ const faqs = [
   ],
   [
     "Do I need to change my CRM?",
-    "No CRM migration is required. We can work from a usable CRM/FSM export or existing list, with data requirements agreed before launch. No native AI or CRM integration is promised.",
+    "No CRM migration or complex integration is required. We can work from a usable CRM/FSM export or existing list, with data requirements agreed before launch. No native AI or CRM integration is promised.",
   ],
   [
     "How will homeowners be contacted?",
@@ -63,8 +63,8 @@ export function HVACPage() {
       <section className="container page-hero product-hero">
         <Eyebrow>MONARDAS AI / HVAC ESTIMATE RECOVERY</Eyebrow>
         <h1>
-          Recover revenue from HVAC estimates{" "}
-          <em>you&apos;ve already paid to generate.</em>
+          Recover revenue from HVAC replacement estimates{" "}
+          <em>that never closed.</em>
         </h1>
         <p>
           You paid for the lead and delivered the quote. MONARDAS re-engages
@@ -77,9 +77,7 @@ export function HVACPage() {
           your pipeline.
         </p>
         <div className="button-row">
-          <Button href={pilotHref}>
-            Request a Free Estimate Recovery Audit
-          </Button>
+          <Button href={pilotHref}>Get a Free Estimate Recovery Audit</Button>
           <Button href="#system" secondary>
             See How It Works
           </Button>
@@ -87,8 +85,8 @@ export function HVACPage() {
         <p className="fine-print">
           <strong>Free initial review. No commitment to a paid pilot.</strong>
           <br />
-          For U.S. HVAC contractors. We review backlog fit before discussing
-          scope.
+          For U.S. residential HVAC contractors. We review backlog fit before
+          discussing scope.
         </p>
         <ul className="hvac-hero-baseline">
           <li>25–50 estimates</li>
@@ -264,9 +262,7 @@ export function HVACPage() {
             </aside>
           </div>
           <div className="hvac-process-cta">
-            <Button href={pilotHref}>
-              Request a Free Estimate Recovery Audit
-            </Button>
+            <Button href={pilotHref}>Get a Free Estimate Recovery Audit</Button>
           </div>
         </div>
       </section>
@@ -414,9 +410,7 @@ export function HVACPage() {
               backlog, assess whether it looks suitable for recovery, and
               outline what a focused 25–50 estimate pilot could look like.
             </p>
-            <Button href={pilotHref}>
-              Request a Free Estimate Recovery Audit
-            </Button>
+            <Button href={pilotHref}>Get a Free Estimate Recovery Audit</Button>
             <p className="fine-print">
               No commitment. If the backlog isn’t a fit, we’ll tell you.
             </p>

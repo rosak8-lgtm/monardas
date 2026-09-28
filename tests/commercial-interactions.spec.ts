@@ -4,6 +4,11 @@ test("calculator inputs stay local and reset after reload", async ({
   page,
 }) => {
   await page.goto("/hvac");
+  await expect
+    .poll(() =>
+      page.evaluate(() => sessionStorage.getItem("monardas:attribution")),
+    )
+    .not.toBeNull();
   await page.waitForLoadState("networkidle");
   const outgoing: string[] = [];
   page.on("request", (request) => {
@@ -56,14 +61,11 @@ test("successful form delivery is announced and duplicate submissions are blocke
   });
   await page.goto("/contact");
   await page.locator("#firstName").fill("Test");
-  await page.locator("#lastName").fill("Operator");
   await page.locator("#company").fill("Test HVAC");
   await page.locator("#email").fill("test@example.com");
   await page.locator("#phone").fill("1234567890");
-  await page.locator("#industry").selectOption("HVAC");
-  await page.locator("#volume").selectOption("50–100");
   await page
-    .getByRole("button", { name: "Request a Free Estimate Recovery Audit" })
+    .getByRole("button", { name: "Get a Free Estimate Recovery Audit" })
     .click();
   await expect.poll(() => submissions).toBe(1);
   await expect(page.locator(".form-submit")).toBeDisabled();
@@ -75,9 +77,11 @@ test("successful form delivery is announced and duplicate submissions are blocke
       ),
     );
   release();
-  await expect(page.getByRole("status")).toContainText("Request received.");
   await expect(page.getByRole("status")).toContainText(
-    "Thanks — we’ll review your revenue recovery opportunities and get back to you shortly.",
+    "Thanks — your audit request has been received.",
+  );
+  await expect(page.getByRole("status")).toContainText(
+    "I’ll review your current estimate follow-up process and get back to you directly.",
   );
   await page
     .locator("form")

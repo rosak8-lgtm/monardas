@@ -1,4 +1,5 @@
 import type { ContactData } from "./contact";
+import { sanitizeAttribution } from "./attribution";
 
 export type RuntimeContactConfig = {
   to: string;
@@ -69,6 +70,9 @@ export function createResendPayload(
     ],
     ["CRM / FSM", data.crm || "Not provided"],
     ["Message", data.message || "Not provided"],
+    ...Object.entries(sanitizeAttribution(data.attribution)).map(
+      ([key, value]) => [key, value],
+    ),
   ] as const;
   const text = fields.map(([label, value]) => `${label}: ${value}`).join("\n");
   const rows = fields
