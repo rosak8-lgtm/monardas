@@ -15,7 +15,10 @@ export function ReviewList({ items }: { items: string[] }) {
 
 export function RecoveryProcess() {
   const steps = [
-    ["Identify", "Find missed calls, dormant estimates and gaps in follow-up."],
+    [
+      "Identify",
+      "Review unsold replacement estimates and select a suitable batch.",
+    ],
     [
       "Respond",
       "Start relevant, structured communication while the opportunity is still open.",
@@ -55,7 +58,7 @@ export function ProductFounder() {
       <div className="container split">
         <div>
           <Eyebrow>The operating idea / Founder</Eyebrow>
-          <h2>Yurii Shalygin</h2>
+          <h2>Iurii Shalygin</h2>
           <p>Entrepreneur / System Builder / Owner</p>
         </div>
         <div className="product-copy">
@@ -65,8 +68,8 @@ export function ProductFounder() {
             opportunities they already have.
           </p>
           <p>
-            We identify measurable friction, build a system around it and scale
-            what works.
+            For the HVAC recovery pilot, you work directly with Iurii on the
+            workflow, follow-up operation and results review.
           </p>
           <Link className="text-link" href="/founder">
             The founder’s operating philosophy ↗
@@ -87,7 +90,9 @@ export function RecoveryAudit() {
             title="Find where revenue is leaking before buying more traffic."
             description="A focused review of what happens to qualified opportunities after they enter your business."
           />
-          <Button>Get a Revenue Recovery Audit</Button>
+          <Button href="/contact?intent=hvac-pilot">
+            Request a Free Estimate Recovery Audit
+          </Button>
           <p className="fine-print">
             Diagnosis first. We identify whether there is revenue worth
             recovering.
@@ -96,7 +101,7 @@ export function RecoveryAudit() {
         <div className="product-copy">
           <ReviewList
             items={[
-              "Missed-call follow-up",
+              "Replacement estimate backlog",
               "Unsold estimate follow-up",
               "Lead response time",
               "CRM/FSM workflow",
@@ -134,10 +139,12 @@ export function RevenueCTA() {
             Before spending more to create new demand, find out what is being
             lost in the demand you already have.
           </p>
-          <Button>Get a Revenue Recovery Audit</Button>
+          <Button href="/contact?intent=hvac-pilot">
+            Request a Free Estimate Recovery Audit
+          </Button>
           <p className="fine-print">
-            We’ll review your follow-up process and identify where recovery
-            opportunities may exist.
+            Free initial review. No commitment. We assess your estimate backlog
+            before discussing a paid recovery pilot.
           </p>
         </div>
       </div>

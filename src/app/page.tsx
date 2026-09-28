@@ -10,33 +10,33 @@ import { SystemMap } from "@/components/system-map";
 import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata(
   "Intelligence. Systems. Ownership.",
-  "MONARDAS builds, automates and scales businesses designed to become durable assets. Explore our operating philosophy and current revenue recovery focus.",
+  "MONARDAS builds systems around measurable business inefficiencies. Current commercial focus: recovering unsold HVAC replacement estimates through a managed pilot.",
   "/",
 );
 const units = [
   [
     "AI",
-    "Scalable software. Measurable outcomes.",
-    "Revenue-recovery systems for businesses with existing demand. Starting with HVAC.",
-    "Product platform",
+    "Revenue recovery. Existing demand.",
+    "Recovering unsold HVAC replacement estimates through a focused managed pilot.",
+    "Current commercial focus",
   ],
   [
     "Systems",
     "The work behind the software.",
     "Understand the real process. Validate the economics. Build a standard worth automating.",
-    "Implementation layer",
+    "Operating capability",
   ],
   [
     "Ventures",
     "Build with an owner’s perspective.",
     "A long-term thesis for new products, acquisitions and operating businesses with systems upside.",
-    "Long-term thesis",
+    "Long-term direction",
   ],
   [
     "Capital",
     "Choose what compounds next.",
     "An internal framework for moving retained cash into productive assets.",
-    "Internal allocation",
+    "Internal long-term allocation framework",
   ],
   [
     "Commerce",
@@ -48,7 +48,7 @@ const units = [
     "Nature",
     "Where the story began.",
     "The physical-product roots of Monardas, inspired by Siberian botanicals.",
-    "Botanical origins",
+    "Brand origins",
   ],
 ];
 export default function Home() {
@@ -66,14 +66,19 @@ export default function Home() {
               <em>Ownership.</em>
             </h1>
             <p>
-              We build, automate and scale businesses
-              <br className="desktop-break" /> designed to become durable
-              assets.
+              We build systems around measurable business inefficiencies and
+              turn what works into durable operating assets.
+            </p>
+            <p className="home-commercial-focus">
+              <span>Current commercial focus</span>
+              <strong>HVAC Unsold Estimate Recovery</strong>
+              Recover revenue from replacement estimates your business already
+              paid to generate.
             </p>
             <div className="button-row">
-              <Button href="#architecture">Explore Monardas</Button>
-              <Button href="/ai" secondary>
-                Explore MONARDAS AI
+              <Button href="/hvac">Explore HVAC Revenue Recovery</Button>
+              <Button href="#architecture" secondary>
+                Explore MONARDAS
               </Button>
             </div>
           </div>
@@ -113,19 +118,21 @@ export default function Home() {
               Revenue systems for businesses <em>with existing demand.</em>
             </h2>
             <p className="lead">
-              We identify measurable friction, build systems around it and scale
-              what works.
+              MONARDAS helps HVAC contractors recover revenue from unsold
+              replacement estimates they’ve already paid to generate.
             </p>
-            <Button href="/ai">Explore MONARDAS AI</Button>
+            <Button href="/contact?intent=hvac-pilot">
+              Request a Free Estimate Recovery Audit
+            </Button>
           </div>
           <div className="focus-index">
             <div className="focus-label">
               MONARDAS AI <span>REVENUE RECOVERY</span>
             </div>
             <Link href="/hvac">
-              <span>01 / First commercial vertical</span>
+              <span>01 / First commercial workflow</span>
               <h3>HVAC</h3>
-              <p>Missed Call &amp; Unsold Estimate Recovery</p>
+              <p>Unsold Replacement Estimate Recovery</p>
               <b aria-hidden="true">↗</b>
             </Link>
             <p>
@@ -240,7 +247,7 @@ export default function Home() {
         <div className="container split">
           <div>
             <Eyebrow>06 / Founder</Eyebrow>
-            <h2>Yurii Shalygin</h2>
+            <h2>Iurii Shalygin</h2>
             <p>Entrepreneur / System Builder / Owner</p>
           </div>
           <div>

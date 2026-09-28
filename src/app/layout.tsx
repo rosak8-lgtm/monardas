@@ -47,7 +47,7 @@ export default function RootLayout({
     name: "MONARDAS",
     description:
       "We build, automate and scale businesses designed to become durable assets.",
-    founder: { "@type": "Person", name: "Yurii Shalygin" },
+    founder: { "@type": "Person", name: "Iurii Shalygin" },
     ...(siteUrl ? { url: siteUrl } : {}),
   };
   return (

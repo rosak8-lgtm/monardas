@@ -3,8 +3,8 @@ import { Check, ArrowUpRight } from "lucide-react";
 import { Eyebrow } from "@/components/site";
 import { ContactForm } from "@/components/contact-form";
 export const metadata = pageMetadata(
-  "Request a Revenue Recovery Audit",
-  "Identify missed-call and unsold-estimate follow-up gaps in your HVAC business. Start with a focused Revenue Recovery Audit or founding partner conversation.",
+  "Request a Free Estimate Recovery Audit",
+  "Request a free review of your unsold HVAC replacement estimates. Assess backlog fit before discussing a focused paid recovery pilot. No commitment.",
   "/contact",
 );
 export default async function Contact({
@@ -19,15 +19,15 @@ export default async function Contact({
       <section className="container contact-page hvac-pilot-contact">
         <div className="contact-copy">
           <Eyebrow>MONARDAS AI / HVAC estimate recovery</Eyebrow>
-          <h1>Request a Revenue Recovery Audit</h1>
+          <h1>Request a Free Estimate Recovery Audit</h1>
           <p>
-            Tell us about your unsold replacement estimate backlog. We’ll review
-            whether a focused recovery pilot is a fit for your HVAC business.
+            Tell us about your current estimate backlog. We’ll review whether
+            the records appear suitable for a focused HVAC recovery pilot.
           </p>
           <p>
             <strong>
-              The initial review is free and does not commit you to a paid
-              pilot.
+              The initial review is free. Submitting the form does not commit
+              you to a paid engagement.
             </strong>
           </p>
           <ul>
@@ -46,10 +46,10 @@ export default async function Contact({
             <ArrowUpRight size={26} />
             <h3>What happens next</h3>
             <p>
-              We’ll review your records and discuss messaging, contact method,
-              exclusions and sales handoff. If there’s a fit, scope, timing,
-              responsibilities and commercial terms are agreed before any
-              homeowner outreach begins.
+              If the backlog looks suitable, we’ll discuss pilot scope,
+              responsibilities, timing and commercial terms. Messaging, contact
+              method, exclusions and sales handoff are agreed before homeowner
+              outreach begins.
             </p>
             <p>
               The initial review is free. The pilot is paid. Pricing is agreed
@@ -61,25 +61,21 @@ export default async function Contact({
       </section>
     );
   return (
-    <section className="container contact-page">
+    <section className="container contact-page audit-contact">
       <div className="contact-copy">
-        <Eyebrow>Let’s find your next opportunity</Eyebrow>
-        <h1>
-          More opportunity.
-          <br />
-          <span>
-            Closer than
-            <br />
-            you think.
-          </span>
-        </h1>
+        <Eyebrow>MONARDAS / Estimate recovery</Eyebrow>
+        <h1>Request a Free Estimate Recovery Audit</h1>
         <p>
-          You’ve already done the hard work of generating leads. Let’s see
-          what’s still waiting in your pipeline.
+          Tell us about your current estimate backlog. We’ll review whether the
+          records appear suitable for a focused HVAC recovery pilot.
+        </p>
+        <p>
+          The initial review is free. Submitting the form does not commit you to
+          a paid engagement.
         </p>
         <ul>
           {[
-            "Start with your existing leads and estimates",
+            "Review your unsold replacement estimates",
             "Explore a small, focused pilot",
             "Keep your sales team in control",
           ].map((t) => (
@@ -91,10 +87,11 @@ export default async function Contact({
         </ul>
         <div className="contact-next">
           <ArrowUpRight size={26} />
-          <h3>What we’ll explore</h3>
+          <h3>What happens next</h3>
           <p>
-            Your current pipeline, where follow-up drops off, and what a
-            practical recovery program could look like for your business.
+            If the backlog looks suitable, we’ll discuss pilot scope,
+            responsibilities, timing and commercial terms. The pilot is paid;
+            pricing is agreed after the scope review.
           </p>
         </div>
       </div>

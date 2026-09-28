@@ -4,36 +4,52 @@ import { Calculator } from "./calculator";
 const pilotHref = "/contact?intent=hvac-pilot";
 const faqs = [
   [
-    "What kinds of estimates are suitable?",
-    "Unsold AC, furnace, heat pump and full-system replacement estimates. We review the records together and agree on which estimates are appropriate for follow-up. Already-sold jobs and excluded contacts stay out of the pilot.",
+    "Will this annoy old customers?",
+    "We can’t promise how every homeowner will react. You review the messaging, follow-up sequence and exclusions before launch. The aim is to ask whether revisiting the estimate is relevant, not pressure someone to buy.",
   ],
   [
-    "How old should the estimates be?",
+    "What kinds of estimates are suitable?",
+    "Unsold AC, furnace, heat pump and full-system replacement estimates. We agree on suitability together. Already-sold jobs and excluded contacts stay out.",
+  ],
+  [
+    "How old can the estimates be?",
     "There is no fixed age requirement for this pilot. We review age, status and available context before selecting the batch.",
   ],
   [
-    "Do we need a specific CRM or an integration?",
-    "A usable CRM/FSM export or existing list can be the starting point. We review the available data and agree on how to work with it before launch. This is a founder-led managed recovery pilot; no native AI or CRM integration is promised.",
+    "Do I need to change my CRM?",
+    "No CRM migration is required. We can work from a usable CRM/FSM export or existing list, with data requirements agreed before launch. No native AI or CRM integration is promised.",
   ],
   [
     "How will homeowners be contacted?",
-    "Contact channels are agreed with the contractor before launch based on the available records, approved messaging and which contacts may be included. No outreach begins before the contact method and exclusions are agreed.",
+    "We agree on channels based on your records, approved messaging and eligible contacts. No outreach begins before the contact method and exclusions are agreed.",
   ],
   [
-    "Who handles the sale?",
-    "Your sales team does. MONARDAS identifies renewed intent and passes the conversation back with context. Your team handles advice, pricing, appointments and closing.",
+    "Does MONARDAS close the job?",
+    "No. Your team owns technical advice, equipment recommendations, pricing, financing discussions, appointments and the close.",
   ],
   [
-    "What if nobody is interested?",
-    "The report will show that outcome. You receive a record of the activity and responses, but the pilot does not guarantee interested opportunities or sales.",
+    "What records do you need?",
+    "A CRM/FSM export or existing list linking homeowner contact details to the original estimate, its date and status. We agree on required fields and the transfer method before you share the batch.",
   ],
   [
-    "Is the review free, and how is the pilot priced?",
+    "Who decides which homeowners can be contacted?",
+    "Your team confirms eligible records and exclusions before outreach begins. Already-sold jobs and excluded contacts stay out of the pilot.",
+  ],
+  [
+    "What happens after a homeowner replies?",
+    "MONARDAS reviews the response for questions and renewed interest. When there is a reason for a sales conversation, your assigned salesperson receives the reply and estimate context. A reply alone is not a qualified opportunity or a sale.",
+  ],
+  [
+    "What if nobody responds?",
+    "The report records that outcome and the follow-up activity. Replies, handoffs and closed jobs are reported separately. The pilot does not guarantee responses or sales.",
+  ],
+  [
+    "How much does the pilot cost?",
     "The initial review is free. The pilot is paid. Pricing is agreed after we review the scope.",
   ],
   [
     "How long does the pilot run?",
-    "Pilot timing depends on the size and condition of the estimate backlog, the agreed follow-up sequence and your team’s handoff process. We confirm the timeline before launch.",
+    "Timing depends on the backlog’s size and condition, the follow-up sequence and your handoff process. We confirm the timeline before launch.",
   ],
   [
     "Does this pilot include missed calls or other services?",
@@ -51,50 +67,55 @@ export function HVACPage() {
           <em>you&apos;ve already paid to generate.</em>
         </h1>
         <p>
-          MONARDAS runs structured follow-up on unsold replacement estimates,
-          identifies homeowners who are open to revisiting their quote, and
-          hands those conversations back to your sales team.
+          You paid for the lead and delivered the quote. MONARDAS re-engages
+          homeowners who never moved forward, identifies who is open to
+          revisiting the estimate, and hands those conversations back to your
+          sales team.
         </p>
         <p className="hvac-support">
           Before buying more leads, recover the opportunities already sitting in
           your pipeline.
         </p>
         <div className="button-row">
-          <Button href={pilotHref}>Request a Revenue Recovery Audit</Button>
+          <Button href={pilotHref}>
+            Request a Free Estimate Recovery Audit
+          </Button>
           <Button href="#system" secondary>
             See How It Works
           </Button>
         </div>
         <p className="fine-print">
-          <strong>Free initial review. No commitment.</strong>
+          <strong>Free initial review. No commitment to a paid pilot.</strong>
           <br />
-          We’ll look at your unsold estimate backlog, confirm whether it’s
-          suitable for recovery, and explain what a paid 25–50 estimate pilot
-          could look like.
+          For U.S. HVAC contractors. We review backlog fit before discussing
+          scope.
         </p>
-        <div className="hvac-hero-baseline">
-          For U.S. HVAC contractors · Founder-led managed recovery
-        </div>
+        <ul className="hvac-hero-baseline">
+          <li>25–50 estimates</li>
+          <li>Founder-led managed pilot</li>
+          <li>No CRM migration required</li>
+          <li>Your sales team closes</li>
+        </ul>
       </section>
       <section className="dark section">
         <div className="container split">
           <SectionHeading
             label="01 / The opportunity after the quote"
-            title="The estimate went out. The conversation went quiet."
+            title="You already paid for these opportunities."
           />
           <div className="product-copy">
             <p>
-              You paid to generate the lead. Your team assessed the replacement
-              and prepared an estimate. The homeowner didn’t move forward—and
-              follow-up eventually stopped.
+              A replacement lead came in. Your team handled the call, visited
+              the home and prepared an estimate. Then the homeowner went quiet.
             </p>
             <p>
-              Some homeowners may have chosen another contractor. Others may
-              still be weighing timing, cost or an unanswered question. A quiet
-              estimate alone doesn’t tell you which.
+              Some homeowners have moved on. Others may still be weighing
+              timing, cost or an unanswered question. A quiet estimate alone
+              doesn’t tell you which.
             </p>
             <p className="lead">
-              The first job is to find out who is still open to a conversation.
+              The first job is to find out which conversations are still worth
+              reopening.
             </p>
           </div>
         </div>
@@ -111,7 +132,7 @@ export function HVACPage() {
           {[
             [
               "1. Tell us about your unsold estimates",
-              "We review how many you have, where the records are stored, how old they are, and who currently owns follow-up.",
+              "We review volume, age, where records are stored and who owns follow-up.",
             ],
             [
               "2. We assess whether a recovery pilot makes sense",
@@ -132,13 +153,13 @@ export function HVACPage() {
       <section className="section container">
         <SectionHeading
           label="02 / The recovery pilot"
-          title="Start with 25–50 unsold replacement estimates."
-          description="A focused, founder-led managed pilot for AC, furnace, heat pump and full-system replacement estimates."
+          title="Start small. Prove it on your own pipeline."
+          description="A founder-led managed pilot of 25–50 suitable unsold AC, furnace, heat pump or full-system replacement estimates."
         />
         <p className="hvac-intro">
-          MONARDAS runs a structured recovery follow-up sequence, tracks replies
-          and renewed intent, and returns interested homeowners to your sales
-          team. You receive a clear report of the activity and outcomes.
+          Use a CRM/FSM export or an existing list. No CRM migration is
+          required. We agree on the batch, follow-up and handoff before outreach
+          begins.
         </p>
         <div className="hvac-cards">
           {[
@@ -169,35 +190,39 @@ export function HVACPage() {
             after we review the scope.
           </p>
         </div>
+        <p className="hvac-fit-note">
+          No commitment from the initial audit. If the backlog isn’t a fit,
+          we’ll tell you.
+        </p>
       </section>
       <section className="section hvac-tint" id="system">
         <div className="container">
           <SectionHeading
-            label="03 / Demonstration + process"
-            title="From a quiet estimate to an actionable conversation."
+            label="03 / The recovery process"
+            title="Turn an old estimate into a live sales conversation."
           />
-          <p className="fine-print">
-            Illustrative example only. This is not a customer case study or a
-            recorded result.
-          </p>
           <div className="hvac-demo split">
             <ol className="hvac-sequence">
               {[
                 [
-                  "Estimate selected",
-                  "An unsold heat pump replacement estimate is included in the agreed pilot list.",
+                  "Select the backlog",
+                  "Start with 25–50 suitable unsold replacement estimates from your CRM, FSM or existing records.",
                 ],
                 [
-                  "Follow-up begins",
-                  "The homeowner receives an approved follow-up asking whether they are still considering the replacement.",
+                  "Re-engage",
+                  "MONARDAS runs the agreed follow-up sequence using approved messaging and contact methods.",
                 ],
                 [
-                  "Homeowner responds",
-                  "Example reply: “We’re still considering it. Can someone walk us through the options again?”",
+                  "Identify renewed intent",
+                  "Track homeowner responses, questions and willingness to revisit the estimate.",
                 ],
                 [
-                  "Your team takes over",
-                  "The assigned salesperson receives the estimate reference, reply, open question and suggested next action.",
+                  "Hand back to sales",
+                  "Your salesperson receives the estimate context, homeowner response and reason to follow up.",
+                ],
+                [
+                  "Measure",
+                  "Report activity, replies, meaningful responses and sales handoffs. Include sales outcomes only where your team confirms them.",
                 ],
               ].map(([title, copy], i) => (
                 <li key={title}>
@@ -212,6 +237,10 @@ export function HVACPage() {
             <aside className="hvac-handoff" aria-label="Example sales handoff">
               <Eyebrow>Example sales handoff</Eyebrow>
               <h3>Ready for a human conversation.</h3>
+              <p className="fine-print">
+                Illustrative example only. Not a customer case study or recorded
+                result.
+              </p>
               <dl>
                 {[
                   ["Estimate", "Heat pump replacement"],
@@ -234,57 +263,38 @@ export function HVACPage() {
               </p>
             </aside>
           </div>
-          <h3 className="hvac-process-title">
-            How it works: select, re-engage, hand back.
-          </h3>
-          <div className="hvac-cards">
-            {[
-              [
-                "1. Select the estimates",
-                "Share a CRM/FSM export or an existing list. Together, we review suitability and agree on exclusions, the follow-up approach and the handoff owner.",
-              ],
-              [
-                "2. Run recovery follow-up",
-                "MONARDAS runs the agreed sequence, tracks replies and identifies homeowners open to revisiting their quote.",
-              ],
-              [
-                "3. Return opportunities and report",
-                "Your team receives interested opportunities with context. The report shows activity, responses, handoffs and sales outcomes where your team has confirmed them.",
-              ],
-            ].map(([title, copy]) => (
-              <article key={title}>
-                <h3>{title}</h3>
-                <p>{copy}</p>
-              </article>
-            ))}
+          <div className="hvac-process-cta">
+            <Button href={pilotHref}>
+              Request a Free Estimate Recovery Audit
+            </Button>
           </div>
         </div>
       </section>
       <section className="section container">
         <SectionHeading
-          label="04 / Readiness + deliverables"
-          title="Bring your estimate backlog. Get a clear record of what happens next."
+          label="04 / Clear responsibilities"
+          title="What does MONARDAS actually do?"
         />
         <div className="split hvac-readiness">
           <div>
-            <h3>What MONARDAS needs</h3>
+            <h3>MONARDAS runs the recovery workflow</h3>
             <dl className="hvac-list">
               {[
                 [
-                  "An existing estimate backlog",
-                  "You already invest in lead generation and have 25–50 suitable unsold replacement estimates to review.",
+                  "Review and prepare",
+                  "Review the agreed estimate batch and help define approved recovery messaging.",
                 ],
                 [
-                  "Usable records",
-                  "A CRM/FSM export or list linking the homeowner, contact details and original estimate. We agree on the required fields before transfer.",
+                  "Follow up and track intent",
+                  "Run the agreed sequence, track responses and identify homeowners open to revisiting their quote.",
                 ],
                 [
-                  "Eligible contacts",
-                  "Your team confirms which records may be included and which contacts must be excluded before outreach begins.",
+                  "Create handoff context",
+                  "Connect the homeowner’s reply to the original estimate and the reason for a sales follow-up.",
                 ],
                 [
-                  "A sales handoff owner",
-                  "Someone who can pick up renewed conversations and report what happened next.",
+                  "Report what happened",
+                  "Provide follow-up records, intent notes and a pilot report. Replies, handoffs and confirmed sales stay separate.",
                 ],
               ].map(([title, copy]) => (
                 <div key={title}>
@@ -294,30 +304,29 @@ export function HVACPage() {
               ))}
             </dl>
             <p className="fine-print">
-              Fit depends on your estimates, data and follow-up capacity.
-              Revenue, technician count and review count are not fixed entry
-              requirements.
+              MONARDAS does not replace your sales team. It gives your sales
+              team another reason to have a conversation.
             </p>
           </div>
           <div>
-            <h3>What your team receives</h3>
+            <h3>Your team still owns the sale</h3>
             <dl className="hvac-list">
               {[
                 [
-                  "A reviewed pilot list",
-                  "The agreed batch of estimates and any exclusions.",
+                  "Provide usable records",
+                  "A CRM/FSM export or list linking homeowner contact details to the original estimate. Required fields are agreed before transfer.",
                 ],
                 [
-                  "Follow-up records and intent notes",
-                  "Outreach status, homeowner replies and the context behind renewed interest.",
+                  "Confirm eligible contacts",
+                  "Your team confirms which records may be included and which contacts must be excluded before outreach begins.",
                 ],
                 [
-                  "Actionable sales handoffs",
-                  "Interested opportunities linked to the original estimate, with the information needed to continue.",
+                  "Assign a sales handoff owner",
+                  "Someone who can pick up renewed conversations and report the outcome.",
                 ],
                 [
-                  "A pilot report and review",
-                  "Activity, replies and handoffs, plus sales outcomes and revenue only where your team confirms them.",
+                  "Advise and close",
+                  "Your team handles technical advice, equipment recommendations, pricing, financing discussions, appointments and the close.",
                 ],
               ].map(([title, copy]) => (
                 <div key={title}>
@@ -327,7 +336,8 @@ export function HVACPage() {
               ))}
             </dl>
             <p className="fine-print">
-              Replies, handoffs and closed jobs are reported separately.
+              Fit depends on records and follow-up capacity, not fixed revenue,
+              technician or review-count thresholds.
             </p>
           </div>
         </div>
@@ -335,30 +345,27 @@ export function HVACPage() {
       <section className="section hvac-founder" id="founding-partners">
         <div className="container split">
           <div>
-            <Eyebrow>05 / Founder-led pilot</Eyebrow>
-            <h2>
-              Work directly with the person building the recovery process.
-            </h2>
+            <Eyebrow>05 / Founder-led Recovery Pilot</Eyebrow>
+            <h2>Founder-led from the first estimate to the final review.</h2>
             <p className="hvac-founder-name">
-              Yurii Shalygin <span>Founder, MONARDAS</span>
+              Iurii Shalygin <span>Founder, MONARDAS</span>
             </p>
           </div>
           <div className="product-copy">
             <p>
-              Yurii leads the pilot setup, workflow review and results
-              discussion. Your team works directly with the founder to define
-              estimate selection, the follow-up approach and the sales handoff.
+              You work directly with Iurii, the person designing and operating
+              the pilot. He reviews your backlog, defines the workflow, monitors
+              follow-up and evaluates what came back to your sales team.
             </p>
             <p>
-              Early pilots help refine the process around real contractor
-              workflows. Your feedback informs that work; the paid scope remains
-              the agreed recovery pilot.
+              Early pilots are intentionally founder-led so the process is built
+              around real HVAC sales workflows, not assumptions made from a
+              distance.
             </p>
             <Button href={pilotHref}>Discuss a Recovery Pilot</Button>
             <p className="fine-print">
-              Responsibilities, scope, timing and commercial terms are agreed
-              before launch. The pilot does not guarantee replies, bookings or
-              recovered revenue.
+              The pilot does not guarantee replies, bookings or recovered
+              revenue.
             </p>
           </div>
         </div>
@@ -366,9 +373,14 @@ export function HVACPage() {
       <section className="section container">
         <SectionHeading
           label="06 / Illustrative economics — not a forecast"
-          title="Explore what recovered jobs could mean for your business."
-          description="Use your own assumptions to explore a revenue scenario. This calculator does not predict the pilot’s results."
+          title="You don’t necessarily need more leads."
+          description="You may need more value from the leads you’ve already bought. If even a small number of homeowners in a meaningful backlog are still open to a conversation, re-engagement may be worth evaluating."
         />
+        <p className="hvac-intro">
+          Use your own numbers. Illustrative scenario only. Not a forecast.
+          Actual outcomes depend on estimate quality, homeowner intent, sales
+          follow-up and other factors.
+        </p>
         <Calculator />
       </section>
       <section className="section hvac-tint">
@@ -392,22 +404,21 @@ export function HVACPage() {
           <div>
             <Eyebrow>Next step / Your estimate backlog</Eyebrow>
             <h2>
-              Start with 25–50 estimates <em>already in your pipeline.</em>
+              Before you buy another lead,{" "}
+              <em>find out what is still sitting in your pipeline.</em>
             </h2>
           </div>
           <div className="product-copy">
             <p>
-              Tell us about your unsold replacement estimates, how your records
-              are stored and who would handle renewed homeowner interest.
+              Tell us about your unsold replacement estimates. We’ll review the
+              backlog, assess whether it looks suitable for recovery, and
+              outline what a focused 25–50 estimate pilot could look like.
             </p>
-            <p>
-              We’ll review whether a focused recovery pilot is a fit and discuss
-              the scope and commercial terms.
-            </p>
-            <Button href={pilotHref}>Discuss a Recovery Pilot</Button>
+            <Button href={pilotHref}>
+              Request a Free Estimate Recovery Audit
+            </Button>
             <p className="fine-print">
-              Submitting a request starts a conversation. It does not commit you
-              to a pilot.
+              No commitment. If the backlog isn’t a fit, we’ll tell you.
             </p>
           </div>
         </div>

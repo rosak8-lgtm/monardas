@@ -63,7 +63,7 @@ test("successful form delivery is announced and duplicate submissions are blocke
   await page.locator("#industry").selectOption("HVAC");
   await page.locator("#volume").selectOption("50–100");
   await page
-    .getByRole("button", { name: "Request a Revenue Recovery Audit" })
+    .getByRole("button", { name: "Request a Free Estimate Recovery Audit" })
     .click();
   await expect.poll(() => submissions).toBe(1);
   await expect(page.locator(".form-submit")).toBeDisabled();

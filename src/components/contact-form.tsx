@@ -45,7 +45,7 @@ export function ContactForm({
       setState("success");
       setMessage(
         hvacPilot
-          ? "We’ll review the information you provided and contact you to discuss your estimate backlog and whether a focused 25–50 estimate pilot makes sense."
+          ? "We’ll review the information you provided and contact you about whether your estimate backlog looks suitable for a focused recovery pilot."
           : "Thanks — we’ll review your revenue recovery opportunities and get back to you shortly.",
       );
     } catch {
@@ -94,10 +94,10 @@ export function ContactForm({
       )}
       <h2>
         {hvacPilot
-          ? "Request a Revenue Recovery Audit"
+          ? "Request a Free Estimate Recovery Audit"
           : foundingPartner
-            ? "Apply as a Founding Partner."
-            : "Let’s look at your pipeline."}
+            ? "Discuss a Founder-led Recovery Pilot"
+            : "Request a Free Estimate Recovery Audit"}
       </h2>
       <p>
         {hvacPilot
@@ -216,7 +216,7 @@ export function ContactForm({
             maxLength={3000}
             defaultValue={
               foundingPartner
-                ? "I’d like to apply as an HVAC Founding Partner."
+                ? "I’d like to discuss an HVAC Recovery Pilot."
                 : ""
             }
             placeholder={
@@ -249,7 +249,7 @@ export function ContactForm({
           ? "Sending…"
           : state === "success"
             ? "Request received"
-            : "Request a Revenue Recovery Audit"}
+            : "Request a Free Estimate Recovery Audit"}
         <ArrowUpRight size={18} />
       </button>
       <div aria-live="polite" aria-atomic="true" role="status">
@@ -259,7 +259,7 @@ export function ContactForm({
             <span>
               <strong>
                 {hvacPilot
-                  ? "Thanks — your request has been received."
+                  ? "Thanks — your audit request has been received."
                   : "Request received."}
               </strong>{" "}
               {message}

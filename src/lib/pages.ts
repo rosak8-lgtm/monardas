@@ -2,12 +2,12 @@ export const commercialPages = {
   ai: {
     title: "MONARDAS AI — Revenue Recovery Systems",
     description:
-      "Revenue-recovery systems for home-service businesses with existing demand. Identify missed opportunities, qualify buying intent and return it to your team. Starting with HVAC.",
+      "Focused revenue-recovery systems around existing demand. Our first commercial workflow re-engages unsold HVAC replacement estimates and returns conversations to your sales team.",
   },
   hvac: {
-    title: "HVAC Unsold Replacement Estimate Recovery",
+    title: "HVAC Unsold Estimate Recovery",
     description:
-      "Recover opportunities from unsold HVAC replacement estimates. Start with a revenue recovery audit and a founder-led managed pilot of 25–50 estimates.",
+      "MONARDAS helps HVAC contractors re-engage unsold replacement estimates and return interested homeowners to their sales team through a focused recovery pilot.",
   },
   roofing: {
     title: "Roofing Unsold Estimate Recovery",
@@ -17,7 +17,7 @@ export const commercialPages = {
   "current-focus": {
     title: "Current Focus — HVAC Revenue Recovery",
     description:
-      "HVAC is the first commercial focus of MONARDAS AI. Explore missed call recovery, unsold replacement estimate recovery and the founding partner program.",
+      "Our first commercial workflow: unsold replacement estimate recovery for U.S. HVAC contractors. Structured founder-led follow-up and human sales handoff through a focused paid pilot.",
   },
 };
 
@@ -54,7 +54,7 @@ export const pages: Record<string, { title: string; description: string }> = {
       "The MONARDAS operating thesis: specific industries, repeatable workflows and measurable economic outcomes.",
   },
   founder: {
-    title: "Yurii Shalygin — Founder of MONARDAS",
+    title: "Iurii Shalygin — Founder of MONARDAS",
     description:
       "Entrepreneur, system builder and owner. The operating philosophy behind MONARDAS.",
   },

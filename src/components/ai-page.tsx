@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Button, Eyebrow, SectionHeading } from "./site";
 import {
   ProductFounder,
@@ -13,16 +12,18 @@ export function AIPage() {
         <Eyebrow>MONARDAS AI</Eyebrow>
         <h1>
           Recover revenue from opportunities{" "}
-          <em>you already paid to generate.</em>
+          <em>you&apos;ve already paid to generate.</em>
         </h1>
         <p>
-          MONARDAS AI builds revenue-recovery systems for home-service
-          businesses — identifying missed opportunities, re-engaging qualified
-          prospects and returning buying intent to your team.
+          MONARDAS AI builds focused revenue-recovery systems around gaps in
+          existing demand. Our first workflow re-engages unsold HVAC replacement
+          estimates and returns interested homeowners to your sales team.
         </p>
         <div className="button-row">
           <Button href="/hvac">Explore HVAC Revenue Recovery</Button>
-          <Button secondary>Request a Revenue Recovery Audit</Button>
+          <Button href="/contact?intent=hvac-pilot" secondary>
+            Request a Free Estimate Recovery Audit
+          </Button>
         </div>
         <ul className="product-promises">
           <li>No more leads required.</li>
@@ -33,7 +34,7 @@ export function AIPage() {
       <section className="dark section">
         <div className="container split">
           <SectionHeading
-            label="The platform / From friction to system"
+            label="Revenue recovery systems / From friction to system"
             title="One operating sequence. A measurable outcome."
             description="The system supports follow-up. Your team owns the customer relationship, the advice and the sale."
           />
@@ -42,16 +43,18 @@ export function AIPage() {
       </section>
       <section className="container section split">
         <div className="product-copy">
-          <Eyebrow>First commercial vertical / HVAC</Eyebrow>
+          <Eyebrow>First commercial workflow / HVAC</Eyebrow>
           <h2>
             Existing demand.
             <br />
             <em>Unfinished conversations.</em>
           </h2>
           <p>
-            Missed calls and unsold replacement estimates are the starting
-            point. Build a focused workflow around the gaps, then measure what
-            comes back to the team.
+            HVAC Unsold Replacement Estimate Recovery starts with quotes your
+            team has already prepared. A founder-led managed pilot follows up on
+            a selected batch and hands renewed conversations back to you. We
+            start narrow, evaluate the economics and operating process, then
+            decide what is worth automating or expanding.
           </p>
           <Button href="/hvac">Explore HVAC Revenue Recovery</Button>
         </div>
@@ -60,33 +63,31 @@ export function AIPage() {
             <article>
               <span>01</span>
               <div>
-                <h3>Missed Call Recovery</h3>
+                <h3>Unsold Estimate Recovery</h3>
                 <p>
-                  Respond quickly when the team cannot answer. Qualify the need
-                  and make a clear human handoff.
+                  Start with 25–50 replacement estimates. Agree on messaging,
+                  eligible contacts and the sales handoff before outreach.
                 </p>
               </div>
             </article>
             <article>
               <span>02</span>
               <div>
-                <h3>Unsold Estimate Recovery</h3>
+                <h3>Human sales handoff</h3>
                 <p>
-                  Restart quiet replacement conversations and surface intent
-                  that still needs a salesperson.
+                  Your team receives the homeowner’s response and estimate
+                  context. You handle advice, pricing and closing.
                 </p>
               </div>
             </article>
           </div>
           <div className="handoff-note">
-            <Eyebrow>Future vertical / Roofing</Eyebrow>
+            <Eyebrow>Future direction</Eyebrow>
             <p>
-              The same principles can apply to dormant roofing estimates. HVAC
-              is our first go-to-market focus.
+              Additional revenue-recovery workflows may follow after the first
+              workflow is proven. Missed-call recovery remains a future
+              possibility, outside the current pilot.
             </p>
-            <Link className="text-link" href="/roofing">
-              Explore the roofing direction ↗
-            </Link>
           </div>
         </div>
       </section>

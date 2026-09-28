@@ -73,7 +73,7 @@ export function Footer({ product = false }: { product?: boolean }) {
             <Logo />
             <p>
               {product
-                ? "Revenue systems for businesses with existing demand. A MONARDAS company built on intelligence, systems and ownership."
+                ? "Helping HVAC contractors recover revenue from unsold replacement estimates they’ve already paid to generate."
                 : "We build systems and businesses designed to compound value through technology, distribution and ownership."}
             </p>
           </div>
@@ -98,6 +98,10 @@ export function Footer({ product = false }: { product?: boolean }) {
             <Link href="/terms">Terms</Link>
           </div>
         </div>
+        <p className="footer-identity">
+          MONARDAS is operated by Iurii Shalygin in Georgia. Business inquiries:{" "}
+          <a href="mailto:yurii@monardas.com">yurii@monardas.com</a>
+        </p>
       </div>
     </footer>
   );
@@ -158,7 +162,9 @@ export function FinalCTA() {
           </em>
         </h2>
         <div>
-          <Button>Request a Revenue Recovery Audit</Button>
+          <Button href="/contact?intent=hvac-pilot">
+            Request a Free Estimate Recovery Audit
+          </Button>
           <p>A focused conversation. A practical next step.</p>
         </div>
       </div>

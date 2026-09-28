@@ -3,11 +3,11 @@ import { test, expect } from "@playwright/test";
 const routes = ["/", "/ai", "/hvac", "/roofing", "/current-focus"];
 const headings: Record<string, RegExp> = {
   "/": /Intelligence\.Systems\.Ownership\./,
-  "/ai": /Recover revenue from opportunities you already paid to generate\./,
+  "/ai": /Recover revenue from opportunities you've already paid to generate\./,
   "/hvac":
     /Recover revenue from HVAC estimates you've already paid to generate\./,
   "/roofing": /Roofing UnsoldEstimate Recovery\./,
-  "/current-focus": /HVAC revenue recovery\.Our first commercial focus\./,
+  "/current-focus": /HVAC estimate recovery\.Our first commercial workflow\./,
 };
 
 test("commercial routes return HTML on direct and refresh-equivalent requests for both hosts", async ({
@@ -55,7 +55,21 @@ for (const route of routes) {
   });
 }
 
-test("holding to AI to HVAC and secondary roofing use client navigation", async ({
+test("AI positioning stays focused on unsold replacement recovery", async ({
+  page,
+}) => {
+  for (const route of ["/ai", "/current-focus"]) {
+    await page.goto(route);
+    await expect(page.locator("main")).toContainText(
+      /unsold replacement estimate/i,
+    );
+    await expect(
+      page.getByRole("heading", { name: "Missed Call Recovery", exact: true }),
+    ).toHaveCount(0);
+  }
+});
+
+test("holding, AI and current focus use client navigation", async ({
   page,
 }) => {
   await page.goto("/");
@@ -64,11 +78,6 @@ test("holding to AI to HVAC and secondary roofing use client navigation", async 
   });
   await page
     .locator("main")
-    .getByRole("link", { name: "Explore MONARDAS AI", exact: true })
-    .first()
-    .click();
-  await expect(page).toHaveURL("/ai");
-  await page
     .getByRole("link", { name: "Explore HVAC Revenue Recovery", exact: true })
     .first()
     .click();
@@ -82,22 +91,24 @@ test("holding to AI to HVAC and secondary roofing use client navigation", async 
   await expect(page).toHaveURL("/");
   await expect(page.locator(".header-cta")).toHaveAttribute(
     "href",
-    "/current-focus",
+    "/contact?intent=hvac-pilot",
+  );
+  await expect(page.locator(".header-cta")).toHaveText(
+    "Request a Free Estimate Recovery Audit",
   );
   await page.locator(".header-cta").click();
-  await expect(page).toHaveURL("/current-focus");
+  await expect(page).toHaveURL("/contact?intent=hvac-pilot");
+  await page.goto("/current-focus");
   await page
-    .locator("main")
-    .getByRole("link", { name: "Explore MONARDAS AI", exact: true })
+    .getByRole("link", { name: "Explore HVAC Revenue Recovery", exact: true })
     .click();
+  await expect(page).toHaveURL("/hvac");
+  await page.goto("/ai");
   await page
-    .getByRole("link", { name: "Explore the roofing direction" })
+    .getByRole("link", { name: "Explore HVAC Revenue Recovery", exact: true })
+    .first()
     .click();
-  await expect(page).toHaveURL("/roofing");
-  await expect(page.locator("html")).toHaveAttribute(
-    "data-navigation-check",
-    "retained",
-  );
+  await expect(page).toHaveURL("/hvac");
   expect((await page.reload())?.status()).toBe(200);
 });
 
@@ -111,7 +122,7 @@ test("founder pilot CTA preserves HVAC intent in the form", async ({
     .click();
   await expect(page).toHaveURL(/\/contact\?intent=hvac-pilot$/);
   await expect(page.locator(".contact-form h2")).toHaveText(
-    "Request a Revenue Recovery Audit",
+    "Request a Free Estimate Recovery Audit",
   );
   await expect(page.locator("#companyWebsite")).toBeVisible();
   await expect(page.locator('input[name="intent"]')).toHaveValue("hvac-pilot");
