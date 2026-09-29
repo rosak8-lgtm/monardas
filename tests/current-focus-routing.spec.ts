@@ -100,7 +100,7 @@ test("holding, AI and current focus use client navigation", async ({
     "/contact?intent=hvac-pilot",
   );
   await expect(page.locator(".header-cta")).toHaveText(
-    "Get a Free Estimate Recovery Audit",
+    "Get a Free Estimate Recovery Assessment",
   );
   await page.locator(".header-cta").click();
   await expect(page).toHaveURL("/contact?intent=hvac-pilot");
@@ -128,7 +128,7 @@ test("founder pilot CTA preserves HVAC intent in the form", async ({
     .click();
   await expect(page).toHaveURL(/\/contact\?intent=hvac-pilot$/);
   await expect(page.locator(".contact-form h2")).toHaveText(
-    "Get a Free Estimate Recovery Audit",
+    "Get a Free Estimate Recovery Assessment",
   );
   await expect(page.locator("#companyWebsite")).toBeVisible();
   await expect(page.locator('input[name="intent"]')).toHaveValue("hvac-pilot");

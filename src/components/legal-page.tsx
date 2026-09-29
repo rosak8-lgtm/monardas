@@ -11,7 +11,7 @@ const privacy = [
   ],
   [
     "Information you provide",
-    "The audit form requires your name, company and work email. Website, phone number, CRM/FSM or export format and notes are optional. Please do not submit homeowner lists, passwords, payment details or sensitive personal information through this form.",
+    "The assessment form requires your name, company and work email. Website, phone number, CRM/FSM or export format and notes are optional. Please do not submit homeowner lists, passwords, payment details or sensitive personal information through this form.",
   ],
   [
     "How the form uses your information",
@@ -27,7 +27,7 @@ const privacy = [
   ],
   [
     "Website measurement",
-    "A small first-party script records HVAC page views, audit-link clicks and contact-form views. The server also records successful HVAC inquiry acceptance after the email provider accepts a message; this is not a count of sales or confirmed mailbox deliveries. Event records contain the event name and page path, without form contents, campaign values or unique visitor identifiers. These events are stored in the existing Cloudflare request-log infrastructure, which also processes technical request metadata. Browser measurement and source storage are skipped when Do Not Track or Global Privacy Control is detected; server success events are skipped when those request headers are present.",
+    "A small first-party script records HVAC page views, assessment-link clicks and contact-form views. The server also records successful HVAC inquiry acceptance after the email provider accepts a message; this is not a count of sales or confirmed mailbox deliveries. Event records contain the event name and page path, without form contents, campaign values or unique visitor identifiers. These events are stored in the existing Cloudflare request-log infrastructure, which also processes technical request metadata. Browser measurement and source storage are skipped when Do Not Track or Global Privacy Control is detected; server success events are skipped when those request headers are present.",
   ],
   [
     "Access and retention",

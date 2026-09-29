@@ -21,10 +21,12 @@ FastSpring and 2Checkout acceptance has not been established. Do not describe th
 
 ## Minimal funnel measurement
 
+The public offer is a Free Estimate Recovery Assessment. `hvac_audit_cta_click` and `hvac_audit_submit_success` remain legacy internal identifiers for event continuity. The existing `#audit` anchors, `audit-contact` CSS class and `RecoveryAudit` component name are also retained for compatibility; they are not commercial labels.
+
 No new provider, database or Cloudflare binding. Existing Workers Logs receive JSON records with `type=monardas_funnel`, event and page path only:
 
 - `hvac_page_view`
-- `hvac_audit_cta_click` (HVAC links to the pilot audit form, including deeper pilot CTAs)
+- `hvac_audit_cta_click` (HVAC links to the pilot assessment form, including deeper pilot CTAs)
 - `contact_form_view`
 - `hvac_audit_submit_success` (server-side, only after Resend acceptance, not mailbox delivery)
 

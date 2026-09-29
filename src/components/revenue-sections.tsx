@@ -86,12 +86,12 @@ export function RecoveryAudit() {
       <div className="container split">
         <div className="product-copy">
           <SectionHeading
-            label="Revenue Recovery Audit"
+            label="Revenue Recovery Assessment"
             title="Find where revenue is leaking before buying more traffic."
             description="A focused review of what happens to qualified opportunities after they enter your business."
           />
           <Button href="/contact?intent=hvac-pilot">
-            Get a Free Estimate Recovery Audit
+            Get a Free Estimate Recovery Assessment
           </Button>
           <p className="fine-print">
             Diagnosis first. We identify whether there is revenue worth
@@ -140,7 +140,7 @@ export function RevenueCTA() {
             lost in the demand you already have.
           </p>
           <Button href="/contact?intent=hvac-pilot">
-            Get a Free Estimate Recovery Audit
+            Get a Free Estimate Recovery Assessment
           </Button>
           <p className="fine-print">
             Free initial review. No commitment. We assess your estimate backlog

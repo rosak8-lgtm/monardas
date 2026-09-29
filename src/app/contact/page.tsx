@@ -3,7 +3,7 @@ import { Check, ArrowUpRight } from "lucide-react";
 import { Eyebrow } from "@/components/site";
 import { ContactForm } from "@/components/contact-form";
 export const metadata = pageMetadata(
-  "Get a Free Estimate Recovery Audit",
+  "Get a Free Estimate Recovery Assessment",
   "Request a free review of your unsold HVAC replacement estimates. Assess backlog fit before discussing a focused paid recovery pilot. No commitment.",
   "/contact",
 );
@@ -19,7 +19,7 @@ export default async function Contact({
       <section className="container contact-page hvac-pilot-contact">
         <div className="contact-copy">
           <Eyebrow>MONARDAS AI / HVAC estimate recovery</Eyebrow>
-          <h1>Get a Free Estimate Recovery Audit</h1>
+          <h1>Get a Free Estimate Recovery Assessment</h1>
           <p>
             Tell us about your current estimate backlog. We’ll review whether
             the records appear suitable for a focused HVAC recovery pilot.
@@ -64,7 +64,7 @@ export default async function Contact({
     <section className="container contact-page audit-contact">
       <div className="contact-copy">
         <Eyebrow>MONARDAS / Estimate recovery</Eyebrow>
-        <h1>Get a Free Estimate Recovery Audit</h1>
+        <h1>Get a Free Estimate Recovery Assessment</h1>
         <p>
           Tell us about your current estimate backlog. We’ll review whether the
           records appear suitable for a focused HVAC recovery pilot.

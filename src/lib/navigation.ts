@@ -22,7 +22,7 @@ export const productGroups = {
     ["Strategy", "/strategy"],
   ],
   "Next step": [
-    ["Get a Free Estimate Recovery Audit", "/contact?intent=hvac-pilot"],
+    ["Get a Free Estimate Recovery Assessment", "/contact?intent=hvac-pilot"],
     ["Founder-led Recovery Pilot", "/hvac#founding-partners"],
   ],
 };
