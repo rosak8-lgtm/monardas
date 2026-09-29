@@ -122,7 +122,7 @@ export default function Home() {
               replacement estimates they’ve already paid to generate.
             </p>
             <Button href="/contact?intent=hvac-pilot">
-              Get a Free Estimate Recovery Audit
+              Get a Free Estimate Recovery Assessment
             </Button>
           </div>
           <div className="focus-index">

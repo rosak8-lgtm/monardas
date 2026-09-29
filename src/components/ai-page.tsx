@@ -22,7 +22,7 @@ export function AIPage() {
         <div className="button-row">
           <Button href="/hvac">Explore HVAC Revenue Recovery</Button>
           <Button href="/contact?intent=hvac-pilot" secondary>
-            Get a Free Estimate Recovery Audit
+            Get a Free Estimate Recovery Assessment
           </Button>
         </div>
         <ul className="product-promises">

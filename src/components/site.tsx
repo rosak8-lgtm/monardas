@@ -164,7 +164,7 @@ export function FinalCTA() {
         </h2>
         <div>
           <Button href="/contact?intent=hvac-pilot">
-            Get a Free Estimate Recovery Audit
+            Get a Free Estimate Recovery Assessment
           </Button>
           <p>A focused conversation. A practical next step.</p>
         </div>
@@ -279,7 +279,7 @@ export function PricingCards() {
           <h3>{t}</h3>
           <p>{d}</p>
           <Button href="/contact?intent=hvac-pilot" secondary>
-            Get a Free Estimate Recovery Audit
+            Get a Free Estimate Recovery Assessment
           </Button>
         </article>
       ))}

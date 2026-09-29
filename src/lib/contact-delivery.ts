@@ -42,8 +42,8 @@ export function createResendPayload(
 ) {
   const pilot = data.intent === "hvac-pilot";
   const title = pilot
-    ? "MONARDAS HVAC Revenue Recovery Audit"
-    : "MONARDAS Revenue Recovery Audit";
+    ? "MONARDAS HVAC Revenue Recovery Assessment"
+    : "MONARDAS Revenue Recovery Assessment";
   const fields = [
     ...(pilot
       ? [

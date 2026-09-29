@@ -74,7 +74,7 @@ export function ContactForm({
       <h2>
         {foundingPartner
           ? "Discuss a Founder-led Recovery Pilot"
-          : "Get a Free Estimate Recovery Audit"}
+          : "Get a Free Estimate Recovery Assessment"}
       </h2>
       <p>
         Start with your name, company and work email. All other fields are
@@ -161,7 +161,7 @@ export function ContactForm({
           ? "Sending…"
           : state === "success"
             ? "Request received"
-            : "Get a Free Estimate Recovery Audit"}
+            : "Get a Free Estimate Recovery Assessment"}
         <ArrowUpRight size={18} />
       </button>
       <noscript>
@@ -173,7 +173,7 @@ export function ContactForm({
           <p className="form-success">
             <Check size={18} />
             <span>
-              <strong>Thanks — your audit request has been received.</strong>{" "}
+              <strong>Thanks — your assessment request has been received.</strong>{" "}
               I’ll review your current estimate follow-up process and get back
               to you directly.
             </span>

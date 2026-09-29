@@ -7,7 +7,7 @@ export const commercialPages = {
   hvac: {
     title: "HVAC Unsold Estimate Recovery",
     description:
-      "Re-engage unsold HVAC replacement estimates with structured follow-up. A founder-led recovery pilot returns interested homeowners to your sales team. Start with a free audit.",
+      "Re-engage unsold HVAC replacement estimates with structured follow-up. A founder-led recovery pilot returns interested homeowners to your sales team. Start with a free assessment.",
   },
   roofing: {
     title: "Roofing Unsold Estimate Recovery",

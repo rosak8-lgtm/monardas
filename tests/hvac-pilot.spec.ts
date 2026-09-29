@@ -39,12 +39,12 @@ test("pilot validation and delivery preserve the company website and intent", ()
     from: "website@example.com",
   });
   expect(payload.subject).toBe(
-    "MONARDAS HVAC Revenue Recovery Audit — Test HVAC",
+    "MONARDAS HVAC Revenue Recovery Assessment — Test HVAC",
   );
   expect(payload.text).toContain("Free initial review");
   expect(payload.text).toContain("Company website: example.com");
   expect(payload.text).not.toContain("Monthly estimate volume");
-  expect(payload.html).toContain("MONARDAS HVAC Revenue Recovery Audit");
+  expect(payload.html).toContain("MONARDAS HVAC Revenue Recovery Assessment");
   const { intent: _intent, companyWebsite: _website, ...ordinary } = pilot;
   void _intent;
   void _website;
@@ -90,12 +90,12 @@ test("HVAC anchors, pilot form validation, failure and success", async ({
     "/contact?intent=hvac-pilot",
   );
   await expect(page.locator(".header-cta")).toHaveText(
-    "Get a Free Estimate Recovery Audit",
+    "Get a Free Estimate Recovery Assessment",
   );
   await expect(
     page
       .locator(".product-hero")
-      .getByRole("link", { name: "Get a Free Estimate Recovery Audit" }),
+      .getByRole("link", { name: "Get a Free Estimate Recovery Assessment" }),
   ).toHaveAttribute("href", "/contact?intent=hvac-pilot");
   await page
     .getByRole("link", { name: "See How It Works", exact: true })
@@ -149,7 +149,7 @@ test("HVAC anchors, pilot form validation, failure and success", async ({
   });
   await page.locator(".form-submit").click();
   await expect(page.getByRole("status")).toContainText(
-    "Thanks — your audit request has been received.",
+    "Thanks — your assessment request has been received.",
   );
   await expect(page.getByRole("status")).toContainText(
     "I’ll review your current estimate follow-up process and get back to you directly.",
@@ -162,7 +162,7 @@ test("HVAC anchors, pilot form validation, failure and success", async ({
   expect(attempts).toBe(2);
 });
 
-test("free audit entry explains the transition to a paid pilot on desktop and mobile", async ({
+test("free assessment entry explains the transition to a paid pilot on desktop and mobile", async ({
   page,
 }) => {
   for (const width of [390, 1440]) {
@@ -190,19 +190,19 @@ test("free audit entry explains the transition to a paid pilot on desktop and mo
     await page
       .locator(".product-hero")
       .getByRole("link", {
-        name: "Get a Free Estimate Recovery Audit",
+        name: "Get a Free Estimate Recovery Assessment",
         exact: true,
       })
       .click();
     await expect(page).toHaveURL(/intent=hvac-pilot$/);
     await expect(page.locator("h1")).toHaveText(
-      "Get a Free Estimate Recovery Audit",
+      "Get a Free Estimate Recovery Assessment",
     );
     await expect(page.locator(".hvac-pilot-contact")).toContainText(
       "The initial review is free. Submitting the form does not commit you to a paid engagement.",
     );
     await expect(page.locator(".form-submit")).toHaveText(
-      "Get a Free Estimate Recovery Audit",
+      "Get a Free Estimate Recovery Assessment",
     );
     await expect(
       page.getByLabel("CRM/FSM or export format (optional)"),

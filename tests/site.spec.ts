@@ -40,7 +40,7 @@ test("public routes, metadata, links, accessibility and browser errors", async (
       "/contact?intent=hvac-pilot",
     );
     await expect(page.locator(".header-cta")).toContainText(
-      "Get a Free Estimate Recovery Audit",
+      "Get a Free Estimate Recovery Assessment",
     );
     const title = await page.title();
     expect(titles.has(title), `Unique title for ${route}`).toBe(false);
@@ -184,7 +184,7 @@ test("form validation and honest delivery state", async ({ page, request }) => {
   );
   await page.goto("/contact");
   await page
-    .getByRole("button", { name: "Get a Free Estimate Recovery Audit" })
+    .getByRole("button", { name: "Get a Free Estimate Recovery Assessment" })
     .click();
   await expect(page.locator("#firstName")).toBeFocused();
   await expect(page.locator("#email-error")).toContainText("required");
@@ -193,14 +193,14 @@ test("form validation and honest delivery state", async ({ page, request }) => {
   await page.locator("#email").fill("invalid");
   await page.locator("#phone").fill("1234567890");
   await page
-    .getByRole("button", { name: "Get a Free Estimate Recovery Audit" })
+    .getByRole("button", { name: "Get a Free Estimate Recovery Assessment" })
     .click();
   await expect(page.locator("#email-error")).toContainText("valid email");
   await page.locator("#email").fill("test@example.com");
   await page.locator("#crm").fill("CSV export");
   const submitted = page.waitForResponse("/api/contact");
   await page
-    .getByRole("button", { name: "Get a Free Estimate Recovery Audit" })
+    .getByRole("button", { name: "Get a Free Estimate Recovery Assessment" })
     .click();
   const response = await submitted;
   expect(response.status()).toBe(503);

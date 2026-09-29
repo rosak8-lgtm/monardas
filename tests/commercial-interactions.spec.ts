@@ -65,7 +65,7 @@ test("successful form delivery is announced and duplicate submissions are blocke
   await page.locator("#email").fill("test@example.com");
   await page.locator("#phone").fill("1234567890");
   await page
-    .getByRole("button", { name: "Get a Free Estimate Recovery Audit" })
+    .getByRole("button", { name: "Get a Free Estimate Recovery Assessment" })
     .click();
   await expect.poll(() => submissions).toBe(1);
   await expect(page.locator(".form-submit")).toBeDisabled();
@@ -78,7 +78,7 @@ test("successful form delivery is announced and duplicate submissions are blocke
     );
   release();
   await expect(page.getByRole("status")).toContainText(
-    "Thanks — your audit request has been received.",
+    "Thanks — your assessment request has been received.",
   );
   await expect(page.getByRole("status")).toContainText(
     "I’ll review your current estimate follow-up process and get back to you directly.",

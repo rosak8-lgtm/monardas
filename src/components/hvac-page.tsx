@@ -77,7 +77,7 @@ export function HVACPage() {
           your pipeline.
         </p>
         <div className="button-row">
-          <Button href={pilotHref}>Get a Free Estimate Recovery Audit</Button>
+          <Button href={pilotHref}>Get a Free Estimate Recovery Assessment</Button>
           <Button href="#system" secondary>
             See How It Works
           </Button>
@@ -189,7 +189,7 @@ export function HVACPage() {
           </p>
         </div>
         <p className="hvac-fit-note">
-          No commitment from the initial audit. If the backlog isn’t a fit,
+          No commitment from the initial assessment. If the backlog isn’t a fit,
           we’ll tell you.
         </p>
       </section>
@@ -262,7 +262,7 @@ export function HVACPage() {
             </aside>
           </div>
           <div className="hvac-process-cta">
-            <Button href={pilotHref}>Get a Free Estimate Recovery Audit</Button>
+            <Button href={pilotHref}>Get a Free Estimate Recovery Assessment</Button>
           </div>
         </div>
       </section>
@@ -410,7 +410,7 @@ export function HVACPage() {
               backlog, assess whether it looks suitable for recovery, and
               outline what a focused 25–50 estimate pilot could look like.
             </p>
-            <Button href={pilotHref}>Get a Free Estimate Recovery Audit</Button>
+            <Button href={pilotHref}>Get a Free Estimate Recovery Assessment</Button>
             <p className="fine-print">
               No commitment. If the backlog isn’t a fit, we’ll tell you.
             </p>

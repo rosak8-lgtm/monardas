@@ -34,7 +34,7 @@ test("attribution strips unknown fields, credentials and URL query data", () => 
   ).toEqual({});
 });
 
-test("minimal audit API payload reaches mocked Resend with optional fields and attribution", async () => {
+test("minimal assessment API payload reaches mocked Resend with optional fields and attribution", async () => {
   const calls: Record<string, unknown>[] = [];
   const events: unknown[][] = [];
   let status = 200;
@@ -111,7 +111,7 @@ test("minimal audit API payload reaches mocked Resend with optional fields and a
     from: "MONARDAS Leads <website@send.monardas.com>",
     to: "yurii@monardas.com",
     reply_to: "owner@example.com",
-    subject: "MONARDAS HVAC Revenue Recovery Audit — Test HVAC",
+    subject: "MONARDAS HVAC Revenue Recovery Assessment — Test HVAC",
   });
   expect(calls[0].text).toContain("utm_source: google");
   expect(calls[0].text).toContain("Company website: Not provided");
@@ -174,7 +174,7 @@ test("minimal form carries campaign context across navigation and survives analy
     .toBe(true);
   await page
     .locator(".product-hero")
-    .getByRole("link", { name: "Get a Free Estimate Recovery Audit" })
+    .getByRole("link", { name: "Get a Free Estimate Recovery Assessment" })
     .click();
   await expect
     .poll(() => events.some((e) => e.event === "contact_form_view"))
