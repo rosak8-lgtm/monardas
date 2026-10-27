@@ -38,6 +38,18 @@ const privacy = [
     "An inquiry becomes an email record rather than an account in this website. Copies may remain in the lead inbox and email delivery records; closing the page does not delete those copies. Contact yurii@monardas.com to ask about information you submitted, request a correction or deletion, or ask us to stop following up. Do not send sensitive identity documents with your initial request.",
   ],
   [
+    "MONARDAS Cashflow — Google account data",
+    "Separately from website contact forms, MONARDAS Cashflow is a private operator-only business outreach and reply-monitoring application. Its Oracle-hosted Google OAuth connection requests Gmail read-only access. It examines relevant sent and received message metadata, sender and recipient addresses, Gmail labels, message and conversation identifiers, and timestamps to associate incoming replies with prior business inquiries. It does not send, delete or modify emails using this read-only authorization.",
+  ],
+  [
+    "Cashflow records, notifications and service providers",
+    "Access-controlled MONARDAS server databases may hold business contact addresses, company names, Gmail message and thread identifiers, and reply-detection and notification timestamps. The authorized operator may receive Telegram notifications containing a company name, sender address and detection time. Google provides the underlying Gmail service; MONARDAS hosting infrastructure and Telegram process the information necessary to provide these functions. Separate outreach workflows may use separately authorized services; this read-only Gmail integration does not submit job applications.",
+  ],
+  [
+    "Cashflow access, permitted use and deletion",
+    "MONARDAS Cashflow is intended only for the operator's own business account and is not available for public Gmail registration. Access to the operational records and OAuth credentials is restricted. Google account data accessed through this integration is not sold, used for advertising, or used to train generalized AI models. Records are retained only as reasonably needed for outreach tracking, duplicate prevention, troubleshooting and applicable obligations; no fixed automatic deletion period is presently promised. The account owner may revoke app access through Google Account security settings. For a review or deletion request concerning retained operational records, contact yurii@monardas.com. Revoking access does not by itself delete server-side records.",
+  ],
+  [
     "Changes",
     "Changes to this website’s information handling will be reflected in this policy. Review this page before submitting new information.",
   ],
