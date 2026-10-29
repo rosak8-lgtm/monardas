@@ -18,3 +18,7 @@ Potential scope: payload validation, data transformation and duplicate preventio
 Direct business inquiry: **rosak8@gmail.com**. For leads originating on an online freelance marketplace, use that platform's authorized communications and contracting flow.
 
 No public credentials, real customer data, or unverified performance/customer claims are included in these samples.
+
+## Importable n8n workflow sample
+
+- [Webhook validation workflow JSON](https://github.com/rosak8-lgtm/monardas-python-webhook-demo/tree/main/n8n-webhook-demo): designed for n8n import, validating email and request ID with a JSON response. **Static structure reviewed; not executed in n8n runtime.** Not production-ready, no customer or paid-client claim.
