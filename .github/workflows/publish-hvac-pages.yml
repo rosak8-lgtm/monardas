@@ -1,0 +1,49 @@
+name: Publish MONARDAS HVAC landing
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/hvac/**'
+      - '.github/workflows/publish-hvac-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: monardas-hvac-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Prepare isolated static page
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -s docs/hvac/index.html
+          mkdir -p _site/hvac
+          cp docs/hvac/index.html _site/hvac/index.html
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=./hvac/"><title>MONARDAS HVAC</title></head><body><p><a href="./hvac/">Open MONARDAS HVAC</a></p></body></html>
+          HTML
+          touch _site/.nojekyll
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload only the static landing
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
