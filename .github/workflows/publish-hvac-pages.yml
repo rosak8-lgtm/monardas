@@ -40,8 +40,6 @@ jobs:
           touch _site/.nojekyll
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - name: Upload only the static landing
         uses: actions/upload-pages-artifact@v4
         with:
