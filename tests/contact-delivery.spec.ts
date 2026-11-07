@@ -100,3 +100,31 @@ test("user content is escaped in the Resend HTML body", () => {
   expect(payload.html).toContain("&lt;img src=x onerror=alert(1)&gt;");
   expect(payload.html).not.toContain("<img src=x");
 });
+
+test("optional backup recipient is a private Bcc, not a second send", () => {
+  const data = {
+    firstName: "Internal QA",
+    lastName: "",
+    company: "MONARDAS INTERNAL TEST",
+    email: "qa@example.com",
+    phone: "",
+    industry: "HVAC",
+    volume: "",
+    crm: "",
+    message: "",
+    website: "",
+  };
+  const config = {
+    to: "yurii@monardas.com",
+    from: "MONARDAS Leads <website@send.monardas.com>",
+    backupTo: "backup@example.com",
+  };
+  expect(isValidRuntimeContactConfig(config)).toBe(true);
+  const payload = createResendPayload(data, config);
+  expect(payload.to).toBe("yurii@monardas.com");
+  expect(payload.bcc).toEqual(["backup@example.com"]);
+  expect(payload.reply_to).toBe("qa@example.com");
+  expect("bcc" in createResendPayload(data, { to: config.to, from: config.from })).toBe(false);
+  expect("bcc" in createResendPayload(data, { ...config, backupTo: "YURII@MONARDAS.COM" })).toBe(false);
+  expect(isValidRuntimeContactConfig({ ...config, backupTo: "invalid address" })).toBe(false);
+});
