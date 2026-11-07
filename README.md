@@ -86,6 +86,20 @@ The last amount is an upper-bound scenario assuming **every reopened opportunity
 
 The endpoint validates input and sends accepted submissions to Resend. It returns success only after Resend accepts the email, and returns a generic 5xx response when delivery configuration or the provider is unavailable. It does not log personal details or expose provider errors. The API key remains a Cloudflare secret; the non-secret recipient and sender variables are kept in `wrangler.jsonc` for deployment consistency.
 
+### Optional backup copy for contact inquiries
+
+The site previously accepted form inquiries through Resend but a verified test message was not found in the primary Lark mailbox. To avoid depending on a single receiving mailbox, the contact handler now supports **optional** `CONTACT_BACKUP_TO` as a Cloudflare Worker **secret**.
+
+- Without the secret, behavior is unchanged: one Resend request to `CONTACT_TO`.
+- With a valid backup address, the same Resend request includes the backup address in **Bcc**; the primary To and original applicant Reply-To remain unchanged.
+- The same address (case-insensitive) is not copied twice. Invalid, empty or non-string configured backup values make the form fail closed with HTTP 503 instead of silently ignoring the intended backup.
+- Do not hardcode an operator's private Gmail address in `wrangler.jsonc`, commit it, or send that address to a third party. Both recipients must be operator-controlled inboxes permitted to receive prospective-client data.
+- A 201 response means Resend accepted the send, **not** that either inbox received it. Check the specific test email's recipient-level delivery events and one mailbox receipt before considering the channel proven. Do not repeat a failed test blindly.
+- This does not change the separate outbound HVAC sender, marketing suppression, D1, or existing Cloudflare assets.
+
+**Deployment sequence:** build/test and publish the reviewed code first. Then add the `CONTACT_BACKUP_TO` secret to the `monardas` Worker under Cloudflare Dashboard → Workers & Pages → monardas → Settings → Variables and Secrets, and deploy the setting. Alternatively use Wrangler's versioned secret workflow; note that `wrangler secret put` creates **and deploys** a new Worker version immediately. Keep the original `RESEND_API_KEY` and `CONTACT_TO` bindings unchanged. After enabling the backup, submit only one labeled internal test from the website and check the backup mailbox.
+
+
 ## Deployment gates
 
 1. Set `NEXT_PUBLIC_SITE_URL` to the confirmed HTTPS corporate origin **before building**. Without it, canonicals are omitted, the sitemap is empty and social-image URLs use the explicit local development origin. No public domain is guessed.

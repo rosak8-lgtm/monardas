@@ -3,6 +3,7 @@ import { validate, type ContactData } from "@/lib/contact";
 import {
   createResendPayload,
   isValidRuntimeContactConfig,
+  isValidContactTo,
 } from "@/lib/contact-delivery";
 import { env as workerEnv } from "cloudflare:workers";
 import { sanitizeAttribution } from "@/lib/attribution";
@@ -11,7 +12,7 @@ import { logFunnelEvent } from "@/lib/funnel";
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
 function readRuntimeValueExactly(
-  name: "RESEND_API_KEY" | "CONTACT_TO" | "CONTACT_FROM",
+  name: "RESEND_API_KEY" | "CONTACT_TO" | "CONTACT_FROM" | "CONTACT_BACKUP_TO",
 ) {
   return (
     (workerEnv as Record<string, unknown>)[name] ??
@@ -118,10 +119,13 @@ export async function POST(request: Request) {
     const apiKey = readRuntimeValueExactly("RESEND_API_KEY");
     const to = readRuntimeValueExactly("CONTACT_TO");
     const from = readRuntimeValueExactly("CONTACT_FROM");
+    const backupTo = readRuntimeValueExactly("CONTACT_BACKUP_TO");
     if (
       typeof apiKey !== "string" ||
       typeof to !== "string" ||
       typeof from !== "string" ||
+      (backupTo !== undefined &&
+        (typeof backupTo !== "string" || !isValidContactTo(backupTo))) ||
       !isValidRuntimeContactConfig({ to, from })
     )
       return NextResponse.json(
@@ -132,7 +136,11 @@ export async function POST(request: Request) {
         { status: 503 },
       );
     data.attribution = sanitizeAttribution(values.attribution);
-    const lead = createResendPayload(data, { to, from });
+    const lead = createResendPayload(data, {
+      to,
+      from,
+      ...(typeof backupTo === "string" ? { backupTo } : {}),
+    });
     const resend = await fetch(RESEND_ENDPOINT, {
       method: "POST",
       headers: {
