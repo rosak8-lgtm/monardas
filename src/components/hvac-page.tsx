@@ -81,6 +81,9 @@ export function HVACPage() {
           <Button href="#system" secondary>
             See How It Works
           </Button>
+          <Button href="/hvac/demo" secondary>
+            View Interactive Demo
+          </Button>
         </div>
         <p className="fine-print">
           <strong>Free initial review. No commitment to a paid pilot.</strong>
