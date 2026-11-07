@@ -4,6 +4,10 @@ import { Calculator } from "./calculator";
 const pilotHref = "/contact?intent=hvac-pilot";
 const faqs = [
   [
+    "Is the interactive demo really free?",
+    "Yes. Explore 30 fictional HVAC estimates without an account or credit card. The demo does not connect to your CRM, contact homeowners, or send messages. A managed pilot with real records is a separate paid service.",
+  ],
+  [
     "Will this annoy old customers?",
     "We can’t promise how every homeowner will react. You review the messaging, follow-up sequence and exclusions before launch. The aim is to ask whether revisiting the estimate is relevant, not pressure someone to buy.",
   ],
@@ -77,19 +81,20 @@ export function HVACPage() {
           your pipeline.
         </p>
         <div className="button-row">
-          <Button href={pilotHref}>Get a Free Estimate Recovery Assessment</Button>
+          <Button href="/hvac/demo">Try Free Interactive Demo</Button>
+          <Button href={pilotHref} secondary>
+            Request a Free Assessment
+          </Button>
           <Button href="#system" secondary>
             See How It Works
           </Button>
-          <Button href="/hvac/demo" secondary>
-            View Interactive Demo
-          </Button>
         </div>
         <p className="fine-print">
-          <strong>Free initial review. No commitment to a paid pilot.</strong>
+          <strong>Explore the demo free — no sign-up or credit card.</strong>
           <br />
-          For U.S. residential HVAC contractors. We review backlog fit before
-          discussing scope.
+          The demo uses fictional estimates and never contacts homeowners. A
+          free initial assessment is available; real customer outreach requires
+          an agreed, separately paid pilot.
         </p>
         <ul className="hvac-hero-baseline">
           <li>25–50 estimates</li>
