@@ -76,7 +76,10 @@ export default function Home() {
               paid to generate.
             </p>
             <div className="button-row">
-              <Button href="/hvac">Explore HVAC Revenue Recovery</Button>
+              <Button href="/hvac/demo">Try Free HVAC Demo</Button>
+              <Button href="/hvac" secondary>
+                Explore HVAC Revenue Recovery
+              </Button>
               <Button href="#architecture" secondary>
                 Explore MONARDAS
               </Button>
