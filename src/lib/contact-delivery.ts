@@ -4,6 +4,7 @@ import { sanitizeAttribution } from "./attribution";
 export type RuntimeContactConfig = {
   to: string;
   from: string;
+  backupTo?: string;
 };
 
 const email = "[^\\s<>@]+@[^\\s<>@]+\\.[^\\s<>@]+";
@@ -19,7 +20,11 @@ export function isValidContactFrom(value: string) {
 }
 
 export function isValidRuntimeContactConfig(config: RuntimeContactConfig) {
-  return isValidContactTo(config.to) && isValidContactFrom(config.from);
+  return (
+    isValidContactTo(config.to) &&
+    isValidContactFrom(config.from) &&
+    (config.backupTo === undefined || isValidContactTo(config.backupTo))
+  );
 }
 
 export function escapeHtml(value: string) {
@@ -84,6 +89,10 @@ export function createResendPayload(
   return {
     from: config.from,
     to: config.to,
+    ...(config.backupTo &&
+    config.backupTo.toLowerCase() !== config.to.toLowerCase()
+      ? { bcc: [config.backupTo] }
+      : {}),
     reply_to: data.email,
     subject: `${title} — ${data.company}`,
     text,
