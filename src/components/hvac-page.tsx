@@ -49,7 +49,7 @@ const faqs = [
   ],
   [
     "How much does the pilot cost?",
-    "The initial review is free. The pilot is paid. Pricing is agreed after we review the scope.",
+    "The initial review is free. A founder-led 25–50 estimate pilot typically costs $300–$500, depending on record quality and scope. Final terms are confirmed in writing before any homeowner outreach begins. No response or sale is guaranteed.",
   ],
   [
     "How long does the pilot run?",
@@ -102,6 +102,10 @@ export function HVACPage() {
           <li>No CRM migration required</li>
           <li>Your sales team closes</li>
         </ul>
+        <p className="fine-print">
+          Paid pilot: typically $300–$500 for 25–50 suitable estimates.
+          Final scope and price are agreed in writing before work begins.
+        </p>
       </section>
       <section className="dark section">
         <div className="container split">
@@ -192,8 +196,8 @@ export function HVACPage() {
         <div className="hvac-pilot-next">
           <Button href={pilotHref}>Discuss a Recovery Pilot</Button>
           <p className="fine-print">
-            The initial review is free. The pilot is paid. Pricing is agreed
-            after we review the scope.
+            The initial review is free. A 25–50 estimate pilot typically costs
+            $300–$500. Final scope and price are agreed in writing first.
           </p>
         </div>
         <p className="hvac-fit-note">
