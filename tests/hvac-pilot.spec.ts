@@ -80,6 +80,9 @@ test("HVAC anchors, pilot form validation, failure and success", async ({
   await expect(page.locator(".product-hero")).toContainText(
     "Free initial review. No commitment to a paid pilot.",
   );
+  await expect(page.locator(".product-hero")).toContainText(
+    "Paid pilot: typically $300–$500 for 25–50 suitable estimates.",
+  );
   await expect(page.locator("#system .hvac-sequence > li")).toHaveCount(5);
   await expect(page.locator("#system .hvac-handoff")).toContainText(
     "Illustrative example only. Not a customer case study or recorded result.",
