@@ -1,0 +1,65 @@
+name: HVAC pilot pricing release QA
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/hvac-pilot-pricing-qa.yml"
+      - "src/components/hvac-page.tsx"
+      - "tests/hvac-pilot.spec.ts"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hvac-offer-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install pinned dependencies
+        run: npm ci --ignore-scripts
+      - name: Typecheck and production build
+        run: npm run build
+      - name: ESLint
+        run: npm run lint
+      - name: Install Microsoft Edge for existing Playwright config
+        run: npx playwright install --with-deps msedge
+      - name: Start isolated local Next server and run HVAC offer E2E
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          npm run start -- --hostname 127.0.0.1 --port 3000 > /tmp/monardas-ci-next.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for i in $(seq 1 70); do
+            if curl --silent --fail http://127.0.0.1:3000/hvac >/dev/null; then
+              ready=1
+              break
+            fi
+            sleep 2
+          done
+          if [ "$ready" -ne 1 ]; then
+            echo "STOP: LOCAL_NEXT_NOT_READY"
+            tail -n 40 /tmp/monardas-ci-next.log
+            exit 1
+          fi
+          npx playwright test tests/hvac-pilot.spec.ts
+      - name: Upload test artifacts on failure only
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hvac-pilot-qa-failure
+          path: |
+            test-results
+            qa-reports/hvac-next-step
+          if-no-files-found: ignore
