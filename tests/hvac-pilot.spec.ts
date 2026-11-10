@@ -78,7 +78,10 @@ test("HVAC anchors, pilot form validation, failure and success", async ({
   ]);
   await expect(page.locator(".hvac-page > section")).toHaveCount(10);
   await expect(page.locator(".product-hero")).toContainText(
-    "Free initial review. No commitment to a paid pilot.",
+    "Explore the demo free — no sign-up or credit card.",
+  );
+  await expect(page.locator(".product-hero")).toContainText(
+    "Paid pilot: typically $300–$500 for 25–50 suitable estimates.",
   );
   await expect(page.locator("#system .hvac-sequence > li")).toHaveCount(5);
   await expect(page.locator("#system .hvac-handoff")).toContainText(
@@ -95,7 +98,7 @@ test("HVAC anchors, pilot form validation, failure and success", async ({
   await expect(
     page
       .locator(".product-hero")
-      .getByRole("link", { name: "Get a Free Estimate Recovery Assessment" }),
+      .getByRole("link", { name: "Request a Free Assessment" }),
   ).toHaveAttribute("href", "/contact?intent=hvac-pilot");
   await page
     .getByRole("link", { name: "See How It Works", exact: true })
@@ -190,7 +193,7 @@ test("free assessment entry explains the transition to a paid pilot on desktop a
     await page
       .locator(".product-hero")
       .getByRole("link", {
-        name: "Get a Free Estimate Recovery Assessment",
+        name: "Request a Free Assessment",
         exact: true,
       })
       .click();
