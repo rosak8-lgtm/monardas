@@ -1,5 +1,6 @@
 import type { ContactData } from "./contact";
 import { sanitizeAttribution } from "./attribution";
+import { classifyInboundLead } from "./lead-triage";
 
 export type RuntimeContactConfig = {
   to: string;
@@ -49,7 +50,16 @@ export function createResendPayload(
   const title = pilot
     ? "MONARDAS HVAC Revenue Recovery Assessment"
     : "MONARDAS Revenue Recovery Assessment";
+  const triage = classifyInboundLead(data);
   const fields = [
+    ...(pilot ? [
+      ["Manager action", triage.action],
+      ["Estimate band", triage.estimateBand],
+      ["Missing for initial review", triage.missing.length ? triage.missing.join(", ") : "None identified"],
+      ["Marketing consent", triage.marketingConsent],
+      ["Duplicate check", triage.duplicateCheck],
+      ["Outbound authorization", "NOT AUTHORIZED — reply only after manager review"],
+    ] : []),
     ...(pilot
       ? [
           [
