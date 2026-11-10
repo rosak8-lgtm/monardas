@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { validate, type ContactData } from "../src/lib/contact";
 import { createResendPayload } from "../src/lib/contact-delivery";
+import { classifyInboundLead } from "../src/lib/lead-triage";
 
 const pilot: ContactData = {
   intent: "hvac-pilot",
@@ -271,4 +272,49 @@ test("direct entry to HVAC anchors lands on the target", async ({ page }) => {
     await page.goto("/hvac#" + anchor);
     await expect(page.locator("#" + anchor)).toBeInViewport();
   }
+});
+
+test("inbound triage adds safe manager checklist without authorizing outbound", () => {
+  const lead = { ...pilot, volume: "35", crm: "ServiceTitan" };
+  const triage = classifyInboundLead(lead);
+  expect(triage.intent).toBe("hvac-pilot");
+  expect(triage.estimateBand).toBe("25_to_50");
+  expect(triage.marketingConsent).toBe("NOT_ESTABLISHED");
+  expect(triage.duplicateCheck).toBe("NOT_RUN");
+  expect(triage.sendAuthorization).toBe(false);
+  expect(triage.missing).toEqual([]);
+  const message = createResendPayload(lead, {
+    to: "manager@example.com",
+    from: "website@example.com",
+  });
+  expect(message.text).toContain("Manager action: MANAGER_REVIEW_FREE_ASSESSMENT");
+  expect(message.text).toContain("Estimate band: 25_to_50");
+  expect(message.text).toContain("Marketing consent: NOT_ESTABLISHED");
+  expect(message.text).toContain("Duplicate check: NOT_RUN");
+  expect(message.text).toContain("Outbound authorization: NOT AUTHORIZED");
+  expect(message.html).toContain("MANAGER_REVIEW_FREE_ASSESSMENT");
+  expect(message).not.toHaveProperty("marketing_send");
+});
+
+test("inbound triage handles missing inputs and escapes message HTML", () => {
+  const lead = { ...pilot, volume: "", crm: "", companyWebsite: "", message: "<script>alert(1)</script>" };
+  const triage = classifyInboundLead(lead);
+  expect(triage.estimateBand).toBe("unknown");
+  expect(triage.missing).toContain("Unsold estimate count");
+  expect(triage.missing).toContain("CRM / export format");
+  const message = createResendPayload(lead, {
+    to: "manager@example.com",
+    from: "website@example.com",
+  });
+  expect(message.html).not.toContain("<script>");
+  expect(message.html).toContain("&lt;script&gt;");
+});
+
+test("non-pilot form does not receive extra pilot workflow fields", () => {
+  const ordinary = { ...pilot, intent: undefined };
+  const message = createResendPayload(ordinary, {
+    to: "manager@example.com",
+    from: "website@example.com",
+  });
+  expect(message.text).not.toContain("Manager action:");
 });
