@@ -12,6 +12,7 @@ export type ContactData = {
   attribution?: Attribution;
   intent?: "hvac-pilot";
   companyWebsite?: string;
+  marketingOptIn?: boolean;
   firstName: string;
   lastName: string;
   company: string;

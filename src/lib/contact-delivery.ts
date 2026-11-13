@@ -75,6 +75,7 @@ export function createResendPayload(
     ],
     ["CRM / FSM", data.crm || "Not provided"],
     ["Message", data.message || "Not provided"],
+    ["Marketing updates requested (UNVERIFIED)", data.marketingOptIn ? "YES — email confirmation required" : "NO"],
     ...Object.entries(sanitizeAttribution(data.attribution)).map(
       ([key, value]) => [key, value],
     ),

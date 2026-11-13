@@ -8,6 +8,7 @@ import {
 import { env as workerEnv } from "cloudflare:workers";
 import { sanitizeAttribution } from "@/lib/attribution";
 import { logFunnelEvent } from "@/lib/funnel";
+import { makeMarketingToken } from "@/lib/marketing-optin";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
@@ -105,6 +106,12 @@ export async function POST(request: Request) {
         );
       data[key] = (values[key] as string).trim();
     }
+    if (values.marketingOptIn !== undefined && typeof values.marketingOptIn !== "boolean")
+      return NextResponse.json({ error: "Invalid marketing preference." }, { status: 400 });
+    data.marketingOptIn = values.marketingOptIn === true;
+    // Only first-party form interactions can trigger a verification message.
+    if (data.marketingOptIn && origin !== expectedOrigin)
+      return NextResponse.json({ error: "Marketing opt-in requires a same-origin form." }, { status: 403 });
     if (data.website)
       return NextResponse.json(
         { error: "Unable to accept this submission." },
@@ -158,6 +165,27 @@ export async function POST(request: Request) {
         { status: 502 },
       );
     const result = (await resend.json()) as { id?: string };
+    let marketingConfirmationSent = false;
+    if (data.intent === "hvac-pilot" && data.marketingOptIn) {
+      try {
+        const token = await makeMarketingToken(data.email, data.firstName, apiKey);
+        const confirm = new URL("https://monardas.com/api/marketing/confirm");
+        confirm.searchParams.set("token", token);
+        const verification = await fetch(RESEND_ENDPOINT, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            from: "MONARDAS <website@send.monardas.com>",
+            to: [data.email],
+            subject: "Confirm your MONARDAS HVAC email updates",
+            text: `You requested optional MONARDAS HVAC sales-recovery updates.\n\nTo confirm that you control this address and want the emails, open:\n${confirm.toString()}\n\nThe link expires in 48 hours. If you did not request updates, ignore this email. No subscription has been created.\n\nMONARDAS | yurii@monardas.com`,
+          }),
+        });
+        marketingConfirmationSent = verification.ok;
+      } catch {
+        marketingConfirmationSent = false;
+      }
+    }
     if (
       data.intent === "hvac-pilot" &&
       request.headers.get("dnt") !== "1" &&
@@ -169,6 +197,7 @@ export async function POST(request: Request) {
         message:
           "Thanks — your request was sent successfully. We’ll be in touch soon.",
         id: result.id ?? crypto.randomUUID(),
+        marketing_confirmation_sent: marketingConfirmationSent,
       },
       { status: 201 },
     );

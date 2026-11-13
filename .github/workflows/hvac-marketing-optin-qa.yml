@@ -1,0 +1,27 @@
+name: Verify HVAC marketing opt-in
+on:
+  push:
+    branches:
+      - feature/hvac-verified-optin-20261113
+  pull_request:
+    paths:
+      - "src/components/contact-form.tsx"
+      - "src/lib/contact.ts"
+      - "src/lib/contact-delivery.ts"
+      - "src/lib/marketing-optin.ts"
+      - "src/app/api/contact/route.ts"
+      - "src/app/api/marketing/confirm/route.ts"
+      - ".github/workflows/hvac-marketing-optin-qa.yml"
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm run lint
