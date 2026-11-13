@@ -1,5 +1,6 @@
 import { Button, Eyebrow, SectionHeading } from "./site";
 import { Calculator } from "./calculator";
+import { MONARDAS_HVAC_WHATSAPP_URL } from "@/lib/whatsapp";
 
 const pilotHref = "/contact?intent=hvac-pilot";
 const faqs = [
@@ -87,6 +88,9 @@ export function HVACPage() {
           </Button>
           <Button href="#system" secondary>
             See How It Works
+          </Button>
+          <Button href={MONARDAS_HVAC_WHATSAPP_URL} secondary>
+            Chat with MONARDAS on WhatsApp
           </Button>
         </div>
         <p className="fine-print">
@@ -271,6 +275,13 @@ export function HVACPage() {
           </div>
           <div className="hvac-process-cta">
             <Button href={pilotHref}>Get a Free Estimate Recovery Assessment</Button>
+            <p className="fine-print">
+              Prefer a quick question?{" "}
+              <a href={MONARDAS_HVAC_WHATSAPP_URL}>
+                Start a WhatsApp conversation with MONARDAS
+              </a>
+              . You choose whether to send the message.
+            </p>
           </div>
         </div>
       </section>

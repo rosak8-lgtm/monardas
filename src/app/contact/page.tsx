@@ -1,6 +1,7 @@
 import { pageMetadata } from "@/lib/seo";
 import { Check, ArrowUpRight } from "lucide-react";
-import { Eyebrow } from "@/components/site";
+import { Button, Eyebrow } from "@/components/site";
+import { MONARDAS_HVAC_WHATSAPP_URL } from "@/lib/whatsapp";
 import { ContactForm } from "@/components/contact-form";
 export const metadata = pageMetadata(
   "Get a Free Estimate Recovery Assessment",
@@ -56,6 +57,9 @@ export default async function Contact({
               after we review the scope.
             </p>
           </div>
+          <Button href={MONARDAS_HVAC_WHATSAPP_URL} secondary>
+            Ask on WhatsApp
+          </Button>
         </div>
         <ContactForm />
       </section>
@@ -94,6 +98,9 @@ export default async function Contact({
             pricing is agreed after the scope review.
           </p>
         </div>
+        <Button href={MONARDAS_HVAC_WHATSAPP_URL} secondary>
+          Ask on WhatsApp
+        </Button>
       </div>
       <ContactForm foundingPartner={foundingPartner} />
     </section>
