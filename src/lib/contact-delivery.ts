@@ -66,6 +66,8 @@ export function createResendPayload(
       : []),
     ["Email", data.email],
     ["Phone", data.phone],
+    ["Preferred reply channel", data.preferredChannel || "email"],
+    ["Telegram username", data.preferredChannel === "telegram" ? data.telegramHandle || "" : "Not requested"],
     ["Industry", data.industry],
     [
       pilot
