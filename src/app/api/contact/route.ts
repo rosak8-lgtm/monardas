@@ -75,6 +75,8 @@ export async function POST(request: Request) {
       "crm",
       "message",
       "website",
+      "preferredChannel",
+      "telegramHandle",
     ] as const;
     const data = {} as ContactData;
     if (values.intent === "hvac-pilot") {
@@ -105,6 +107,8 @@ export async function POST(request: Request) {
         );
       data[key] = (values[key] as string).trim();
     }
+    if (data.preferredChannel && !["email", "whatsapp", "telegram"].includes(data.preferredChannel))
+      return NextResponse.json({ error: "Invalid reply channel." }, { status: 400 });
     if (data.website)
       return NextResponse.json(
         { error: "Unable to accept this submission." },
