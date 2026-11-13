@@ -26,6 +26,7 @@ export function ContactForm({
     () => false,
   );
   const [errors, setErrors] = useState<Errors>({});
+  const [marketingNotice, setMarketingNotice] = useState<"none" | "sent" | "failed">("none");
   const [state, setState] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
   );
@@ -33,9 +34,9 @@ export function ContactForm({
     event.preventDefault();
     if (submissionLocked.current) return;
     const form = event.currentTarget;
-    const data = Object.fromEntries(
-      new FormData(form),
-    ) as unknown as ContactData;
+    const submitted = new FormData(form);
+    const data = Object.fromEntries(submitted) as unknown as ContactData;
+    data.marketingOptIn = submitted.get("marketingOptIn") === "yes";
     const found = validate(data);
     setErrors(found);
     if (Object.keys(found).length) {
@@ -53,6 +54,10 @@ export function ContactForm({
         body: JSON.stringify(data),
       });
       if (!response.ok) throw new Error("delivery-failed");
+      const result = (await response.json()) as { marketing_confirmation_sent?: boolean };
+      setMarketingNotice(data.marketingOptIn
+        ? result.marketing_confirmation_sent ? "sent" : "failed"
+        : "none");
       setState("success");
     } catch {
       submissionLocked.current = false;
@@ -146,6 +151,22 @@ export function ContactForm({
           )}
         </div>
       </div>
+      <div className="full-field">
+        <label htmlFor="marketingOptIn">
+          <input
+            type="checkbox"
+            id="marketingOptIn"
+            name="marketingOptIn"
+            value="yes"
+          />{" "}
+          Optional: I agree to receive occasional MONARDAS HVAC sales-recovery
+          updates and offers by email. I can unsubscribe at any time.
+        </label>
+        <p className="form-note">
+          Not required for the free assessment. We send an email verification
+          link before enrolling you in marketing updates.
+        </p>
+      </div>
       <div className="honeypot" aria-hidden="true">
         <label htmlFor="website">
           Website
@@ -178,6 +199,12 @@ export function ContactForm({
               to you directly.
             </span>
           </p>
+        )}
+        {state === "success" && marketingNotice === "sent" && (
+          <p className="form-note">Check your inbox for a separate marketing opt-in confirmation link.</p>
+        )}
+        {state === "success" && marketingNotice === "failed" && (
+          <p className="form-note">The assessment was received, but we could not send the optional marketing confirmation. You are not subscribed.</p>
         )}
         {state === "error" && (
           <p className="field-error">
