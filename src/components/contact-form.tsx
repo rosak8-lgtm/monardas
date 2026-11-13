@@ -146,6 +146,41 @@ export function ContactForm({
           )}
         </div>
       </div>
+      <fieldset className="full-field">
+        <legend>How would you like MONARDAS to reply?</legend>
+        <label htmlFor="preferredChannel">Preferred reply channel</label>
+        <select id="preferredChannel" name="preferredChannel" defaultValue="email">
+          <option value="email">Email (default)</option>
+          <option value="whatsapp">WhatsApp — reply to the phone number above</option>
+          <option value="telegram">Telegram — reply to the username below</option>
+        </select>
+        <label htmlFor="telegramHandle">Telegram username (only if you selected Telegram)</label>
+        <input
+          id="telegramHandle"
+          name="telegramHandle"
+          type="text"
+          placeholder="@your_username"
+          maxLength={33}
+          autoComplete="off"
+          aria-invalid={!!errors.telegramHandle}
+          aria-describedby={errors.telegramHandle ? "telegramHandle-error" : undefined}
+        />
+        {errors.telegramHandle && (
+          <span className="field-error" id="telegramHandle-error">
+            {errors.telegramHandle}
+          </span>
+        )}
+        {errors.preferredChannel && (
+          <span className="field-error" id="preferredChannel-error">
+            {errors.preferredChannel}
+          </span>
+        )}
+        <p className="form-note">
+          Your selection asks us to reply to this enquiry using your chosen
+          channel. It is not a subscription to marketing messages. WhatsApp
+          requires a phone number; Telegram requires a public username.
+        </p>
+      </fieldset>
       <div className="honeypot" aria-hidden="true">
         <label htmlFor="website">
           Website
