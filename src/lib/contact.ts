@@ -12,6 +12,8 @@ export type ContactData = {
   attribution?: Attribution;
   intent?: "hvac-pilot";
   companyWebsite?: string;
+  preferredChannel?: "email" | "whatsapp" | "telegram";
+  telegramHandle?: string;
   firstName: string;
   lastName: string;
   company: string;
@@ -33,6 +35,18 @@ export function validate(data: ContactData): Errors {
   }
   if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
     errors.email = "Enter a valid email address.";
+  if (
+    data.preferredChannel &&
+    !["email", "whatsapp", "telegram"].includes(data.preferredChannel)
+  )
+    errors.preferredChannel = "Select a valid reply channel.";
+  if (data.preferredChannel === "whatsapp" && !data.phone?.trim())
+    errors.phone = "Enter a phone number if you want a WhatsApp reply.";
+  if (data.preferredChannel === "telegram") {
+    const handle = data.telegramHandle?.trim() || "";
+    if (!/^@?[a-zA-Z][a-zA-Z0-9_]{4,31}$/.test(handle))
+      errors.telegramHandle = "Enter your Telegram username (5–32 characters).";
+  }
   if (
     data.phone &&
     (!/^\+?[\d\s().-]{7,25}$/.test(data.phone) ||
@@ -75,6 +89,7 @@ export function validate(data: ContactData): Errors {
     "email",
     "crm",
     "companyWebsite",
+    "telegramHandle",
   ] as const)
     if ((data[field]?.length ?? 0) > 200)
       errors[field] = "Use 200 characters or fewer.";
