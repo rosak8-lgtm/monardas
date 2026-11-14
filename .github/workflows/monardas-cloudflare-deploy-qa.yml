@@ -1,0 +1,56 @@
+name: MONARDAS Cloudflare Deploy QA
+
+on:
+  push:
+    branches:
+      - fix/cloudflare-direct-wrangler-20261114
+    paths:
+      - package.json
+      - wrangler.jsonc
+      - .github/workflows/monardas-cloudflare-deploy-qa.yml
+  pull_request:
+    paths:
+      - package.json
+      - wrangler.jsonc
+      - .github/workflows/monardas-cloudflare-deploy-qa.yml
+
+permissions:
+  contents: read
+
+jobs:
+  worker-predeploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Static quality gates
+        run: |
+          npx --no-install tsc --noEmit
+          npm run lint
+      - name: Build existing Worker bundle
+        run: npm run build:vinext
+      - name: Verify production Worker and inbound bindings
+        run: |
+          node --input-type=module -e '
+            import fs from "node:fs";
+            import path from "node:path";
+            const p = "dist/server/wrangler.json";
+            const c = JSON.parse(fs.readFileSync(p, "utf8"));
+            if (c.name !== "monardas") throw new Error("WRONG_WORKER");
+            if (c.vars?.CONTACT_TO !== "yurii@monardas.com") throw new Error("WRONG_CONTACT_TO");
+            if (!String(c.vars?.CONTACT_FROM || "").includes("website@send.monardas.com")) throw new Error("WRONG_CONTACT_FROM");
+            if (!c.main || !fs.existsSync(path.resolve(path.dirname(p), c.main))) throw new Error("MISSING_BUILT_ENTRY");
+            if (!c.assets?.directory || !fs.existsSync(path.resolve(path.dirname(p), c.assets.directory))) throw new Error("MISSING_ASSETS");
+            console.log("PRODUCTION_SCOPE_GUARD_PASS");
+          '
+      - name: Wrangler package compatibility dry run (no Cloudflare API calls)
+        run: |
+          npx --no-install wrangler deploy --config dist/server/wrangler.json --keep-vars --dry-run --outdir .wrangler/deploy-qa
+          test -d .wrangler/deploy-qa
+          echo "WRANGLER_DEPLOY_DRY_RUN_PASS"
