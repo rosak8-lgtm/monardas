@@ -2,12 +2,12 @@
 2026-11-14. Owner approved proactive recruiting. **No companies have yet confirmed participation.**
 
 ## Exact founder offer (not a general free subscription)
-- Maximum 2 independent US residential HVAC contractors; 7-calendar-day free assessment, up to 25 de-identified residential replacement quotes per shop.
+- Maximum 2 independent US residential HVAC contractors; 30-calendar-day free founder-supported follow-up program, up to 25 de-identified residential replacement quotes per shop.
 - No payment or credit card; first request needs only business name, name, work email and brief description.
 - First live conversation 15 minutes; owner may show a redacted list rather than exporting customer data; no homeowner personally identifying details or CRM credentials through website.
 - Review age, amount band, unsold status, previous owner/attempt, next due date and opt-out exclusions; create prioritized review list plus three **optional contractor-approved** follow-up templates.
-- Founder does NOT contact homeowners in the free phase. The shop chooses and performs any follow-up through its approved practices and policies.
-- At day seven, evaluate verified gaps and actual owner feedback. Offer a separately scoped **paid** managed pilot at proposed $300–500 only if fit is real. No guaranteed recovered revenue or assumed testimonial.
+- Founder supports prioritization, approved drafts, next-action coordination and weekly tracking for up to 25 eligible estimates. The contractor owns homeowner contact. MONARDAS outbound requires separate written authorization, legal/consent and suppression verification.
+- At day 30, evaluate verified gaps, customer-authorized follow-up actions, separately tracked replies, appointments and contractor-confirmed sales. Offer a separately scoped **paid** managed pilot at proposed $300–500 only if fit is real. No guaranteed recovered revenue or assumed testimonial.
 
 ## Research-backed direct needs (no confirmed volunteers)
 1. Spencer Home Services, Peabody MA — public job advert https://www.indeed.com/viewjob?jk=8f5c30619adc1602 for inside-sales / unsold estimates. Official contact https://spencerhomeservice.com/contact-us/. NEW research, not a vendor invitation. Qualified operations decision-maker and history checks needed before any outreach.
@@ -17,13 +17,13 @@
 5. Public HVAC owner discussion on estimate follow-up https://www.reddit.com/r/hvacpeople/comments/1xrztq3/how_are_you_guys_keeping_up_with_customers_with/ . Several participants objected to covert market research. Do not post or DM under false pretenses. Any commercial recruitment in community needs moderation/rules permission and clear disclosure.
 
 ## Commercial first message (only through approved corporate Oracle and verified relevant contact)
-Subject: Free seven-day audit for 25 unsold HVAC estimates
+Subject: Free 30-day follow-up support for 25 unsold HVAC estimates
 
 Hi [verified name],
 
-I noticed [verified public need / hiring role]. Rather than selling another CRM, MONARDAS is selecting two HVAC operators for a free, founder-led seven-day check of up to 25 open residential replacement estimates.
+I noticed [verified public need / hiring role]. Rather than selling another CRM, MONARDAS is selecting two HVAC operators for a free, founder-supported 30-day follow-up program of up to 25 open residential replacement estimates.
 
-We would review only anonymized status, amount band, quote age and follow-up ownership. You receive a prioritized action list plus optional follow-up templates for your own team. No contract, card, customer-list upload or homeowner outreach by us.
+We would review only anonymized status, amount band, quote age and follow-up ownership. You receive a prioritized action list, contractor-approved follow-up drafts, weekly check-ins and a final report for your team. No card, automatic billing, customer-list upload or independent homeowner outreach by us.
 
 Would a 15-minute chat to check fit be useful? After launch, details: https://monardas.com/hvac/free-pilot
 
