@@ -31,8 +31,8 @@ test("free founder landing explains scope and boundaries", async ({page}) => {
   await expect(page.getByText("Up to two approved follow-up actions per eligible estimate.", { exact: false })).toBeVisible();
   await expect(page.getByText("It ends without automatic renewal", { exact: false })).not.toBeVisible();
   await expect(page.getByText("Your business stays in control.",{exact:false})).not.toBeVisible();
-  await page.getByText("Will you contact homeowners?").click();
-  await expect(page.getByText("No. The free validation pilot is a read-only review.",{exact:false})).toBeVisible();
+  await page.getByText("Who actually contacts homeowners?").click();
+  await expect(page.getByText("Your business stays in control.",{exact:false})).toBeVisible();
   await expect(page.locator("a[href^='/contact?intent=hvac-free-pilot']")).toHaveCount(2);
 });
 
