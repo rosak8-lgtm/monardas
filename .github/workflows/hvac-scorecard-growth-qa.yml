@@ -6,6 +6,7 @@ on:
       - growth/hvac-referral-scorecard-20261114
     paths:
       - "src/app/hvac/scorecard/**"
+      - "src/app/hvac/free-pilot/**"
       - "src/components/hvac-scorecard.tsx"
       - "src/components/contact-form.tsx"
       - "src/components/funnel-tracking.tsx"
@@ -17,11 +18,13 @@ on:
       - "src/lib/contact.ts"
       - "src/lib/contact-delivery.ts"
       - "tests/hvac-scorecard.spec.ts"
+      - "tests/hvac-founding.spec.ts"
       - "playwright.growth.config.ts"
       - ".github/workflows/hvac-scorecard-growth-qa.yml"
   pull_request:
     paths:
       - "src/app/hvac/scorecard/**"
+      - "src/app/hvac/free-pilot/**"
       - "src/components/hvac-scorecard.tsx"
       - "src/components/contact-form.tsx"
       - "src/components/funnel-tracking.tsx"
@@ -33,6 +36,7 @@ on:
       - "src/lib/contact.ts"
       - "src/lib/contact-delivery.ts"
       - "tests/hvac-scorecard.spec.ts"
+      - "tests/hvac-founding.spec.ts"
       - "playwright.growth.config.ts"
       - ".github/workflows/hvac-scorecard-growth-qa.yml"
 permissions:
