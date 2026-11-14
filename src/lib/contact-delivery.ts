@@ -47,21 +47,26 @@ export function createResendPayload(
 ) {
   const pilot = data.intent === "hvac-pilot";
   const partner = data.intent === "agency-partner";
-  const title = partner
-    ? "MONARDAS HVAC Agency Partnership Inquiry"
+  const freePilot = data.intent === "hvac-free-pilot";
+  const title = freePilot
+    ? "MONARDAS HVAC FREE Founding Pilot Application"
+    : partner
+      ? "MONARDAS HVAC Agency Partnership Inquiry"
     : pilot
       ? "MONARDAS HVAC Revenue Recovery Assessment"
       : "MONARDAS Revenue Recovery Assessment";
   const fields = [
-    ...(partner
-      ? [["Request", "HVAC marketing agency or consultant: exploring a referral or co-service partnership."]]
+    ...(freePilot
+      ? [["Request", "Apply for a no-cost 7-day founder-led audit of up to 25 anonymized unsold HVAC replacement estimates. No homeowner outreach. No purchase commitment."]]
+      : partner
+        ? [["Request", "HVAC marketing agency or consultant: exploring a referral or co-service partnership."]]
       : pilot
         ? [["Request", "Free initial review of unsold replacement estimates; no commitment to a paid pilot."]]
         : []),
     ["First name", data.firstName],
     ["Last name", data.lastName],
     ["Company", data.company],
-    ...((pilot || partner)
+    ...((pilot || partner || freePilot)
       ? [["Company website", data.companyWebsite || "Not provided"]]
       : []),
     ["Email", data.email],
@@ -70,7 +75,7 @@ export function createResendPayload(
     ["Telegram username", data.preferredChannel === "telegram" ? data.telegramHandle || "" : "Not requested"],
     ["Industry", data.industry],
     [
-      pilot
+      (pilot || freePilot)
         ? "Approximate unsold replacement estimates"
         : "Monthly estimate volume",
       data.volume || "Not provided",
