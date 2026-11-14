@@ -62,5 +62,19 @@ test("free founder form is mobile ready and prevents invalid addresses",async ({
   await page.locator("#email").fill("not-an-email");
   await page.locator(".form-submit").click();
   await expect(page.locator("#email")).toBeFocused();
-  expect(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  const overflow = await page.evaluate(() => {
+    const limit = innerWidth;
+    return [...document.querySelectorAll("*")]
+      .map((element) => ({
+        tag: element.tagName.toLowerCase(),
+        cls: typeof element.className === "string" ? element.className : "",
+        text: (element.textContent || "").trim().slice(0, 65),
+        right: Math.round(element.getBoundingClientRect().right),
+        scrollWidth: (element as HTMLElement).scrollWidth,
+      }))
+      .filter((item) => item.right > limit + 1)
+      .slice(0, 12);
+  });
+  console.log("FREE_PILOT_MOBILE_OVERFLOW", JSON.stringify(overflow));
+  expect(overflow).toEqual([]);
 });
