@@ -59,7 +59,7 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     const values = body as Record<string, unknown>;
-    if (values.intent !== undefined && !["hvac-pilot", "agency-partner"].includes(values.intent as string))
+    if (values.intent !== undefined && !["hvac-pilot", "agency-partner", "hvac-free-pilot"].includes(values.intent as string))
       return NextResponse.json(
         { error: "Invalid request intent." },
         { status: 400 },
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
       "telegramHandle",
     ] as const;
     const data = {} as ContactData;
-    if (values.intent === "hvac-pilot" || values.intent === "agency-partner") {
+    if (values.intent === "hvac-pilot" || values.intent === "agency-partner" || values.intent === "hvac-free-pilot") {
       if (
         values.companyWebsite !== undefined &&
         typeof values.companyWebsite !== "string"
