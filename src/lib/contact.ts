@@ -10,7 +10,7 @@ export const industries = [
 export const volumes = ["Under 50", "50–100", "101–250", "251–500", "501+"];
 export type ContactData = {
   attribution?: Attribution;
-  intent?: "hvac-pilot" | "agency-partner";
+  intent?: "hvac-pilot" | "agency-partner" | "hvac-free-pilot";
   companyWebsite?: string;
   preferredChannel?: "email" | "whatsapp" | "telegram";
   telegramHandle?: string;
@@ -30,6 +30,7 @@ export function validate(data: ContactData): Errors {
   const errors: Errors = {};
   const pilot = data.intent === "hvac-pilot";
   const partner = data.intent === "agency-partner";
+  const freePilot = data.intent === "hvac-free-pilot";
   const required = ["firstName", "company", "email"] as const;
   for (const field of required) {
     if (!data[field]?.trim()) errors[field] = "This field is required.";
@@ -56,15 +57,15 @@ export function validate(data: ContactData): Errors {
     errors.phone = "Enter a valid phone number.";
   if (data.industry && !industries.includes(data.industry))
     errors.industry = "Select your industry.";
-  if (!pilot && data.volume && !volumes.includes(data.volume))
+  if (!pilot && !freePilot && data.volume && !volumes.includes(data.volume))
     errors.volume = "Select your estimate volume.";
   if (
-    pilot &&
+    (pilot || freePilot) &&
     data.volume &&
     (!/^\d+$/.test(data.volume) || Number(data.volume) > 1000000)
   )
     errors.volume = "Enter a whole number between 0 and 1,000,000.";
-  if ((pilot || partner) && data.companyWebsite) {
+  if ((pilot || partner || freePilot) && data.companyWebsite) {
     try {
       const url = new URL(
         /^https?:\/\//i.test(data.companyWebsite)
