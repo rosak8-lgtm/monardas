@@ -7,15 +7,15 @@ Live no-fee offer, owner confirmed: https://monardas.com/hvac/free-pilot . Up to
 - Fuse Service Network: official partnership form submitted per user on 2026-11-14. No provider receipt or reply yet; no duplicate form.
 - No pilot accepted, no owner call confirmed, no cash received.
 
-## Three NEW verified companies (none contacted in this turn)
+## Three Russian-speaking HVAC candidates — Oracle SMTP accepted 2026-11-14; DO NOT resend
 | Priority | Business and proof of Russian | Verified business email and data source | Contact gate |
 |---|---|---|---|
-| 1 | GRS Service HVAC Inc, Fair Oaks CA: licensed, residential system replacements. https://www.switchison.org/contractors/8314/grs-service-hvac-inc- lists Russian; https://grsserviceinc.com/about/ says founder owner is 'Alex' without confirmed family name. BBB lists Ruslan Gazizov as CFO; do not confuse roles. | get@grsserviceinc.com official site https://grsserviceinc.com/ | Gmail zero prior matches; HOLD Oracle ledger/suppression/business opt-out. |
-| 2 | MIHAS HVAC, Bay Area: owner-operated, offers replacement quotes. https://www.switchison.org/contractors/7303/mihas-hvac expressly lists Russian; https://mihashvac.com/ explains owner handles quotes personally. | mihashvac@gmail.com official site https://mihashvac.com/ (business recipient mailbox; company sender remains monardas.com) | Gmail zero prior; HOLD Oracle ledger/suppression/verify backlog size. |
-| 3 | FLO Heating & Air, LA: HVAC installations, Russian language on https://www.switchison.org/contractors/6053/flo-heating-air; official site https://floheatingandair.com/ | info@floheatingandair.com | Gmail zero prior; HOLD Oracle ledger/suppression, owner B2B routing. |
+| 1 | GRS Service HVAC Inc, Fair Oaks CA: licensed, residential system replacements. https://www.switchison.org/contractors/8314/grs-service-hvac-inc- lists Russian; https://grsserviceinc.com/about/ says founder owner is 'Alex' without confirmed family name. BBB lists Ruslan Gazizov as CFO; do not confuse roles. | get@grsserviceinc.com official site https://grsserviceinc.com/ | OCI SMTP_ACCEPTED_NOT_DELIVERED 14 Nov; NO RETRY. `MESSAGE_ID=<179466160403.3594612.3302430945535758504@send.monardas.com>`. |
+| 2 | MIHAS HVAC, Bay Area: owner-operated, offers replacement quotes. https://www.switchison.org/contractors/7303/mihas-hvac expressly lists Russian; https://mihashvac.com/ explains owner handles quotes personally. | mihashvac@gmail.com official site https://mihashvac.com/ (business recipient mailbox; company sender remains monardas.com) | OCI SMTP_ACCEPTED_NOT_DELIVERED 14 Nov; NO RETRY. `MESSAGE_ID=<179466161915.3594612.7790868504390499270@send.monardas.com>`. |
+| 3 | FLO Heating & Air, LA: HVAC installations, Russian language on https://www.switchison.org/contractors/6053/flo-heating-air; official site https://floheatingandair.com/ | info@floheatingandair.com | OCI SMTP_ACCEPTED_NOT_DELIVERED 14 Nov; NO RETRY. `MESSAGE_ID=<179466163418.3594612.9044428325804942262@send.monardas.com>`. |
 | Reserve | Arctic HVAC Solutions, Sacramento: official SMUD utility listing confirms Russian and residential HVAC https://www.smudcontractornetwork.org/contractor/arctic-hvac-solutions | arctichvacservice@gmail.com official utility listing | Hold: owner identity uncertain and Oracle ledger not verified. |
 
-## One-to-one drafts; NOT SENT
+## Archival original outreach copies — ALREADY SENT by Oracle; do not send again
 
 ### GRS
 To: get@grsserviceinc.com
@@ -45,4 +45,4 @@ MONARDAS предлагает двум небольшим подрядчикам
 MONARDAS, sales@send.monardas.com, Reply-To yurii@monardas.com
 
 ## Release / OCI gates
-These are researched prospects and prepared drafts; 0 messages sent to them as of this document. Before any live send, inspect Oracle CRM and outbound ledger, opt-out/suppression, email/domain dedup, recipient fit and caps. No bypassing 40 unapproved CRM rows. Prior Nov14 Oracle acceptances Ritmas, ServiceWand, HVAC Edge must never be retried. If no provider response + Message-ID, do not claim it was sent. No personal Gmail or Resend for new commercial outbound. Do not submit vendor outreach through homeowner appointment forms.
+These three unique recipient attempts were accepted by the corporate Oracle SMTP provider according to the owner's live server log: TARGETS=3, ELIGIBLE_UNATTEMPTED=3, OCI_LAST24H=7, CAP=90; `CYCLE_FINISHED_NEW_SMTP_ACCEPTED: 3`. These are NOT recipient inbox delivery, reading, reply, meeting, founder participation, or paid orders. **All three addresses must remain NO-RETRY / monitored for genuine replies or bounces**, regardless of automated-send schedule; do not reconstruct new attempts from the archived original messages. For any OTHER new B2B target, check OCI ledger/opt-out/suppression/business fit first. No bypassing 40 unapproved CRM rows. Prior Nov14 Oracle acceptances Ritmas, ServiceWand, HVAC Edge must never be retried. If no provider response + Message-ID, do not claim it was sent. No personal Gmail or Resend for new commercial outbound. Do not submit vendor outreach through homeowner appointment forms.
