@@ -2501,3 +2501,13 @@ textarea:focus-visible {
     font-size: clamp(25px, 7vw, 30px);
   }
 }
+
+.free-founder-contact .contact-form select,
+.free-founder-contact .contact-form input,
+.free-founder-contact .contact-form textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
