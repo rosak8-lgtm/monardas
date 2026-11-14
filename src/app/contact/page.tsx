@@ -16,25 +16,32 @@ export default async function Contact({
   const { intent } = await searchParams;
   const foundingPartner = intent === "founding-partner";
   const agencyPartner = intent === "agency-partner";
-  if (intent === "hvac-pilot" || agencyPartner)
+  const freePilot = intent === "hvac-free-pilot";
+  if (intent === "hvac-pilot" || agencyPartner || freePilot)
     return (
-      <section className="container contact-page hvac-pilot-contact">
+      <section className={"container contact-page hvac-pilot-contact" + (freePilot ? " free-founder-contact" : "")}>
         <div className="contact-copy">
-          <Eyebrow>{agencyPartner ? "MONARDAS / HVAC referral partners" : "MONARDAS AI / HVAC estimate recovery"}</Eyebrow>
-          <h1>{agencyPartner ? "Partner With MONARDAS" : "Get a Free Estimate Recovery Assessment"}</h1>
+          <Eyebrow>{freePilot ? "MONARDAS / FOUNDING HVAC CONTRACTORS" : agencyPartner ? "MONARDAS / HVAC referral partners" : "MONARDAS AI / HVAC estimate recovery"}</Eyebrow>
+          <h1>{freePilot ? "Apply for the Free 7-Day HVAC Pilot" : agencyPartner ? "Partner With MONARDAS" : "Get a Free Estimate Recovery Assessment"}</h1>
           <p>
-            {agencyPartner
-              ? "For HVAC marketing agencies, sales coaches and CRM consultants: discuss a referral or co-service introduction. MONARDAS focuses on reviewing open residential replacement estimates after the quote."
+            {freePilot
+              ? "We are inviting up to two independent US residential HVAC contractors for a no-cost, seven-day review of up to 25 anonymized unsold replacement estimates. Applying does not guarantee selection."
+              : agencyPartner
+                ? "For HVAC marketing agencies, sales coaches and CRM consultants: discuss a referral or co-service introduction. MONARDAS focuses on reviewing open residential replacement estimates after the quote."
               : "Tell us about your current estimate backlog. We’ll review whether the records appear suitable for a focused HVAC recovery pilot."}
           </p>
-          <p><strong>{agencyPartner
-            ? "No paid partnership, integration or commission is implied by submitting an enquiry."
+          <p><strong>{freePilot
+            ? "No card or commitment. Do not submit homeowner names, addresses, phone numbers, or account access. No homeowner outreach is included in this free pilot."
+            : agencyPartner
+              ? "No paid partnership, integration or commission is implied by submitting an enquiry."
             : "The initial review is free. Submitting the form does not commit you to a paid engagement."
           }</strong></p>
           <ul>
             {[
-              ...(agencyPartner
-                ? ["Share the free follow-up check with contractors", "Explore a qualified introduction", "Keep your clients and their sales team in control"]
+              ...(freePilot
+                ? ["Free seven-day follow-up process review", "No personal customer data for initial fit", "Receive a clear action plan; no obligation to buy"]
+                : agencyPartner
+                  ? ["Share the free follow-up check with contractors", "Explore a qualified introduction", "Keep your clients and their sales team in control"]
                 : ["Review your estimate backlog", "Assess whether a recovery pilot makes sense", "Keep your sales team in control"]),
             ].map((text) => (
               <li key={text}>
@@ -46,12 +53,16 @@ export default async function Contact({
           <div className="contact-next">
             <ArrowUpRight size={26} />
             <h3>What happens next</h3>
-            <p>{agencyPartner
-              ? "We will review the fit, decide together whether any introduction makes sense, and agree responsibilities before involving your clients."
+            <p>{freePilot
+              ? "We confirm fit first, then agree on a safe way to review a small de-identified estimate list. Your team owns any later homeowner contact."
+              : agencyPartner
+                ? "We will review the fit, decide together whether any introduction makes sense, and agree responsibilities before involving your clients."
               : "If the backlog looks suitable, we’ll discuss pilot scope, responsibilities, timing and commercial terms. Messaging, contact method, exclusions and sales handoff are agreed before homeowner outreach begins."}
             </p>
-            <p>{agencyPartner
-              ? "No client information or homeowner contact lists are required for this first conversation."
+            <p>{freePilot
+              ? "A paid managed pilot is a separate optional agreement. We do not promise recovered revenue or request testimonials without consent."
+              : agencyPartner
+                ? "No client information or homeowner contact lists are required for this first conversation."
               : "The initial review is free. The pilot is paid. Pricing is agreed after we review the scope."}
             </p>
           </div>
@@ -59,7 +70,7 @@ export default async function Contact({
             Ask on WhatsApp
           </Button>
         </div>
-        <ContactForm agencyPartner={agencyPartner} />
+        <ContactForm agencyPartner={agencyPartner} freePilot={freePilot} />
       </section>
     );
   return (
