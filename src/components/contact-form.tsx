@@ -17,9 +17,11 @@ const fields = [
 export function ContactForm({
   foundingPartner = false,
   agencyPartner = false,
+  freePilot = false,
 }: {
   foundingPartner?: boolean;
   agencyPartner?: boolean;
+  freePilot?: boolean;
 }) {
   const submissionLocked = useRef(false);
   const ready = useSyncExternalStore(
@@ -69,20 +71,24 @@ export function ContactForm({
       action="/api/contact"
       noValidate
     >
-      <input type="hidden" name="intent" value={agencyPartner ? "agency-partner" : "hvac-pilot"} />
+      <input type="hidden" name="intent" value={freePilot ? "hvac-free-pilot" : agencyPartner ? "agency-partner" : "hvac-pilot"} />
       <input type="hidden" name="lastName" value="" />
       <input type="hidden" name="industry" value="HVAC" />
       <input type="hidden" name="volume" value="" />
       <h2>
-        {agencyPartner
-          ? "Discuss an HVAC Agency Partnership"
+        {freePilot
+          ? "Apply for a Free 7-Day HVAC Pilot"
+          : agencyPartner
+            ? "Discuss an HVAC Agency Partnership"
           : foundingPartner
             ? "Discuss a Founder-led Recovery Pilot"
             : "Get a Free Estimate Recovery Assessment"}
       </h2>
       <p>
-        {agencyPartner
-          ? "Tell us about your agency or consultancy. Your name, company and work email are required; other fields are optional."
+        {freePilot
+          ? "Tell us about your HVAC company. Only your business name, name and work email are required. Do not enter any homeowner details."
+          : agencyPartner
+            ? "Tell us about your agency or consultancy. Your name, company and work email are required; other fields are optional."
           : "Start with your name, company and work email. All other fields are optional."}
       </p>
       <div className="form-grid">
@@ -136,13 +142,15 @@ export function ContactForm({
             rows={4}
             maxLength={3000}
             defaultValue={
-              agencyPartner
+              freePilot
                 ? ""
+                : agencyPartner
+                  ? ""
                 : foundingPartner
                   ? "I’d like to discuss an HVAC Recovery Pilot."
                   : ""
             }
-            placeholder={agencyPartner ? "Which HVAC clients do you support, and what kind of collaboration are you exploring?" : "Anything we should know about your unsold replacement estimates?"}
+            placeholder={freePilot ? "How many unsold estimates do you have? Which CRM do you use? No homeowner details." : agencyPartner ? "Which HVAC clients do you support, and what kind of collaboration are you exploring?" : "Anything we should know about your unsold replacement estimates?"}
             aria-invalid={!!errors.message}
             aria-describedby={errors.message ? "message-error" : undefined}
           />
