@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     "",
     "contact",
+    "hvac/scorecard",
     ...Object.keys(commercialPages),
     ...Object.keys(pages).filter(
       (p) => !["privacy", "terms", "refund-policy"].includes(p),

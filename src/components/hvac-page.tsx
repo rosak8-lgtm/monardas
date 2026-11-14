@@ -82,7 +82,8 @@ export function HVACPage() {
           your pipeline.
         </p>
         <div className="button-row">
-          <Button href="/hvac/demo">Try Free Interactive Demo</Button>
+          <Button href="/hvac/scorecard">Free 3-Minute Follow-Up Check</Button>
+          <Button href="/hvac/demo" secondary>Try Free Interactive Demo</Button>
           <Button href={pilotHref} secondary>
             Request a Free Assessment
           </Button>

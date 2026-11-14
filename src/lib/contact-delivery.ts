@@ -46,22 +46,22 @@ export function createResendPayload(
   config: RuntimeContactConfig,
 ) {
   const pilot = data.intent === "hvac-pilot";
-  const title = pilot
-    ? "MONARDAS HVAC Revenue Recovery Assessment"
-    : "MONARDAS Revenue Recovery Assessment";
+  const partner = data.intent === "agency-partner";
+  const title = partner
+    ? "MONARDAS HVAC Agency Partnership Inquiry"
+    : pilot
+      ? "MONARDAS HVAC Revenue Recovery Assessment"
+      : "MONARDAS Revenue Recovery Assessment";
   const fields = [
-    ...(pilot
-      ? [
-          [
-            "Request",
-            "Free initial review of unsold replacement estimates; no commitment to a paid pilot.",
-          ],
-        ]
-      : []),
+    ...(partner
+      ? [["Request", "HVAC marketing agency or consultant: exploring a referral or co-service partnership."]]
+      : pilot
+        ? [["Request", "Free initial review of unsold replacement estimates; no commitment to a paid pilot."]]
+        : []),
     ["First name", data.firstName],
     ["Last name", data.lastName],
     ["Company", data.company],
-    ...(pilot
+    ...((pilot || partner)
       ? [["Company website", data.companyWebsite || "Not provided"]]
       : []),
     ["Email", data.email],

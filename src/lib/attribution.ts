@@ -9,7 +9,7 @@ export type Attribution = Partial<
   Record<(typeof campaignKeys)[number] | "landing_page" | "referrer", string>
 >;
 const publicPath =
-  /^\/(?:hvac|ai|contact|current-focus|privacy|terms|refund-policy|pricing|how-it-works|systems|ventures|capital|commerce|nature|strategy|founder|roofing)?\/?$/;
+  /^\/(?:hvac(?:\/scorecard)?|ai|contact|current-focus|privacy|terms|refund-policy|pricing|how-it-works|systems|ventures|capital|commerce|nature|strategy|founder|roofing)?\/?$/;
 
 // Keep campaign labels, known public paths and referrer origins, never full URLs.
 export function sanitizeAttribution(input: unknown): Attribution {
