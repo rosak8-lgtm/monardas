@@ -150,8 +150,8 @@ export function HVACScorecard() {
           <Link className={styles.cta} href="/contact?intent=hvac-pilot&utm_source=scorecard&utm_medium=free_tool">
             Discuss a Free Backlog Assessment <ArrowUpRight size={17} />
           </Link>
-          <p className={styles.disclaimer}>The assessment is free. A separate limited founder program offers a seven-day, anonymized process review; any homeowner outreach requires an additional agreement.</p>
-          <Link className={styles.cta} href="/hvac/free-pilot?utm_source=scorecard&utm_medium=founding-cohort">Apply for the Free 7-Day HVAC Pilot <ArrowUpRight size={17} /></Link>
+          <p className={styles.disclaimer}>The assessment is free. A separate limited founder program offers a 30-day founder-supported follow-up program for a limited batch; any homeowner outreach requires an additional agreement.</p>
+          <Link className={styles.cta} href="/hvac/free-pilot?utm_source=scorecard&utm_medium=founding-cohort">Apply for the Free 30-Day HVAC Pilot <ArrowUpRight size={17} /></Link>
         </aside>
       </section>
       <section className={"container " + styles.partner}>
