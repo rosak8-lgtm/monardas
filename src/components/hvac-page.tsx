@@ -6,7 +6,7 @@ const pilotHref = "/contact?intent=hvac-pilot";
 const faqs = [
   [
     "Is the interactive demo really free?",
-    "Yes. Explore 30 fictional HVAC estimates without an account or credit card. The demo does not connect to your CRM, contact homeowners, or send messages. A managed pilot with real records is a separate paid service.",
+    "Yes. Explore 30 fictional HVAC estimates without an account or credit card. The demo does not connect to your CRM, contact homeowners, or send messages. A limited 30-day free founder program is available for two selected HVAC businesses; ongoing managed service is separately paid.",
   ],
   [
     "Will this annoy old customers?",
@@ -50,7 +50,7 @@ const faqs = [
   ],
   [
     "How much does the pilot cost?",
-    "The initial review is free. The pilot is paid. Pricing is agreed after we review the scope.",
+    "The initial review and a limited 30-day founding pilot for up to two selected HVAC contractors are free. Any standard or ongoing managed pilot is paid; pricing is agreed after review.",
   ],
   [
     "How long does the pilot run?",
@@ -82,7 +82,7 @@ export function HVACPage() {
           your pipeline.
         </p>
         <div className="button-row">
-          <Button href="/hvac/free-pilot">Apply for Free 7-Day Founder Pilot</Button>
+          <Button href="/hvac/free-pilot">Apply for Free 30-Day Founder Pilot</Button>
           <Button href="/hvac/scorecard" secondary>Free 3-Minute Follow-Up Check</Button>
           <Button href="/hvac/demo" secondary>Try Free Interactive Demo</Button>
           <Button href={pilotHref} secondary>
@@ -99,8 +99,8 @@ export function HVACPage() {
           <strong>Explore the demo free — no sign-up or credit card.</strong>
           <br />
           The demo uses fictional estimates and never contacts homeowners. A
-          limited seven-day free audit is available for selected contractors,
-          using de-identified records only. Real homeowner outreach requires
+          limited 30-day free follow-up program is available to two selected
+          contractors, for up to 25 eligible estimates with weekly support. Real homeowner outreach requires
           a separate approved scope; the standard managed recovery pilot is paid.
         </p>
         <ul className="hvac-hero-baseline">
