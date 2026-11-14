@@ -39,8 +39,8 @@ test("self-check clearly separates unknown, yes and no; no homeowner data requir
   await expect(page.getByRole("heading", { name: "Complete the checks to see priorities" })).toBeVisible();
   await expect(page.getByText("0 of 5 checks answered")).toBeVisible();
   await expect(page.locator('input[type="number"]')).toHaveValue("25");
-  await page.locator("fieldset").nth(0).getByRole("radio", { name: "Yes" }).check();
-  await page.locator("fieldset").nth(1).getByRole("radio", { name: "No" }).check();
+  await page.locator("fieldset").nth(0).getByRole("radio", { name: "Yes", exact: true }).check();
+  await page.locator("fieldset").nth(1).getByRole("radio", { name: "No", exact: true }).check();
   await expect(page.getByText("2 of 5 checks answered")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Follow-up gaps to address" })).toBeVisible();
   await expect(page.getByText("Improve: Assign one person responsible for the next step.")).toBeVisible();
