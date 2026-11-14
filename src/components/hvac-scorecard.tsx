@@ -20,6 +20,7 @@ const defaults: Record<CheckKey, Answer> = {
   exclusions: "unknown", outcomes: "unknown",
 };
 const publicUrl = "https://monardas.com/hvac/scorecard";
+const referralUrl = publicUrl + "?utm_source=agency&utm_medium=referral";
 
 export function HVACScorecard() {
   const [quantity, setQuantity] = useState("25");
@@ -59,16 +60,16 @@ export function HVACScorecard() {
     }
   }
 
-  async function share() {
+  async function share(url = publicUrl) {
     try {
       if (navigator.share) {
-        await navigator.share({ title: "HVAC Follow-Up Leak Check", url: publicUrl });
+        await navigator.share({ title: "HVAC Follow-Up Leak Check", url });
         return;
       }
     } catch {
       // The visitor can cancel sharing without sending anything.
     }
-    await copy(publicUrl, "Tool link copied.");
+    await copy(url, "Tool link copied.");
   }
 
   return (
@@ -159,7 +160,7 @@ export function HVACScorecard() {
           <p>Help contractors see what happens after a replacement quote is sent. Share the free checklist, then introduce MONARDAS only where a managed pilot fits.</p>
         </div>
         <div className={styles.partnerLinks}>
-          <button type="button" data-growth-share="true" onClick={() => void share()}><Share2 size={17} /> Share with a contractor</button>
+          <button type="button" data-growth-share="true" onClick={() => void share(referralUrl)}><Share2 size={17} /> Share with a contractor</button>
           <Link href="/contact?intent=agency-partner&utm_source=scorecard&utm_medium=partner">Discuss a partner introduction <ArrowUpRight size={17} /></Link>
         </div>
       </section>
