@@ -82,7 +82,8 @@ export function HVACPage() {
           your pipeline.
         </p>
         <div className="button-row">
-          <Button href="/hvac/scorecard">Free 3-Minute Follow-Up Check</Button>
+          <Button href="/hvac/free-pilot">Apply for Free 7-Day Founder Pilot</Button>
+          <Button href="/hvac/scorecard" secondary>Free 3-Minute Follow-Up Check</Button>
           <Button href="/hvac/demo" secondary>Try Free Interactive Demo</Button>
           <Button href={pilotHref} secondary>
             Request a Free Assessment
@@ -98,8 +99,9 @@ export function HVACPage() {
           <strong>Explore the demo free — no sign-up or credit card.</strong>
           <br />
           The demo uses fictional estimates and never contacts homeowners. A
-          free initial assessment is available; real customer outreach requires
-          an agreed, separately paid pilot.
+          limited seven-day free audit is available for selected contractors,
+          using de-identified records only. Real homeowner outreach requires
+          a separate approved scope; the standard managed recovery pilot is paid.
         </p>
         <ul className="hvac-hero-baseline">
           <li>25–50 estimates</li>
