@@ -1,0 +1,63 @@
+name: HVAC Scorecard Growth QA
+
+on:
+  push:
+    branches:
+      - growth/hvac-referral-scorecard-20261114
+    paths:
+      - "src/app/hvac/scorecard/**"
+      - "src/components/hvac-scorecard.tsx"
+      - "src/components/contact-form.tsx"
+      - "src/components/funnel-tracking.tsx"
+      - "src/components/hvac-page.tsx"
+      - "src/app/contact/page.tsx"
+      - "src/app/api/contact/route.ts"
+      - "src/lib/attribution.ts"
+      - "src/lib/funnel.ts"
+      - "src/lib/contact.ts"
+      - "src/lib/contact-delivery.ts"
+      - "tests/hvac-scorecard.spec.ts"
+      - "playwright.growth.config.ts"
+      - ".github/workflows/hvac-scorecard-growth-qa.yml"
+  pull_request:
+    paths:
+      - "src/app/hvac/scorecard/**"
+      - "src/components/hvac-scorecard.tsx"
+      - "src/components/contact-form.tsx"
+      - "src/components/funnel-tracking.tsx"
+      - "src/components/hvac-page.tsx"
+      - "src/app/contact/page.tsx"
+      - "src/app/api/contact/route.ts"
+      - "src/lib/attribution.ts"
+      - "src/lib/funnel.ts"
+      - "src/lib/contact.ts"
+      - "src/lib/contact-delivery.ts"
+      - "tests/hvac-scorecard.spec.ts"
+      - "playwright.growth.config.ts"
+      - ".github/workflows/hvac-scorecard-growth-qa.yml"
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install exact dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Typecheck
+        run: npx --no-install tsc --noEmit
+      - name: Lint
+        run: npm run lint
+      - name: Build vinext
+        run: npm run build:vinext
+      - name: Install browser
+        run: npx --no-install playwright install --with-deps chromium
+      - name: Scorecard browser tests
+        run: npx --no-install playwright test --config playwright.growth.config.ts
