@@ -26,17 +26,26 @@ export function HVACScorecard() {
   const [answers, setAnswers] = useState(defaults);
   const [status, setStatus] = useState("");
   const score = useMemo(() => checks.filter((c) => answers[c.key] === "yes").length, [answers]);
-  const gaps = checks.filter((c) => answers[c.key] !== "yes");
+  const answered = checks.filter((c) => answers[c.key] !== "unknown").length;
+  const confirmedGaps = checks.filter((c) => answers[c.key] === "no");
+  const toVerify = checks.filter((c) => answers[c.key] === "unknown");
+  const priority = [...confirmedGaps, ...toVerify];
   const count = Number(quantity);
   const valid = quantity !== "" && Number.isInteger(count) && count >= 0 && count <= 100000;
-  const description = score === 5 ? "Controls reported in place" : score >= 3 ? "Some gaps to review" : "Start with the basics";
+  const description = answered === 0
+    ? "Complete the checks to see priorities"
+    : score === 5
+      ? "Controls reported in place"
+      : confirmedGaps.length
+        ? "Follow-up gaps to address"
+        : "Some controls still unverified";
   const summary = [
     "MONARDAS HVAC Follow-Up Leak Check",
-    "Self-reported process controls: " + score + "/5",
+    "Self-reported confirmed controls: " + score + "/5 (" + answered + " answered, " + (5 - answered) + " not sure)",
     "Unsold estimates: " + (valid ? count : "not supplied"),
     ...checks.map((c) => answers[c.key].toUpperCase() + ": " + c.title),
     "Suggested first steps:",
-    ...(gaps.length ? gaps.slice(0, 3).map((c) => "- " + c.fix) : ["- Validate your answers against actual CRM records."]),
+    ...(priority.length ? priority.slice(0, 3).map((c) => "- " + (answers[c.key] === "unknown" ? "Verify: " : "Improve: ") + c.fix) : ["- Validate your answers against actual CRM records."]),
     "Not a verified audit, sales forecast or predicted recovered revenue.",
     publicUrl,
   ].join("\n");
@@ -111,10 +120,10 @@ export function HVACScorecard() {
         <aside className={styles.results} aria-labelledby="scorecard-heading">
           <p className={styles.eyebrow}>YOUR INSTANT RESULT</p>
           <div className={styles.score} aria-live="polite" aria-atomic="true">
-            <strong>{score}<span>/5</span></strong>
+            <strong>{answered === 0 ? "—" : score}<span>/5</span></strong>
             <div>
               <h2 id="scorecard-heading">{description}</h2>
-              <p>Self-reported process checks, not estimated revenue or conversion probability.</p>
+              <p>{answered} of 5 checks answered · {5 - answered} not sure. This is not an estimate of revenue or conversion probability.</p>
             </div>
           </div>
           <div className={styles.countResult}>
@@ -123,8 +132,8 @@ export function HVACScorecard() {
           </div>
           <h3>Your first actions</h3>
           <ol className={styles.actions}>
-            {(gaps.length ? gaps.slice(0, 3) : checks.slice(0, 1)).map((check, i) => (
-              <li key={check.key}><b>{i + 1}</b>{gaps.length ? check.fix : "Verify the controls against real estimates before scaling outreach."}</li>
+            {(priority.length ? priority.slice(0, 3) : checks.slice(0, 1)).map((check, i) => (
+              <li key={check.key}><b>{i + 1}</b>{priority.length ? (answers[check.key] === "unknown" ? "Verify: " : "Improve: ") + check.fix : "Verify the controls against real estimates before scaling outreach."}</li>
             ))}
           </ol>
           <p className={styles.disclaimer}>
@@ -134,7 +143,7 @@ export function HVACScorecard() {
           </p>
           <div className={styles.actionsRow}>
             <button type="button" onClick={() => void copy(summary, "Summary copied.")}><Copy size={16} /> Copy results</button>
-            <button type="button" onClick={() => void share()}><Share2 size={16} /> Share tool</button>
+            <button type="button" data-growth-share="true" onClick={() => void share()}><Share2 size={16} /> Share tool</button>
           </div>
           <p role="status" className={styles.status}>{status}</p>
           <Link className={styles.cta} href="/contact?intent=hvac-pilot&utm_source=scorecard&utm_medium=free_tool">
@@ -150,8 +159,8 @@ export function HVACScorecard() {
           <p>Help contractors see what happens after a replacement quote is sent. Share the free checklist, then introduce MONARDAS only where a managed pilot fits.</p>
         </div>
         <div className={styles.partnerLinks}>
-          <button type="button" onClick={() => void share()}><Share2 size={17} /> Share with a contractor</button>
-          <Link href="/contact?intent=founding-partner&utm_source=scorecard&utm_medium=partner">Discuss a partner introduction <ArrowUpRight size={17} /></Link>
+          <button type="button" data-growth-share="true" onClick={() => void share()}><Share2 size={17} /> Share with a contractor</button>
+          <Link href="/contact?intent=agency-partner&utm_source=scorecard&utm_medium=partner">Discuss a partner introduction <ArrowUpRight size={17} /></Link>
         </div>
       </section>
       <section className={"container " + styles.bottom}>
