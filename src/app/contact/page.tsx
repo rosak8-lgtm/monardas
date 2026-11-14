@@ -15,27 +15,27 @@ export default async function Contact({
 }) {
   const { intent } = await searchParams;
   const foundingPartner = intent === "founding-partner";
-  if (intent === "hvac-pilot")
+  const agencyPartner = intent === "agency-partner";
+  if (intent === "hvac-pilot" || agencyPartner)
     return (
       <section className="container contact-page hvac-pilot-contact">
         <div className="contact-copy">
-          <Eyebrow>MONARDAS AI / HVAC estimate recovery</Eyebrow>
-          <h1>Get a Free Estimate Recovery Assessment</h1>
+          <Eyebrow>{agencyPartner ? "MONARDAS / HVAC referral partners" : "MONARDAS AI / HVAC estimate recovery"}</Eyebrow>
+          <h1>{agencyPartner ? "Partner With MONARDAS" : "Get a Free Estimate Recovery Assessment"}</h1>
           <p>
-            Tell us about your current estimate backlog. We’ll review whether
-            the records appear suitable for a focused HVAC recovery pilot.
+            {agencyPartner
+              ? "For HVAC marketing agencies, sales coaches and CRM consultants: discuss a referral or co-service introduction. MONARDAS focuses on reviewing open residential replacement estimates after the quote."
+              : "Tell us about your current estimate backlog. We’ll review whether the records appear suitable for a focused HVAC recovery pilot."}
           </p>
-          <p>
-            <strong>
-              The initial review is free. Submitting the form does not commit
-              you to a paid engagement.
-            </strong>
-          </p>
+          <p><strong>{agencyPartner
+            ? "No paid partnership, integration or commission is implied by submitting an enquiry."
+            : "The initial review is free. Submitting the form does not commit you to a paid engagement."
+          }</strong></p>
           <ul>
             {[
-              "Review your estimate backlog",
-              "Assess whether a recovery pilot makes sense",
-              "Keep your sales team in control",
+              ...(agencyPartner
+                ? ["Share the free follow-up check with contractors", "Explore a qualified introduction", "Keep your clients and their sales team in control"]
+                : ["Review your estimate backlog", "Assess whether a recovery pilot makes sense", "Keep your sales team in control"]),
             ].map((text) => (
               <li key={text}>
                 <Check size={18} />
@@ -46,22 +46,20 @@ export default async function Contact({
           <div className="contact-next">
             <ArrowUpRight size={26} />
             <h3>What happens next</h3>
-            <p>
-              If the backlog looks suitable, we’ll discuss pilot scope,
-              responsibilities, timing and commercial terms. Messaging, contact
-              method, exclusions and sales handoff are agreed before homeowner
-              outreach begins.
+            <p>{agencyPartner
+              ? "We will review the fit, decide together whether any introduction makes sense, and agree responsibilities before involving your clients."
+              : "If the backlog looks suitable, we’ll discuss pilot scope, responsibilities, timing and commercial terms. Messaging, contact method, exclusions and sales handoff are agreed before homeowner outreach begins."}
             </p>
-            <p>
-              The initial review is free. The pilot is paid. Pricing is agreed
-              after we review the scope.
+            <p>{agencyPartner
+              ? "No client information or homeowner contact lists are required for this first conversation."
+              : "The initial review is free. The pilot is paid. Pricing is agreed after we review the scope."}
             </p>
           </div>
           <Button href={MONARDAS_HVAC_WHATSAPP_URL} secondary>
             Ask on WhatsApp
           </Button>
         </div>
-        <ContactForm />
+        <ContactForm agencyPartner={agencyPartner} />
       </section>
     );
   return (
