@@ -10,7 +10,7 @@ export const industries = [
 export const volumes = ["Under 50", "50–100", "101–250", "251–500", "501+"];
 export type ContactData = {
   attribution?: Attribution;
-  intent?: "hvac-pilot";
+  intent?: "hvac-pilot" | "agency-partner";
   companyWebsite?: string;
   preferredChannel?: "email" | "whatsapp" | "telegram";
   telegramHandle?: string;
@@ -29,6 +29,7 @@ export type Errors = Partial<Record<keyof ContactData, string>>;
 export function validate(data: ContactData): Errors {
   const errors: Errors = {};
   const pilot = data.intent === "hvac-pilot";
+  const partner = data.intent === "agency-partner";
   const required = ["firstName", "company", "email"] as const;
   for (const field of required) {
     if (!data[field]?.trim()) errors[field] = "This field is required.";
@@ -63,7 +64,7 @@ export function validate(data: ContactData): Errors {
     (!/^\d+$/.test(data.volume) || Number(data.volume) > 1000000)
   )
     errors.volume = "Enter a whole number between 0 and 1,000,000.";
-  if (pilot && data.companyWebsite) {
+  if ((pilot || partner) && data.companyWebsite) {
     try {
       const url = new URL(
         /^https?:\/\//i.test(data.companyWebsite)
