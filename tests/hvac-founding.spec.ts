@@ -18,27 +18,31 @@ test("free founder applications are distinct from paid sales and agency requests
   expect(validate({...free, companyWebsite: "javascript:alert(1)"}).companyWebsite).toBeTruthy();
   const payload=createResendPayload(free,{to:"inbound@monardas.com",from:"website@send.monardas.com"});
   expect(payload.subject).toContain("FREE Founding Pilot Application");
-  expect(payload.text).toContain("no-cost 7-day");
+  expect(payload.text).toContain("no-cost 30-day");
+  expect(payload.text).toContain("Client controls homeowner contacts");
+  expect(payload.text).toContain("No purchase commitment.");
   expect(payload.text).not.toContain("Monthly estimate volume");
   expect(sanitizeAttribution({ landing_page: "/hvac/free-pilot" }).landing_page).toBe("/hvac/free-pilot");
 });
 
 test("free founder landing explains scope and boundaries", async ({page}) => {
   await page.goto("/hvac/free-pilot");
-  await expect(page.getByRole("heading",{level:1})).toContainText("7 days, $0.");
-  await expect(page.getByText("No. The free validation pilot is a read-only review.",{exact:false})).not.toBeVisible();
-  await page.getByText("Will you contact homeowners?").click();
-  await expect(page.getByText("No. The free validation pilot is a read-only review.",{exact:false})).toBeVisible();
+  await expect(page.getByRole("heading",{level:1})).toContainText("30 days free.");
+  await expect(page.getByText("Up to two approved follow-up actions per eligible estimate.", { exact: false })).toBeVisible();
+  await expect(page.getByText("It ends without automatic renewal", { exact: false })).not.toBeVisible();
+  await expect(page.getByText("Your business stays in control.",{exact:false})).not.toBeVisible();
+  await page.getByText("Who actually contacts homeowners?").click();
+  await expect(page.getByText("Your business stays in control.",{exact:false})).toBeVisible();
   await expect(page.locator("a[href^='/contact?intent=hvac-free-pilot']")).toHaveCount(2);
 });
 
 test("free founder CTA submits distinct intent exactly once (mocked)", async ({page}) => {
   await page.goto("/hvac/free-pilot");
-  await page.getByRole("link",{name:"Apply for the Free 7-Day Pilot"}).click();
+  await page.getByRole("link",{name:"Apply for the Free 30-Day Pilot"}).click();
   await expect(page).toHaveURL(/intent=hvac-free-pilot/);
-  await expect(page.getByRole("heading",{name:"Apply for the Free 7-Day HVAC Pilot"})).toBeVisible();
+  await expect(page.getByRole("heading",{name:"Apply for the Free 30-Day HVAC Pilot"})).toBeVisible();
   await expect(page.locator('input[name="intent"]')).toHaveValue("hvac-free-pilot");
-  await expect(page.locator(".contact-form h2")).toHaveText("Apply for a Free 7-Day HVAC Pilot");
+  await expect(page.locator(".contact-form h2")).toHaveText("Apply for a Free 30-Day HVAC Pilot");
   await page.locator("#firstName").fill("Example");
   await page.locator("#company").fill("Example HVAC");
   await page.locator("#email").fill("example@example.com");

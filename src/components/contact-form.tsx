@@ -77,13 +77,13 @@ export function ContactForm({
       <input type="hidden" name="volume" value="" />
       <h2>
         {freePilot
-          ? "Apply for a Free 7-Day HVAC Pilot"
+          ? "Apply for a Free 30-Day HVAC Pilot"
           : agencyPartner
             ? "Discuss an HVAC Agency Partnership"
           : foundingPartner
             ? "Discuss a Founder-led Recovery Pilot"
             : freePilot
-              ? "Apply for the Free 7-Day HVAC Pilot"
+              ? "Apply for the Free 30-Day HVAC Pilot"
               : agencyPartner
                 ? "Discuss an HVAC Agency Partnership"
                 : "Get a Free Estimate Recovery Assessment"}
@@ -233,7 +233,7 @@ export function ContactForm({
                   ? "Your partnership enquiry has been received."
                   : "Thanks — your assessment request has been received."}</strong>{" "}
               {freePilot
-                ? "We will review the fit before confirming participation. No homeowner data is needed for this first step."
+                ? "We will review fit for the 30-day program before confirming a place. No homeowner information is needed at application stage."
                 : agencyPartner
                   ? "We will review whether a partner introduction makes sense."
                   : "I’ll review your current estimate follow-up process and get back to you directly."}

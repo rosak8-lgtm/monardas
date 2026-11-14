@@ -57,7 +57,7 @@ export function createResendPayload(
       : "MONARDAS Revenue Recovery Assessment";
   const fields = [
     ...(freePilot
-      ? [["Request", "Apply for a no-cost 7-day founder-led audit of up to 25 anonymized unsold HVAC replacement estimates. No homeowner outreach. No purchase commitment."]]
+      ? [["Request", "Apply for a no-cost 30-day founder-supported follow-up program for up to 25 eligible unsold HVAC replacement estimates. Client controls homeowner contacts, MONARDAS provides drafts and tracking, any MONARDAS outreach separately authorized. No purchase commitment."]]
       : partner
         ? [["Request", "HVAC marketing agency or consultant: exploring a referral or co-service partnership."]]
       : pilot
