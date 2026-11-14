@@ -82,7 +82,11 @@ export function ContactForm({
             ? "Discuss an HVAC Agency Partnership"
           : foundingPartner
             ? "Discuss a Founder-led Recovery Pilot"
-            : "Get a Free Estimate Recovery Assessment"}
+            : freePilot
+              ? "Apply for the Free 7-Day HVAC Pilot"
+              : agencyPartner
+                ? "Discuss an HVAC Agency Partnership"
+                : "Get a Free Estimate Recovery Assessment"}
       </h2>
       <p>
         {freePilot
@@ -223,9 +227,16 @@ export function ContactForm({
           <p className="form-success">
             <Check size={18} />
             <span>
-              <strong>Thanks — your assessment request has been received.</strong>{" "}
-              I’ll review your current estimate follow-up process and get back
-              to you directly.
+              <strong>{freePilot
+                ? "Your free-pilot application has been received."
+                : agencyPartner
+                  ? "Your partnership enquiry has been received."
+                  : "Thanks — your assessment request has been received."}</strong>{" "}
+              {freePilot
+                ? "We will review the fit before confirming participation. No homeowner data is needed for this first step."
+                : agencyPartner
+                  ? "We will review whether a partner introduction makes sense."
+                  : "I’ll review your current estimate follow-up process and get back to you directly."}
             </span>
           </p>
         )}
@@ -238,7 +249,7 @@ export function ContactForm({
       </div>
       <p className="form-note">
         Your details are used to review and respond to your request. Submitting
-        this form does not commit you to a paid pilot.
+        this form does not commit you to a paid pilot or guarantee selection for a free one.
       </p>
     </form>
   );
