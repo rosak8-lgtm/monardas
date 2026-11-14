@@ -40,7 +40,7 @@ export default function FreePilotPage() {
     <div className="product-page hvac-page">
       <section className="container page-hero product-hero">
         <Eyebrow>MONARDAS / FOUNDING HVAC CONTRACTORS</Eyebrow>
-        <h1>Let's work your open estimates together. <em>30 days free.</em></h1>
+        <h1>Let&apos;s work your open estimates together. <em>30 days free.</em></h1>
         <p>
           We are inviting up to two independent US residential HVAC companies
           to test a founder-supported follow-up service for up to 25 suitable,
