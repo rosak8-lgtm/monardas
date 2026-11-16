@@ -77,4 +77,10 @@ test("free founding program terms, privacy and cancellation policy agree", async
   await page.goto("/hvac/free-pilot");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("30 days free");
   await expect(page.locator("main")).toContainText("25");
+
+  await page.goto("/contact?intent=hvac-free-pilot");
+  const form = page.locator("form.contact-form");
+  await expect(form.getByRole("link", { name: "Privacy Policy" })).toHaveAttribute("href", "/privacy");
+  await expect(form.getByRole("link", { name: "Website & Pilot Terms" })).toHaveAttribute("href", "/terms");
+  await expect(form.getByRole("link", { name: "Free Pilot FAQ" })).toHaveAttribute("href", "/hvac/free-pilot#pilot-faq");
 });
