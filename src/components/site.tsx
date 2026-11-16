@@ -73,7 +73,7 @@ export function Footer({ product = false }: { product?: boolean }) {
             <Logo />
             <p>
               {product
-                ? "Helping HVAC contractors recover revenue from unsold replacement estimates they’ve already paid to generate."
+                ? "Founder-supported follow-up for unsold residential HVAC replacement estimates. Clear approvals, real reporting and no guaranteed sales."
                 : "We build systems and businesses designed to compound value through technology, distribution and ownership."}
             </p>
           </div>
@@ -92,7 +92,7 @@ export function Footer({ product = false }: { product?: boolean }) {
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} MONARDAS</span>
-          <span>Intelligence. Systems. Ownership.</span>
+          <span>Focused HVAC estimate recovery · Independent MONARDAS company</span>
           <div>
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
