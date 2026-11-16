@@ -11,7 +11,7 @@ const privacy = [
   ],
   [
     "Information you provide",
-    "The assessment form requires your name, company and work email. Website, phone number, CRM/FSM or export format and notes are optional. Please do not submit homeowner lists, passwords, payment details or sensitive personal information through this form.",
+    "Website inquiry forms, including the 30-day founding-pilot application and agency partnership form, require your name, company and work email. Business website, phone number, CRM/FSM or export format and notes are optional. Please do not submit homeowner lists, passwords, payment details or sensitive personal information through these forms.",
   ],
   [
     "How the form uses your information",
@@ -66,7 +66,7 @@ const terms = [
   ],
   [
     "Inquiries and pilot agreements",
-    "The initial HVAC revenue-recovery review is free and does not commit you to a paid pilot. Any pilot is paid and custom. Its scope, timing, responsibilities, pricing and other commercial terms are agreed before work begins; messaging, contact method, exclusions and sales handoff are agreed before homeowner outreach. Payment is due under the agreed terms and invoice. Sending a form does not purchase a service, reserve capacity or authorize homeowner outreach.",
+    "The initial assessment is free. MONARDAS also offers a limited, founder-supported 30-day no-cost pilot for up to two selected U.S. residential HVAC contractors, subject to eligibility and available capacity. Each selected contractor may review up to 25 eligible unsold replacement estimates, with up to two mutually agreed follow-up actions per estimate and weekly reporting. The free pilot requires no credit card or payment, does not renew automatically, and never converts into a paid service without a separate agreement. Applying does not guarantee selection, reserve capacity, or authorize MONARDAS to contact homeowners. The contractor's authorized team controls homeowner outreach; any outreach by MONARDAS requires separate written authorization, lawful channel eligibility and suppression review. Separately offered paid managed engagements require individually agreed scope, timing, responsibilities, pricing and other terms before work begins.",
   ],
   [
     "Information you submit",
@@ -101,11 +101,11 @@ const terms = [
 const refunds = [
   [
     "Scope",
-    "MONARDAS is operated by Iurii Shalygin in Georgia. This policy concerns separately scoped B2B HVAC recovery pilots. The initial estimate recovery review is free and does not commit you to a purchase.",
+    "MONARDAS is operated by Iurii Shalygin in Georgia. This policy applies to separately agreed paid B2B HVAC recovery engagements. The limited 30-day founder-supported pilot, when offered to a selected eligible contractor, costs $0, requires no credit card and has no automatic renewal or charges. Refund terms therefore do not apply to the no-cost pilot. Any later paid engagement requires a separate agreement.",
   ],
   [
     "Before a paid pilot",
-    "Scope, price, payment terms and applicable cancellation and refund terms are agreed in the proposal or order before payment and before work starts. Please review those terms before accepting a pilot.",
+    "For any separately paid service, scope, price, payment terms and applicable cancellation or refund terms are agreed in the proposal or order before payment and work begins. The no-cost founding pilot does not automatically become a paid engagement.",
   ],
   [
     "Cancellation and refunds",
