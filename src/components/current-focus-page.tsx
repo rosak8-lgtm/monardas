@@ -61,6 +61,9 @@ export function CurrentFocusPage() {
             launch.
           </p>
           <Button href="/hvac/free-pilot">Review the Free Pilot Terms</Button>
+          <Button href="/hvac#founding-partners" secondary>
+            Explore the Founder-led Recovery Pilot
+          </Button>
           <p>
             You work directly with the person designing and operating the pilot.
             The broader MONARDAS thesis remains intelligence, systems and
