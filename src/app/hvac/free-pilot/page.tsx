@@ -87,7 +87,7 @@ export default function FreePilotPage() {
           lawful contact eligibility, channel approval and opt-out safeguards.
         </p>
       </section>
-      <section className="container section" aria-label="Free pilot questions">
+      <section className="container section" id="pilot-faq" aria-label="Free pilot questions">
         <Eyebrow>NO SURPRISES</Eyebrow>
         <h2>What the free pilot includes — and what it does not</h2>
         <div className="hvac-faq">
