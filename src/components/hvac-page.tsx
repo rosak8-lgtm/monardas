@@ -123,7 +123,7 @@ export function HVACPage() {
           <div><span className={styles.smallCaps}>Choose your next step</span><h2>One clear path to a better follow-up process.</h2></div>
           <p>Everything below is clickable and opens an existing MONARDAS page or tool.</p>
         </div>
-        <div className={styles.tileGrid} aria-label="Explore MONARDAS HVAC">
+        <div className={styles.tileGrid} role="region" aria-label="Explore MONARDAS HVAC">
           {conversionCards.map((item) => (
             <article className={item.featured ? `${styles.tile} ${styles.tileFeatured}` : styles.tile} key={item.href}>
               <div className={styles.tileIcon}><item.icon size={24} strokeWidth={1.7} aria-hidden="true" /></div>
