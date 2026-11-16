@@ -163,10 +163,8 @@ export function FinalCTA() {
           </em>
         </h2>
         <div>
-          <Button href="/contact?intent=hvac-pilot">
-            Get a Free Estimate Recovery Assessment
-          </Button>
-          <p>A focused conversation. A practical next step.</p>
+          <Button href="/hvac/free-pilot">Apply for the Free 30-Day Founding Pilot</Button>
+          <p>Limited to two selected U.S. HVAC businesses. Any paid work is separate.</p>
         </div>
       </div>
     </section>
