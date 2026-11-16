@@ -7,7 +7,7 @@ umask 077
 
 ROOT="$HOME/Загрузки"
 REPO_URL='https://github.com/rosak8-lgtm/monardas.git'
-EXPECTED_MAIN='fd32f0baf2443d97e78e1839eea4055b9d343428'
+PINNED_WEBSITE_COMMIT='fd32f0baf2443d97e78e1839eea4055b9d343428'
 PUBLIC_URL='https://monardas.com/contact?intent=hvac-free-pilot'
 NODE24_DIR="$HOME/monardas-cloudflare-backup/_node24/install/bin"
 mkdir -p "$ROOT"
@@ -62,12 +62,24 @@ if probe_founder_pilot "$LOG_DIR/before.html"; then
 fi
 
 echo '=== FRESH ISOLATED CLONE / EXACT PINNED MAIN ==='
-git clone --quiet --depth 1 --branch main "$REPO_URL" "$WORK" >"$LOG_DIR/git-clone.log" 2>&1 \
+git clone --quiet --depth 20 --branch main "$REPO_URL" "$WORK" >"$LOG_DIR/git-clone.log" 2>&1 \
   || fail 'FRESH_GIT_CLONE_FAILED' 3 "$LOG_DIR/git-clone.log"
 cd "$WORK"
+SOURCE_MAIN="$(git rev-parse HEAD)"
+echo "REMOTE_MAIN_AT_CLONE=$SOURCE_MAIN"
+git cat-file -e "${PINNED_WEBSITE_COMMIT}^{commit}" 2>/dev/null \
+  || fail 'PINNED_WEBSITE_COMMIT_NOT_IN_SHALLOW_CLONE' 3
+# This deploy script itself was added to main after the tested website merge.
+# Reject any newer source changes beyond exactly that operational script.
+CHANGED_AFTER_TESTED="$(git diff --name-only "$PINNED_WEBSITE_COMMIT" "$SOURCE_MAIN")" \
+  || fail 'CANNOT_COMPARE_SOURCE_SCOPE' 3
+[ "$CHANGED_AFTER_TESTED" = 'tools/growth/MONARDAS_HVAC_SHORT_FORM_DEPLOY_20261116.sh' ] \
+  || fail 'MAIN_HAS_UNTESTED_SOURCE_CHANGES_STOP' 3
+git checkout --quiet --detach "$PINNED_WEBSITE_COMMIT" \
+  || fail 'CANNOT_CHECKOUT_TESTED_WEBSITE_COMMIT' 3
 SOURCE_COMMIT="$(git rev-parse HEAD)"
+[ "$SOURCE_COMMIT" = "$PINNED_WEBSITE_COMMIT" ] || fail 'PINNED_SOURCE_MISMATCH' 3
 echo "SOURCE_COMMIT=$SOURCE_COMMIT"
-[ "$SOURCE_COMMIT" = "$EXPECTED_MAIN" ] || fail 'REMOTE_MAIN_SHA_CHANGED_STOP_STALE_RELEASE' 3
 node --input-type=module <<'JS' || fail 'DEPLOY_SCRIPT_IS_NOT_APPROVED_WRANGLER' 3
 import fs from 'node:fs';
 const p = JSON.parse(fs.readFileSync('package.json','utf8'));
@@ -114,7 +126,7 @@ JS
 
 # Do not deploy an earlier commit if main changes while building.
 LATEST_MAIN="$(git ls-remote origin refs/heads/main | awk '{print $1}')" || fail 'CANNOT_RECHECK_MAIN' 6
-[ "$LATEST_MAIN" = "$EXPECTED_MAIN" ] || fail 'MAIN_ADVANCED_DURING_BUILD_STOP_STALE_DEPLOY' 6
+[ "$LATEST_MAIN" = "$SOURCE_MAIN" ] || fail 'MAIN_ADVANCED_DURING_BUILD_STOP_STALE_DEPLOY' 6
 
 echo '=== DEPLOY DRY-RUN (NO REMOTE WRITES) ==='
 npx --no-install wrangler deploy --config "$CFG" --keep-vars --dry-run --outdir .wrangler/deploy-qa \
