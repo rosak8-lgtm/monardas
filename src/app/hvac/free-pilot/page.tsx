@@ -1,6 +1,7 @@
 import { Button, Eyebrow } from "@/components/site";
 import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
+import styles from "@/app/hvac/conversion.module.css";
 
 export const metadata = pageMetadata(
   "Founding HVAC Contractor Pilot — 30 Days Free",
@@ -37,7 +38,7 @@ const terms = [
 
 export default function FreePilotPage() {
   return (
-    <div className="product-page hvac-page">
+    <div className={`product-page hvac-page ${styles.freePilot}`}>
       <section className="container page-hero product-hero">
         <Eyebrow>MONARDAS / FOUNDING HVAC CONTRACTORS</Eyebrow>
         <h1>Let&apos;s work your open estimates together. <em>30 days free.</em></h1>
