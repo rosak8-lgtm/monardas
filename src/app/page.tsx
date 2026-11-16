@@ -60,7 +60,7 @@ export default function Home() {
             </div>
             <Link className={styles.textLink} href="/hvac">Explore HVAC Revenue Recovery <ArrowRight size={16} aria-hidden="true" /></Link>
           </div>
-          <div className={styles.productVisual} aria-label="Fictional example of MONARDAS estimate follow-up tracking">
+          <div className={styles.productVisual} role="group" aria-label="Fictional example of MONARDAS estimate follow-up tracking">
             <div className={styles.mockTop}><span className={styles.mockBrand}><span className={styles.mockMark} aria-hidden="true" /> MONARDAS</span><span className={styles.mockDemo}>ILLUSTRATIVE WORKFLOW</span></div>
             <div className={styles.mockBody}>
               <div className={styles.mockHeader}><span>Estimate follow-up</span><span className={styles.mockPill}>Example only</span></div>
