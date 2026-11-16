@@ -2511,3 +2511,14 @@ textarea:focus-visible {
   min-width: 0;
   box-sizing: border-box;
 }
+
+
+/* Keep long contact headings within narrow phones, including existing paid assessment route. */
+@media (max-width: 640px) {
+  .contact-page .contact-copy,
+  .contact-page .contact-form { min-width: 0; }
+  .contact-page .contact-copy h1 {
+    font-size: clamp(34px, 9.3vw, 44px);
+    overflow-wrap: anywhere;
+  }
+}
