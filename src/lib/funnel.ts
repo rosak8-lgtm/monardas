@@ -28,7 +28,7 @@ export function validFunnelEvent(
   );
 }
 export function logFunnelEvent(
-  event: ClientEvent | "hvac_audit_submit_success",
+  event: ClientEvent | "hvac_audit_submit_success" | "hvac_free_pilot_provider_accepted" | "hvac_agency_provider_accepted",
   path: string,
 ) {
   // Existing Workers Logs only. No lead fields, campaign values or visitor IDs.

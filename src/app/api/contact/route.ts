@@ -164,12 +164,19 @@ export async function POST(request: Request) {
         { status: 502 },
       );
     const result = (await resend.json()) as { id?: string };
+    // Event-only instrumentation: Resend HTTP acceptance is NOT final inbox delivery,
+    // a qualified lead, or a started pilot. Never log contact or attribution fields.
     if (
-      data.intent === "hvac-pilot" &&
       request.headers.get("dnt") !== "1" &&
       request.headers.get("sec-gpc") !== "1"
-    )
-      logFunnelEvent("hvac_audit_submit_success", "/contact");
+    ) {
+      if (data.intent === "hvac-free-pilot")
+        logFunnelEvent("hvac_free_pilot_provider_accepted", "/contact");
+      else if (data.intent === "agency-partner")
+        logFunnelEvent("hvac_agency_provider_accepted", "/contact");
+      else if (data.intent === "hvac-pilot")
+        logFunnelEvent("hvac_audit_submit_success", "/contact");
+    }
     return NextResponse.json(
       {
         message:
