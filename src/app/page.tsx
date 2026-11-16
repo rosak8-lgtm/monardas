@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {
   ArrowRight, ArrowUpRight, CheckCircle2, ClipboardCheck,
-  FileCheck2, Gauge, Handshake, LockKeyhole, MessageCircleMore,
+  FileCheck2, Gauge, LockKeyhole, MessageCircleMore,
   PlayCircle, ShieldCheck, Sparkles
 } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
