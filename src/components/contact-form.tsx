@@ -280,6 +280,13 @@ export function ContactForm({
       <p className="form-note">
         Your details are used to review and respond to your request. Submitting
         this form does not commit you to a paid pilot or guarantee selection for a free one.
+        {" "}<a href="/privacy">Privacy Policy</a>
+        {" · "}<a href="/terms">Website &amp; Pilot Terms</a>
+        {freePilot && (
+          <>
+            {" · "}<a href="/hvac/free-pilot#pilot-faq">Free Pilot FAQ</a>
+          </>
+        )}
       </p>
     </form>
   );
