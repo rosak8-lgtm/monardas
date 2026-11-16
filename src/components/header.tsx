@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
-import { groups, Logo } from "./site";
-import { isProductPath, productGroups } from "@/lib/navigation";
+import { Logo } from "./site";
+import { commercialNavigation, isProductPath } from "@/lib/navigation";
 export function Header() {
   const [active, setActive] = useState<string | null>(null);
   const [mobile, setMobile] = useState(false);
@@ -12,7 +12,7 @@ export function Header() {
   const toggle = useRef<HTMLButtonElement>(null);
   const path = usePathname();
   const product = isProductPath(path);
-  const navigationGroups = product ? productGroups : groups;
+  const navigationGroups = commercialNavigation;
   useEffect(() => {
     function dismiss(e: PointerEvent) {
       if (!ref.current?.contains(e.target as Node)) {
@@ -55,14 +55,13 @@ export function Header() {
         <nav className="desktop-nav" aria-label="Main navigation">
           <Link
             className="nav-direct"
-            href="/ai"
+            href="/hvac"
             onClick={close}
-            aria-current={path === "/ai" ? "page" : undefined}
+            aria-current={path === "/hvac" ? "page" : undefined}
           >
-            MONARDAS AI
+            HVAC Solution
           </Link>
           {Object.entries(navigationGroups)
-            .filter(([name]) => !product || name !== "Next step")
             .map(([name, links]) => (
               <div className="nav-group" key={name}>
                 <button
@@ -94,10 +93,10 @@ export function Header() {
         </nav>
         <Link
           className="header-cta"
-          href="/contact?intent=hvac-pilot"
+          href="/hvac/free-pilot"
           onClick={close}
         >
-          Get a Free Estimate Recovery Assessment
+          30 days free
           <ArrowUpRight size={15} />
         </Link>
         <button
@@ -117,6 +116,7 @@ export function Header() {
           id="mobile-navigation"
           aria-label="Mobile navigation"
         >
+          <Link href="/hvac" onClick={close}>HVAC Solution <ArrowUpRight size={16} /></Link>
           {Object.entries(navigationGroups).map(([name, links]) => (
             <div key={name}>
               <span className="eyebrow">{name}</span>
