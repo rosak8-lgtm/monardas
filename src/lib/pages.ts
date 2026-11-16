@@ -2,12 +2,12 @@ export const commercialPages = {
   ai: {
     title: "MONARDAS AI — Revenue Recovery Systems",
     description:
-      "Focused revenue-recovery systems around existing demand. Our first commercial workflow re-engages unsold HVAC replacement estimates and returns conversations to your sales team.",
+      "Founder-supported follow-up for U.S. residential HVAC businesses with unsold replacement estimates. Explore the limited free 30-day pilot and interactive demo.",
   },
   hvac: {
     title: "HVAC Unsold Estimate Recovery",
     description:
-      "Re-engage unsold HVAC replacement estimates with structured follow-up. A founder-led recovery pilot returns interested homeowners to your sales team. Start with a free assessment.",
+      "Organize contractor-approved follow-up on unsold residential HVAC replacement estimates. Up to 25 eligible quotes in a limited, founder-supported 30-day free pilot.",
   },
   roofing: {
     title: "Roofing Unsold Estimate Recovery",
@@ -17,7 +17,7 @@ export const commercialPages = {
   "current-focus": {
     title: "Current Focus — HVAC Revenue Recovery",
     description:
-      "Our first commercial workflow: unsold replacement estimate recovery for U.S. HVAC contractors. Structured founder-led follow-up and human sales handoff through a focused paid pilot.",
+      "Our first commercial workflow: founder-supported follow-up on eligible HVAC replacement estimates with a limited 30-day free pilot, separate from optional paid work.",
   },
 };
 
@@ -66,7 +66,7 @@ export const pages: Record<string, { title: string; description: string }> = {
   pricing: {
     title: "Recovery Pilot and Program Scope",
     description:
-      "Start with 25–50 old estimates. Agree on recovery scope and pricing based on volume and data readiness.",
+      "Limited 30-day free founding pilot for up to 25 eligible estimates. Optional paid work with a larger batch requires a separate agreement.",
   },
   privacy: {
     title: "Privacy Policy — MONARDAS",
