@@ -256,29 +256,34 @@ export function Steps() {
   );
 }
 export function PricingCards() {
+  const offers = [
+    {
+      title: "30-day free founding pilot",
+      description: "Up to two selected U.S. residential HVAC businesses. Up to 25 eligible unsold replacement estimates, up to two agreed actions each and weekly founder support. $0, no card or automatic renewal.",
+      href: "/hvac/free-pilot",
+      cta: "Apply for 30 Days Free",
+    },
+    {
+      title: "Free 3-minute follow-up check",
+      description: "Review gaps in your existing estimate process, inside your browser. No signup, CRM migration or homeowner data upload required.",
+      href: "/hvac/scorecard",
+      cta: "Take the Free Scorecard",
+    },
+    {
+      title: "Optional paid managed service",
+      description: "A separately agreed, founder-led engagement may cover a larger 25–50-estimate batch. Scope, eligibility, responsibilities and pricing are negotiated in writing before any work.",
+      href: "/contact?intent=hvac-pilot",
+      cta: "Discuss Separate Paid Work",
+    },
+  ];
   return (
     <div className="three-column">
-      {[
-        [
-          "Free review",
-          "Review your unsold replacement estimate backlog. No commitment to a paid pilot.",
-        ],
-        [
-          "Founder-led Recovery Pilot",
-          "Start with 25–50 suitable estimates. Pilot pricing is agreed after scope review.",
-        ],
-        [
-          "Pilot report",
-          "Review follow-up activity, replies and sales handoffs. Decide on any next steps separately; no subscription is required.",
-        ],
-      ].map(([t, d]) => (
-        <article key={t}>
-          <Eyebrow>Scope agreed before launch</Eyebrow>
-          <h3>{t}</h3>
-          <p>{d}</p>
-          <Button href="/contact?intent=hvac-pilot" secondary>
-            Get a Free Estimate Recovery Assessment
-          </Button>
+      {offers.map((offer) => (
+        <article key={offer.title}>
+          <Eyebrow>Clear scope before any engagement</Eyebrow>
+          <h3>{offer.title}</h3>
+          <p>{offer.description}</p>
+          <Button href={offer.href} secondary>{offer.cta}</Button>
         </article>
       ))}
     </div>
