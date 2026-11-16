@@ -63,6 +63,114 @@ export function ContactForm({
       setState("error");
     }
   }
+  const renderField = ([name, label, type, autoComplete]: (typeof fields)[number]) => {
+    const required = ["firstName", "company", "email"].includes(name);
+    return (
+      <div
+        className={
+          ["company", "crm", "companyWebsite"].includes(name)
+            ? "full-field"
+            : ""
+        }
+        key={name}
+      >
+        <label htmlFor={name}>
+          {label}
+          {required ? (
+            <span aria-hidden="true"> *</span>
+          ) : (
+            <span className="optional"> (optional)</span>
+          )}
+        </label>
+        <input
+          id={name}
+          name={name}
+          type={type}
+          required={required}
+          placeholder={
+            name === "companyWebsite" ? "yourcompany.com" : undefined
+          }
+          maxLength={name === "phone" ? 25 : 200}
+          autoComplete={autoComplete}
+          aria-invalid={!!errors[name]}
+          aria-describedby={errors[name] ? `${name}-error` : undefined}
+        />
+        {errors[name] && (
+          <span className="field-error" id={`${name}-error`}>
+            {errors[name]}
+          </span>
+        )}
+      </div>
+    );
+  };
+  const messageField = (
+    <div className="full-field">
+              <label htmlFor="message">
+                Notes <span className="optional">(optional)</span>
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={4}
+                maxLength={3000}
+                defaultValue={
+                  freePilot
+                    ? ""
+                    : agencyPartner
+                      ? ""
+                    : foundingPartner
+                      ? "I’d like to discuss an HVAC Recovery Pilot."
+                      : ""
+                }
+                placeholder={freePilot ? "How many unsold estimates do you have? Which CRM do you use? No homeowner details." : agencyPartner ? "Which HVAC clients do you support, and what kind of collaboration are you exploring?" : "Anything we should know about your unsold replacement estimates?"}
+                aria-invalid={!!errors.message}
+                aria-describedby={errors.message ? "message-error" : undefined}
+              />
+              {errors.message && (
+                <span id="message-error" className="field-error">
+                  {errors.message}
+                </span>
+              )}
+            </div>
+  );
+  const replyPreferences = (
+    <fieldset className="full-field">
+            <legend>How would you like MONARDAS to reply?</legend>
+            <label htmlFor="preferredChannel">Preferred reply channel</label>
+            <select id="preferredChannel" name="preferredChannel" defaultValue="email">
+              <option value="email">Email (default)</option>
+              <option value="whatsapp">WhatsApp — reply to the phone number above</option>
+              <option value="telegram">Telegram — reply to the username below</option>
+            </select>
+            <label htmlFor="telegramHandle">Telegram username (only if you selected Telegram)</label>
+            <input
+              id="telegramHandle"
+              name="telegramHandle"
+              type="text"
+              placeholder="@your_username"
+              maxLength={33}
+              autoComplete="off"
+              aria-invalid={!!errors.telegramHandle}
+              aria-describedby={errors.telegramHandle ? "telegramHandle-error" : undefined}
+            />
+            {errors.telegramHandle && (
+              <span className="field-error" id="telegramHandle-error">
+                {errors.telegramHandle}
+              </span>
+            )}
+            {errors.preferredChannel && (
+              <span className="field-error" id="preferredChannel-error">
+                {errors.preferredChannel}
+              </span>
+            )}
+            <p className="form-note">
+              Your selection asks us to reply to this enquiry using your chosen
+              channel. It is not a subscription to marketing messages. WhatsApp
+              requires a phone number; Telegram requires a public username.
+            </p>
+          </fieldset>
+  );
+
   return (
     <form
       className="contact-form"
@@ -96,110 +204,26 @@ export function ContactForm({
           : "Start with your name, company and work email. All other fields are optional."}
       </p>
       <div className="form-grid">
-        {fields.map(([name, label, type, autoComplete]) => {
-          const required = ["firstName", "company", "email"].includes(name);
-          return (
-            <div
-              className={
-                ["company", "crm", "companyWebsite"].includes(name)
-                  ? "full-field"
-                  : ""
-              }
-              key={name}
-            >
-              <label htmlFor={name}>
-                {label}
-                {required ? (
-                  <span aria-hidden="true"> *</span>
-                ) : (
-                  <span className="optional"> (optional)</span>
-                )}
-              </label>
-              <input
-                id={name}
-                name={name}
-                type={type}
-                required={required}
-                placeholder={
-                  name === "companyWebsite" ? "yourcompany.com" : undefined
-                }
-                maxLength={name === "phone" ? 25 : 200}
-                autoComplete={autoComplete}
-                aria-invalid={!!errors[name]}
-                aria-describedby={errors[name] ? `${name}-error` : undefined}
-              />
-              {errors[name] && (
-                <span className="field-error" id={`${name}-error`}>
-                  {errors[name]}
-                </span>
-              )}
-            </div>
-          );
-        })}
-        <div className="full-field">
-          <label htmlFor="message">
-            Notes <span className="optional">(optional)</span>
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            rows={4}
-            maxLength={3000}
-            defaultValue={
-              freePilot
-                ? ""
-                : agencyPartner
-                  ? ""
-                : foundingPartner
-                  ? "I’d like to discuss an HVAC Recovery Pilot."
-                  : ""
-            }
-            placeholder={freePilot ? "How many unsold estimates do you have? Which CRM do you use? No homeowner details." : agencyPartner ? "Which HVAC clients do you support, and what kind of collaboration are you exploring?" : "Anything we should know about your unsold replacement estimates?"}
-            aria-invalid={!!errors.message}
-            aria-describedby={errors.message ? "message-error" : undefined}
-          />
-          {errors.message && (
-            <span id="message-error" className="field-error">
-              {errors.message}
-            </span>
-          )}
-        </div>
+        {fields.slice(0, 3).map(renderField)}
+        {freePilot ? (
+          <div className="full-field">
+            <details className="contact-more-details">
+              <summary>Optional: website, CRM, phone and other details</summary>
+              <div className="form-grid">
+                {fields.slice(3).map(renderField)}
+                {messageField}
+              </div>
+              {replyPreferences}
+            </details>
+          </div>
+        ) : (
+          <>
+            {fields.slice(3).map(renderField)}
+            {messageField}
+          </>
+        )}
       </div>
-      <fieldset className="full-field">
-        <legend>How would you like MONARDAS to reply?</legend>
-        <label htmlFor="preferredChannel">Preferred reply channel</label>
-        <select id="preferredChannel" name="preferredChannel" defaultValue="email">
-          <option value="email">Email (default)</option>
-          <option value="whatsapp">WhatsApp — reply to the phone number above</option>
-          <option value="telegram">Telegram — reply to the username below</option>
-        </select>
-        <label htmlFor="telegramHandle">Telegram username (only if you selected Telegram)</label>
-        <input
-          id="telegramHandle"
-          name="telegramHandle"
-          type="text"
-          placeholder="@your_username"
-          maxLength={33}
-          autoComplete="off"
-          aria-invalid={!!errors.telegramHandle}
-          aria-describedby={errors.telegramHandle ? "telegramHandle-error" : undefined}
-        />
-        {errors.telegramHandle && (
-          <span className="field-error" id="telegramHandle-error">
-            {errors.telegramHandle}
-          </span>
-        )}
-        {errors.preferredChannel && (
-          <span className="field-error" id="preferredChannel-error">
-            {errors.preferredChannel}
-          </span>
-        )}
-        <p className="form-note">
-          Your selection asks us to reply to this enquiry using your chosen
-          channel. It is not a subscription to marketing messages. WhatsApp
-          requires a phone number; Telegram requires a public username.
-        </p>
-      </fieldset>
+      {!freePilot && replyPreferences}
       <div className="honeypot" aria-hidden="true">
         <label htmlFor="website">
           Website
@@ -215,7 +239,13 @@ export function ContactForm({
           ? "Sending…"
           : state === "success"
             ? "Request received"
-            : "Get a Free Estimate Recovery Assessment"}
+            : freePilot
+              ? "Apply for the Free 30-Day Pilot"
+              : agencyPartner
+                ? "Ask About Partnership"
+                : foundingPartner
+                  ? "Discuss a Recovery Pilot"
+                  : "Get a Free Estimate Recovery Assessment"}
         <ArrowUpRight size={18} />
       </button>
       <noscript>

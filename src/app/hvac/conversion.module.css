@@ -86,3 +86,28 @@
 .freeContact :global(.contact-form .form-submit:hover) { background:#0c514e; border-color:#0c514e; }
 .freeContact :global(.contact-form .form-submit:focus-visible) { outline:3px solid #c69633; outline-offset:3px; }
 @media(max-width:740px){ .freePilot :global(.page-hero){padding:27px 19px;border-radius:18px;} .freePilot :global(.hvac-cards article){padding:20px;} .freeContact{padding:23px 16px !important; border-radius:18px;} .freeContact :global(.contact-form){padding:19px;} }
+
+/* Make the free-founder intake a short, honest three-field-first form. */
+.freeContact :global(.contact-more-details) {
+  margin-top: 6px;
+  padding: 13px 16px;
+  border: 1px solid #cbded9;
+  border-radius: 12px;
+  background: #f1f8f6;
+  color: #163b44;
+}
+.freeContact :global(.contact-more-details > summary) {
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.freeContact :global(.contact-more-details > summary:focus-visible) {
+  outline: 3px solid #c69633;
+  outline-offset: 4px;
+}
+.freeContact :global(.contact-more-details[open] > summary) {
+  margin-bottom: 16px;
+}
+.freeContact :global(.contact-more-details .form-grid) {
+  margin-bottom: 16px;
+}
