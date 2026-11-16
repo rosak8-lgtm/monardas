@@ -17,9 +17,7 @@ export function CurrentFocusPage() {
           follow-up with a human sales handoff.
         </p>
         <div className="button-row">
-          <Button href="/contact?intent=hvac-pilot">
-            Get a Free Estimate Recovery Assessment
-          </Button>
+          <Button href="/hvac/free-pilot">Apply for the 30-Day Free Pilot</Button>
           <Button href="/hvac" secondary>
             Explore HVAC Revenue Recovery
           </Button>
@@ -40,7 +38,7 @@ export function CurrentFocusPage() {
               ["Who", "U.S. HVAC contractors"],
               ["What", "Unsold replacement estimates"],
               ["How", "Structured follow-up + human sales handoff"],
-              ["Stage", "Focused paid pilot"],
+              ["Stage", "Limited 30-day free founding pilot; separate paid service available"],
             ].map(([label, value]) => (
               <div key={label}>
                 <dt>{label}</dt>
@@ -62,9 +60,7 @@ export function CurrentFocusPage() {
             export or existing list. Scope and terms are confirmed before
             launch.
           </p>
-          <Button href="/hvac#founding-partners">
-            Explore the Founder-led Recovery Pilot
-          </Button>
+          <Button href="/hvac/free-pilot">Review the Free Pilot Terms</Button>
           <p>
             You work directly with the person designing and operating the pilot.
             The broader MONARDAS thesis remains intelligence, systems and
