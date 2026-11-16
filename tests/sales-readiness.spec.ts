@@ -129,6 +129,32 @@ test("minimal assessment API payload reaches mocked Resend with optional fields 
   status = 200;
   expect((await send(minimal, { DNT: "1" })).status).toBe(201);
   expect(events).toHaveLength(1);
+
+  // The next two are isolated provider-mocked acceptances, not real leads.
+  const founder = { ...minimal, intent: "hvac-free-pilot" };
+  const agency = { ...minimal, intent: "agency-partner" };
+  expect((await send(founder)).status).toBe(201);
+  expect(calls.at(-1)?.subject).toContain("MONARDAS HVAC FREE Founding Pilot Application");
+  expect(events).toEqual([
+    ["hvac_audit_submit_success", "/contact"],
+    ["hvac_free_pilot_provider_accepted", "/contact"],
+  ]);
+  expect((await send(agency)).status).toBe(201);
+  expect(calls.at(-1)?.subject).toContain("MONARDAS HVAC Agency Partnership Inquiry");
+  expect(events.at(-1)).toEqual(["hvac_agency_provider_accepted", "/contact"]);
+
+  const acceptedCount = events.length;
+  status = 422;
+  expect((await send(founder)).status).toBe(502);
+  expect((await send(agency)).status).toBe(502);
+  expect(events).toHaveLength(acceptedCount);
+  status = 200;
+  expect((await send(founder, { DNT: "1" })).status).toBe(201);
+  expect((await send(agency, { "Sec-GPC": "1" })).status).toBe(201);
+  expect(events).toHaveLength(acceptedCount);
+  // Server-only accepted events are deliberately rejected on the public endpoint.
+  expect(validFunnelEvent("hvac_free_pilot_provider_accepted", "/contact")).toBe(false);
+  expect(validFunnelEvent("hvac_agency_provider_accepted", "/contact")).toBe(false);
 });
 
 test("minimal form carries campaign context across navigation and survives analytics failure", async ({
