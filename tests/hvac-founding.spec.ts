@@ -82,3 +82,28 @@ test("free founder form is mobile ready and prevents invalid addresses",async ({
   console.log("FREE_PILOT_MOBILE_OVERFLOW", JSON.stringify(overflow));
   expect(overflow).toEqual([]);
 });
+
+test("free pilot form is three-field-first and its CTA matches the free offer", async ({ page }) => {
+  await page.goto("/contact?intent=hvac-free-pilot");
+  await expect(page.locator(".contact-form h2")).toHaveText("Apply for a Free 30-Day HVAC Pilot");
+  await expect(page.getByRole("button", { name: "Apply for the Free 30-Day Pilot" })).toBeVisible();
+  await expect(page.locator(".contact-form input[required]")).toHaveCount(3);
+  await expect(page.locator("#firstName")).toBeVisible();
+  await expect(page.locator("#company")).toBeVisible();
+  await expect(page.locator("#email")).toBeVisible();
+  await expect(page.locator("#companyWebsite")).not.toBeVisible();
+  await expect(page.locator("#phone")).not.toBeVisible();
+  await page.getByText("Optional: website, CRM, phone and other details").click();
+  await expect(page.locator("#companyWebsite")).toBeVisible();
+  await expect(page.locator("#phone")).toBeVisible();
+  await expect(page.locator("#crm")).toBeVisible();
+  await expect(page.locator("#preferredChannel")).toBeVisible();
+  await expect(page.locator("#message")).toBeVisible();
+});
+
+test("paid assessment CTA remains distinct from the free founder application", async ({ page }) => {
+  await page.goto("/contact?intent=hvac-pilot");
+  await expect(page.getByRole("button", { name: "Get a Free Estimate Recovery Assessment" })).toBeVisible();
+  await expect(page.locator(".contact-form input[required]")).toHaveCount(3);
+  await expect(page.locator("#companyWebsite")).toBeVisible();
+});
