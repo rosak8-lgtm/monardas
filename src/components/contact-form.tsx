@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState, useSyncExternalStore } from "react";
 import { ArrowUpRight, Check } from "lucide-react";
+import Link from "next/link";
 import { validate, type ContactData, type Errors } from "@/lib/contact";
 import { captureAttribution } from "@/lib/attribution";
 
@@ -280,6 +281,13 @@ export function ContactForm({
       <p className="form-note">
         Your details are used to review and respond to your request. Submitting
         this form does not commit you to a paid pilot or guarantee selection for a free one.
+        {" "}<Link href="/privacy">Privacy Policy</Link>
+        {" · "}<Link href="/terms">Website &amp; Pilot Terms</Link>
+        {freePilot && (
+          <>
+            {" · "}<Link href="/hvac/free-pilot#pilot-faq">Free Pilot FAQ</Link>
+          </>
+        )}
       </p>
     </form>
   );

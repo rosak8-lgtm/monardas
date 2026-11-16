@@ -50,3 +50,37 @@ test("legal pages, footer links and confirmed operator details on desktop/mobile
     }
   }
 });
+
+test("free founding program terms, privacy and cancellation policy agree", async ({ page }) => {
+  await page.goto("/terms");
+  const terms = page.locator(".legal");
+  await expect(terms).toContainText("30-day no-cost pilot");
+  await expect(terms).toContainText("up to two selected U.S. residential HVAC contractors");
+  await expect(terms).toContainText("up to 25 eligible unsold replacement estimates");
+  await expect(terms).toContainText("up to two mutually agreed follow-up actions");
+  await expect(terms).toContainText("no credit card or payment");
+  await expect(terms).toContainText("does not renew automatically");
+  await expect(terms).toContainText("separate written authorization");
+  await expect(terms).not.toContainText("Any pilot is paid and custom");
+
+  await page.goto("/refund-policy");
+  const refunds = page.locator(".legal");
+  await expect(refunds).toContainText("no automatic renewal or charges");
+  await expect(refunds).toContainText("separately agreed paid");
+  await expect(refunds).toContainText("does not automatically become a paid engagement");
+
+  await page.goto("/privacy");
+  const privacy = page.locator(".legal");
+  await expect(privacy).toContainText("30-day founding-pilot application");
+  await expect(privacy).toContainText("do not submit homeowner lists");
+
+  await page.goto("/hvac/free-pilot");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("30 days free");
+  await expect(page.locator("main")).toContainText("25");
+
+  await page.goto("/contact?intent=hvac-free-pilot");
+  const form = page.locator("form.contact-form");
+  await expect(form.getByRole("link", { name: "Privacy Policy" })).toHaveAttribute("href", "/privacy");
+  await expect(form.getByRole("link", { name: "Website & Pilot Terms" })).toHaveAttribute("href", "/terms");
+  await expect(form.getByRole("link", { name: "Free Pilot FAQ" })).toHaveAttribute("href", "/hvac/free-pilot#pilot-faq");
+});
