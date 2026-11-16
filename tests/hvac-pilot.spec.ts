@@ -220,11 +220,22 @@ test("HVAC desktop/mobile accessibility and screenshots", async ({ page }) => {
     ]) {
       await page.goto(route);
       await page.evaluate(() => document.fonts.ready);
-      expect(
-        await page.evaluate(
-          () => document.documentElement.scrollWidth <= innerWidth,
-        ),
-      ).toBe(true);
+      const overflowDebug = await page.evaluate(() => ({
+        viewport: innerWidth,
+        page: document.documentElement.scrollWidth,
+        offenders: [...document.querySelectorAll("*")]
+          .map((element) => ({
+            tag: element.tagName.toLowerCase(),
+            cls: typeof element.className === "string" ? element.className.slice(0, 120) : "",
+            right: Math.round(element.getBoundingClientRect().right),
+            width: Math.round(element.getBoundingClientRect().width),
+            text: (element.textContent || "").trim().slice(0, 65),
+          }))
+          .filter((element) => element.right > innerWidth + 1)
+          .slice(0, 12),
+      }));
+      console.log("HVAC_VIEWPORT_DIAGNOSTIC", width, route, JSON.stringify(overflowDebug));
+      expect(overflowDebug.page <= overflowDebug.viewport).toBe(true);
       expect(
         (
           await new AxeBuilder({ page })
