@@ -49,9 +49,9 @@ export default async function Page({
             <em>Grow with the evidence.</em>
           </h1>
           <p>
-            Every pipeline is different. Agree on scope and pricing before
-            launch, based on data readiness, estimate volume and the handoff
-            your team needs.
+            Start with a limited founder-supported 30-day free pilot for up to
+            25 eligible unsold HVAC replacement estimates. Any later paid work
+            is separately scoped and agreed in writing.
           </p>
         </section>
         <section className="section container">
@@ -75,7 +75,7 @@ export default async function Page({
             A practical process built around the people who close the job. Your
             team controls the messaging, the handoff and the sale.
           </p>
-          <Button href="/contact?intent=hvac-pilot">Get a Free Estimate Recovery Assessment</Button>
+          <Button href="/hvac/free-pilot">Apply for the 30-Day Free Pilot</Button>
         </section>
         <section className="section stone">
           <div className="container split">
