@@ -11,6 +11,12 @@ on:
       - "src/components/contact-form.tsx"
       - "src/components/funnel-tracking.tsx"
       - "src/components/hvac-page.tsx"
+      - "src/app/globals.css"
+      - "src/app/hvac/conversion.module.css"
+      - "public/hvac/**"
+      - "src/lib/funnel.ts"
+      - "tests/hvac-conversion-redesign.spec.ts"
+      - "tests/hvac-pilot.spec.ts"
       - "src/app/contact/page.tsx"
       - "src/app/api/contact/route.ts"
       - "src/lib/attribution.ts"
@@ -29,6 +35,12 @@ on:
       - "src/components/contact-form.tsx"
       - "src/components/funnel-tracking.tsx"
       - "src/components/hvac-page.tsx"
+      - "src/app/globals.css"
+      - "src/app/hvac/conversion.module.css"
+      - "public/hvac/**"
+      - "src/lib/funnel.ts"
+      - "tests/hvac-conversion-redesign.spec.ts"
+      - "tests/hvac-pilot.spec.ts"
       - "src/app/contact/page.tsx"
       - "src/app/api/contact/route.ts"
       - "src/lib/attribution.ts"
@@ -63,5 +75,5 @@ jobs:
         run: npm run build:vinext
       - name: Install browser
         run: npx --no-install playwright install --with-deps chromium
-      - name: Scorecard browser tests
+      - name: HVAC conversion and regression browser tests
         run: npx --no-install playwright test --config playwright.growth.config.ts

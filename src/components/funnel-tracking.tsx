@@ -38,6 +38,8 @@ export function FunnelTracking() {
       if (url.origin !== location.origin) return;
       if (pathname === "/hvac") {
         if (url.pathname === "/hvac/scorecard") send("hvac_scorecard_cta_click");
+        if (url.pathname === "/hvac/free-pilot") send("hvac_free_pilot_cta_click");
+        if (url.pathname === "/contact" && url.searchParams.get("intent") === "agency-partner") send("hvac_agency_cta_click");
         if (url.pathname === "/contact" && url.searchParams.get("intent") === "hvac-pilot")
           send("hvac_audit_cta_click");
       }

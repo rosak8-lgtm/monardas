@@ -2511,3 +2511,33 @@ textarea:focus-visible {
   min-width: 0;
   box-sizing: border-box;
 }
+
+
+/* Keep long contact headings within narrow phones, including existing paid assessment route. */
+@media (max-width: 640px) {
+  .contact-page .contact-copy,
+  .contact-page .contact-form { min-width: 0; }
+  .contact-page .contact-copy h1 {
+    font-size: clamp(34px, 9.3vw, 44px);
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Native fieldsets and long select choices must not set a grid track's min-content width. */
+@media (max-width: 640px) {
+  .hvac-pilot-contact { grid-template-columns: minmax(0, 1fr); }
+  .hvac-pilot-contact .contact-form fieldset {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .hvac-pilot-contact .contact-form select,
+  .hvac-pilot-contact .contact-form input,
+  .hvac-pilot-contact .contact-form textarea {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+}

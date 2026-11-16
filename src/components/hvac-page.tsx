@@ -1,8 +1,20 @@
 import { Button, Eyebrow, SectionHeading } from "./site";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowUpRight, ScanSearch, ChartNoAxesCombined, Workflow, Handshake, CircleHelp, CalendarCheck, ShieldCheck } from "lucide-react";
+import styles from "@/app/hvac/conversion.module.css";
 import { Calculator } from "./calculator";
 import { MONARDAS_HVAC_WHATSAPP_URL } from "@/lib/whatsapp";
 
 const pilotHref = "/contact?intent=hvac-pilot";
+const conversionCards = [
+  { title: "30-day free pilot", blurb: "Apply for one of two founder-supported spots. Up to 25 eligible unsold replacement estimates.", label: "Apply for a free pilot", href: "/hvac/free-pilot", icon: CalendarCheck, featured: true },
+  { title: "3-minute scorecard", blurb: "Find gaps in your current follow-up process. No signup, upload or client data needed.", label: "Check your process", href: "/hvac/scorecard", icon: ScanSearch, featured: false },
+  { title: "Interactive walkthrough", blurb: "See fictional estimates, decisions and follow-up steps in a working demo.", label: "Explore the demo", href: "/hvac/demo", icon: ChartNoAxesCombined, featured: false },
+  { title: "How the pilot works", blurb: "Understand the exact workflow, client approvals, exclusions and weekly reporting.", label: "View the workflow", href: "/hvac#system", icon: Workflow, featured: false },
+  { title: "Agency partnerships", blurb: "Introduce suitable HVAC businesses through an honest, voluntary B2B collaboration.", label: "Explore partnerships", href: "/contact?intent=agency-partner", icon: Handshake, featured: false },
+  { title: "Pilot questions", blurb: "Review scope, privacy, responsibilities and what happens after day 30.", label: "Read pilot FAQs", href: "/hvac/free-pilot#pilot-faq", icon: CircleHelp, featured: false },
+] as const;
 const faqs = [
   [
     "Is the interactive demo really free?",
@@ -64,51 +76,95 @@ const faqs = [
 
 export function HVACPage() {
   return (
-    <div className="product-page hvac-page">
-      <section className="container page-hero product-hero">
-        <Eyebrow>MONARDAS AI / HVAC ESTIMATE RECOVERY</Eyebrow>
-        <h1>
-          Recover revenue from HVAC replacement estimates{" "}
-          <em>that never closed.</em>
-        </h1>
-        <p>
-          You paid for the lead and delivered the quote. MONARDAS re-engages
-          homeowners who never moved forward, identifies who is open to
-          revisiting the estimate, and hands those conversations back to your
-          sales team.
-        </p>
-        <p className="hvac-support">
-          Before buying more leads, recover the opportunities already sitting in
-          your pipeline.
-        </p>
-        <div className="button-row">
-          <Button href="/hvac/free-pilot">Apply for Free 30-Day Founder Pilot</Button>
-          <Button href="/hvac/scorecard" secondary>Free 3-Minute Follow-Up Check</Button>
-          <Button href="/hvac/demo" secondary>Try Free Interactive Demo</Button>
-          <Button href={pilotHref} secondary>
-            Request a Free Assessment
-          </Button>
-          <Button href="#system" secondary>
-            See How It Works
-          </Button>
-          <Button href={MONARDAS_HVAC_WHATSAPP_URL} secondary>
-            Chat with MONARDAS on WhatsApp
-          </Button>
+    <div className={`product-page hvac-page ${styles.page}`}>
+      <section className={`container page-hero product-hero ${styles.hero}`}>
+        <div className={styles.heroGrid}>
+          <div className={styles.intro}>
+            <Eyebrow>MONARDAS HVAC / ESTIMATE RECOVERY</Eyebrow>
+            <div className={styles.pilotRibbon}><span className={styles.liveDot} aria-hidden="true" /> Founding program · two selected U.S. HVAC businesses</div>
+            <h1>
+              Recover revenue from HVAC replacement estimates{" "}
+              <em>that never closed.</em>
+            </h1>
+            <p>
+              You already earned the lead and prepared the quote. We help your team
+              organize approved follow-up on eligible unsold replacement estimates
+              and track what really happens next.
+            </p>
+            <p className="hvac-support">
+              Start with a defined, founder-supported pilot — not a new CRM
+              subscription or a promise of guaranteed sales.
+            </p>
+            <div className={styles.mainActions}>
+              <Link className={styles.primaryAction} href="/hvac/free-pilot">
+                Apply — 30 days free <ArrowUpRight size={19} aria-hidden="true" />
+              </Link>
+              <Link className={styles.secondaryAction} href="/hvac/scorecard">
+                Take the 3-minute check <ArrowUpRight size={17} aria-hidden="true" />
+              </Link>
+            </div>
+            <div className={styles.trustLine}>
+              <span><ShieldCheck size={17} aria-hidden="true" /> No credit card</span>
+              <span>Up to 25 estimates</span>
+              <span>No automatic renewal</span>
+            </div>
+          </div>
+          <div className={styles.visual}>
+            <Image src="/hvac/recovery-visual.svg" width={800} height={500} alt="Illustration of a residential heat pump and a sample workflow showing a limited estimate review and weekly reporting; not actual customer results" priority />
+            <div className={styles.visualCaption}>Concept illustration · no customer data or invented performance claims</div>
+            <div className={styles.metricStrip}>
+              <div><strong>30</strong><span>days free</span></div>
+              <div><strong>25</strong><span>max. eligible estimates</span></div>
+              <div><strong>2</strong><span>max. approved actions / estimate</span></div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.sectionLabel}>
+          <div><span className={styles.smallCaps}>Choose your next step</span><h2>One clear path to a better follow-up process.</h2></div>
+          <p>Everything below is clickable and opens an existing MONARDAS page or tool.</p>
+        </div>
+        <div className={styles.tileGrid} role="region" aria-label="Explore MONARDAS HVAC">
+          {conversionCards.map((item) => (
+            <article className={item.featured ? `${styles.tile} ${styles.tileFeatured}` : styles.tile} key={item.href}>
+              <div className={styles.tileIcon}><item.icon size={24} strokeWidth={1.7} aria-hidden="true" /></div>
+              <h3>{item.title}</h3>
+              <p>{item.blurb}</p>
+              <Link href={item.href} className={styles.tileLink}>
+                {item.label} <ArrowUpRight size={18} aria-hidden="true" />
+              </Link>
+            </article>
+          ))}
+        </div>
+        <div className={styles.secondaryLinks} aria-label="Other HVAC options">
+          <span>Need a separate paid managed pilot or a quick question?</span>
+          <div className="button-row">
+            <Button href="/hvac/free-pilot">Apply for Free 30-Day Founder Pilot</Button>
+            <Button href="/hvac/scorecard" secondary>Free 3-Minute Follow-Up Check</Button>
+            <Button href="/hvac/demo" secondary>Try Free Interactive Demo</Button>
+            <Button href={pilotHref} secondary>Get a Free Estimate Recovery Assessment</Button>
+            <Button href="#system" secondary>See How It Works</Button>
+            <Button href={MONARDAS_HVAC_WHATSAPP_URL} secondary>Chat with MONARDAS on WhatsApp</Button>
+          </div>
         </div>
         <p className="fine-print">
           <strong>Explore the demo free — no sign-up or credit card.</strong>
           <br />
-          The demo uses fictional estimates and never contacts homeowners. A
-          limited 30-day free follow-up program is available to two selected
-          contractors, for up to 25 eligible estimates with weekly support. Real homeowner outreach requires
-          a separate approved scope; the standard managed recovery pilot is paid.
+          Free initial review. No commitment to a paid pilot.
+          The demo uses fictional estimates and never contacts homeowners.
+          The limited 30-day free founder program covers up to 25 eligible estimates for
+          at most two selected U.S. businesses with weekly founder support.
+          No homeowner outreach by MONARDAS without separate written authorization,
+          lawful channel eligibility and approved suppression checks.
         </p>
-        <ul className="hvac-hero-baseline">
-          <li>25–50 estimates</li>
-          <li>Founder-led managed pilot</li>
-          <li>No CRM migration required</li>
-          <li>Your sales team closes</li>
-        </ul>
+        <div className={styles.paidNote}>
+          <span>Separate paid offering — not included in the free founding pilot</span>
+          <ul className="hvac-hero-baseline">
+            <li>25–50 estimates</li>
+            <li>Founder-led managed pilot</li>
+            <li>No CRM migration required</li>
+            <li>Your sales team closes</li>
+          </ul>
+        </div>
       </section>
       <section className="dark section">
         <div className="container split">

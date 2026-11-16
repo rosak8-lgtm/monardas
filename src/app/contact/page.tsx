@@ -3,6 +3,7 @@ import { Check, ArrowUpRight } from "lucide-react";
 import { Button, Eyebrow } from "@/components/site";
 import { MONARDAS_HVAC_WHATSAPP_URL } from "@/lib/whatsapp";
 import { ContactForm } from "@/components/contact-form";
+import styles from "@/app/hvac/conversion.module.css";
 export const metadata = pageMetadata(
   "Get a Free Estimate Recovery Assessment",
   "Request a free review of your unsold HVAC replacement estimates. Assess backlog fit before discussing a focused paid recovery pilot. No commitment.",
@@ -19,7 +20,7 @@ export default async function Contact({
   const freePilot = intent === "hvac-free-pilot";
   if (intent === "hvac-pilot" || agencyPartner || freePilot)
     return (
-      <section className={"container contact-page hvac-pilot-contact" + (freePilot ? " free-founder-contact" : "")}>
+      <section className={"container contact-page hvac-pilot-contact" + (freePilot ? " free-founder-contact " + styles.freeContact : "")}>
         <div className="contact-copy">
           <Eyebrow>{freePilot ? "MONARDAS / FOUNDING HVAC CONTRACTORS" : agencyPartner ? "MONARDAS / HVAC referral partners" : "MONARDAS AI / HVAC estimate recovery"}</Eyebrow>
           <h1>{freePilot ? "Apply for the Free 30-Day HVAC Pilot" : agencyPartner ? "Partner With MONARDAS" : "Get a Free Estimate Recovery Assessment"}</h1>
