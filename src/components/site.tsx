@@ -185,7 +185,7 @@ const faqs = [
   ],
   [
     "Can we start with a small batch?",
-    "Yes. Start with 25–50 old estimates, review the responses and decide whether a repeatable recovery workflow makes sense.",
+    "Yes. The limited free founding pilot covers up to 25 suitable replacement estimates. Larger 25–50-estimate paid programs are separately negotiated.",
   ],
   [
     "How is success measured?",
@@ -228,7 +228,7 @@ export const steps = [
   ],
   [
     "Re-engage",
-    "Send personalized follow-up with messaging approved by your team.",
+    "Your approved team sends eligible follow-ups using messaging and exclusions agreed in advance.",
   ],
   [
     "Understand intent",
