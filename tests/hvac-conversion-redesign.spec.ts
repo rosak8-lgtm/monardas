@@ -1,5 +1,13 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { validFunnelEvent } from "../src/lib/funnel";
+
+test("conversion event allowlist stays scoped to HVAC without personal data", () => {
+  expect(validFunnelEvent("hvac_free_pilot_cta_click", "/hvac")).toBe(true);
+  expect(validFunnelEvent("hvac_agency_cta_click", "/hvac")).toBe(true);
+  expect(validFunnelEvent("hvac_free_pilot_cta_click", "/contact")).toBe(false);
+  expect(validFunnelEvent("hvac_agency_cta_click", "/hvac/scorecard")).toBe(false);
+});
 
 const choices = [
   ["Apply for a free pilot", "/hvac/free-pilot"],
