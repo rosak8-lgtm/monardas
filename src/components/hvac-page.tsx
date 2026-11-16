@@ -1,7 +1,7 @@
 import { Button, Eyebrow, SectionHeading } from "./site";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, ClipboardCheck, ScanSearch, ChartNoAxesCombined, Workflow, Handshake, CircleHelp, CalendarCheck, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, ScanSearch, ChartNoAxesCombined, Workflow, Handshake, CircleHelp, CalendarCheck, ShieldCheck } from "lucide-react";
 import styles from "@/app/hvac/conversion.module.css";
 import { Calculator } from "./calculator";
 import { MONARDAS_HVAC_WHATSAPP_URL } from "@/lib/whatsapp";
