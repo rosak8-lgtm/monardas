@@ -21,7 +21,7 @@ export function RecoveryProcess() {
     ],
     [
       "Respond",
-      "Start relevant, structured communication while the opportunity is still open.",
+      "Prepare next actions and contractor-approved drafts; your team retains control of homeowner contact.",
     ],
     [
       "Qualify",
