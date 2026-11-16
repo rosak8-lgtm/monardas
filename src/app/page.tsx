@@ -47,7 +47,7 @@ export default function Home() {
         <div className={`container ${styles.heroGrid}`}>
           <div className={styles.heroCopy}>
             <div className={styles.eyebrow}><span className={styles.dot} aria-hidden="true" /> Built for residential HVAC owners in the USA</div>
-            <h1 id="home-title">The estimate went out. <span>Don't let the opportunity disappear.</span></h1>
+            <h1 id="home-title">The estimate went out. <span>Don&apos;t let the opportunity disappear.</span></h1>
             <p className={styles.heroLead}>MONARDAS helps your team follow up on unsold HVAC replacement quotes with a clear plan, approved next steps and honest reporting. No new leads required.</p>
             <div className={styles.heroActions}>
               <ActionLink href="/hvac/free-pilot">Apply for 30 days free</ActionLink>
@@ -100,7 +100,7 @@ export default function Home() {
       <section className={`container ${styles.section}`} id="how-it-works">
         <div className={styles.sectionLead}>
           <span className={styles.sectionKicker}>THE PROBLEM AND THE PLAN</span>
-          <h2>You've done the hard part. <em>Finish the conversation.</em></h2>
+          <h2>You&apos;ve done the hard part. <em>Finish the conversation.</em></h2>
           <p>Your estimator visited, scoped the job and sent a replacement quote. If no one owns the next step, a real opportunity can sit untouched. MONARDAS makes that work visible — without taking over your sales process.</p>
         </div>
         <div className={styles.stageGrid}>
@@ -119,7 +119,7 @@ export default function Home() {
         <div className={`container ${styles.proofGrid}`}>
           <div>
             <span className={styles.sectionKicker}>SEE IT BEFORE YOU COMMIT</span>
-            <h2 id="proof-title">Explore what's real. <em>No invented success stories.</em></h2>
+            <h2 id="proof-title">Explore what&apos;s real. <em>No invented success stories.</em></h2>
             <p>We are inviting our first founding participants. Until a contractor verifies actual results, we show the workflow, sample dashboard and exact program boundaries — not fabricated testimonials or recovered revenue.</p>
           </div>
           <div className={styles.proofCards}>
