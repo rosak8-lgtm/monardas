@@ -1,281 +1,159 @@
 import Link from "next/link";
 import {
-  Button,
-  Eyebrow,
-  Flow,
-  Philosophy,
-  SectionHeading,
-} from "@/components/site";
-import { SystemMap } from "@/components/system-map";
+  ArrowRight, ArrowUpRight, CheckCircle2, ClipboardCheck,
+  FileCheck2, Gauge, LockKeyhole, MessageCircleMore,
+  PlayCircle, ShieldCheck, Sparkles
+} from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
+import styles from "./home-conversion.module.css";
+
 export const metadata = pageMetadata(
-  "Intelligence. Systems. Ownership.",
-  "MONARDAS builds systems around measurable business inefficiencies. Current commercial focus: recovering unsold HVAC replacement estimates through a managed pilot.",
+  "HVAC Estimate Follow-Up & Revenue Recovery",
+  "MONARDAS helps U.S. residential HVAC contractors organize follow-up on unsold replacement estimates. Apply for a limited founder-supported 30-day free pilot or explore a fictional interactive demo.",
   "/",
 );
-const units = [
-  [
-    "AI",
-    "Revenue recovery. Existing demand.",
-    "Recovering unsold HVAC replacement estimates through a focused managed pilot.",
-    "Current commercial focus",
-  ],
-  [
-    "Systems",
-    "The work behind the software.",
-    "Understand the real process. Validate the economics. Build a standard worth automating.",
-    "Operating capability",
-  ],
-  [
-    "Ventures",
-    "Build with an owner’s perspective.",
-    "A long-term thesis for new products, acquisitions and operating businesses with systems upside.",
-    "Long-term direction",
-  ],
-  [
-    "Capital",
-    "Choose what compounds next.",
-    "An internal framework for moving retained cash into productive assets.",
-    "Internal long-term allocation framework",
-  ],
-  [
-    "Commerce",
-    "Demand, understood through practice.",
-    "Test products, build distribution and earn the right to scale through sound unit economics.",
-    "Development direction",
-  ],
-  [
-    "Nature",
-    "Where the story began.",
-    "The physical-product roots of Monardas, inspired by Siberian botanicals.",
-    "Brand origins",
-  ],
-];
+
+const exampleRows = [
+  { job: "Heat pump replacement", status: "Review next step", tone: "amber", note: "Quote sent · no decision" },
+  { job: "Furnace replacement", status: "Draft for approval", tone: "blue", note: "Eligible record · team-owned" },
+  { job: "AC replacement", status: "Weekly review", tone: "green", note: "Outcome to be verified" },
+] as const;
+
+const stages = [
+  { number:"01", icon:ClipboardCheck, title:"Select the right estimates", text:"Choose up to 25 suitable, still-unsold residential replacement quotes. Check status, exclusions and eligibility before any follow-up.", detail:"No homeowner personal details are needed in the initial website application." },
+  { number:"02", icon:MessageCircleMore, title:"Approve each next action", text:"We prepare a clear next-action list and message drafts. Your approved team stays in control of any homeowner communication.", detail:"At most two agreed follow-up actions per eligible estimate." },
+  { number:"03", icon:Gauge, title:"Review real outcomes", text:"See completed actions, replies, appointments and contractor-confirmed sales separately, with weekly progress reviews.", detail:"No guaranteed sales and no invented recovered-revenue figures." },
+] as const;
+
+const questions = [
+  ["Is this another CRM I have to buy?", "No. The founding pilot is a founder-supported service for a small, agreed estimate batch. There is no mandatory migration or promised native CRM integration."],
+  ["Does MONARDAS contact homeowners automatically?", "No. Your approved team controls homeowner communication. Independent outreach by MONARDAS requires separate written authorization, channel eligibility and suppression review."],
+  ["What happens after 30 days?", "The limited pilot ends. There is no credit-card requirement, automatic renewal or obligation to buy. Any paid work requires a separate agreement."],
+  ["Can I try the product without sharing customer records?", "Yes. The interactive demo uses fictional estimates, and the free follow-up scorecard is completed in your browser. Neither requires homeowner data."],
+] as const;
+
+function ActionLink({ href, children, quiet = false }: { href:string; children:React.ReactNode; quiet?:boolean }) {
+  return (
+    <Link className={quiet ? styles.ghostCta : styles.mainCta} href={href}>
+      {children}<ArrowUpRight size={18} aria-hidden="true" />
+    </Link>
+  );
+}
+
 export default function Home() {
   return (
-    <>
-      <section className="corporate-hero dark">
-        <div className="container hero-grid">
-          <div>
-            <Eyebrow>Independent thinking. Enduring value.</Eyebrow>
-            <h1>
-              Intelligence.
-              <br />
-              Systems.
-              <br />
-              <em>Ownership.</em>
-            </h1>
-            <p>
-              We build systems around measurable business inefficiencies and
-              turn what works into durable operating assets.
-            </p>
-            <p className="home-commercial-focus">
-              <span>Current commercial focus</span>
-              <strong>HVAC Unsold Estimate Recovery</strong>
-              Recover revenue from replacement estimates your business already
-              paid to generate.
-            </p>
-            <div className="button-row">
-              <Button href="/hvac/demo">Try Free HVAC Demo</Button>
-              <Button href="/hvac" secondary>
-                Explore HVAC Revenue Recovery
-              </Button>
-              <Button href="#architecture" secondary>
-                Explore MONARDAS
-              </Button>
+    <div className={styles.home}>
+      <section className={`corporate-hero ${styles.hero}`} aria-labelledby="home-title">
+        <div className={`container ${styles.heroGrid}`}>
+          <div className={styles.heroCopy}>
+            <div className={styles.eyebrow}><span className={styles.dot} aria-hidden="true" /> Built for residential HVAC owners in the USA</div>
+            <h1 id="home-title">The estimate went out. <span>Don&apos;t let the opportunity disappear.</span></h1>
+            <p className={styles.heroLead}>MONARDAS helps your team follow up on unsold HVAC replacement quotes with a clear plan, approved next steps and honest reporting. No new leads required.</p>
+            <div className={styles.heroActions}>
+              <ActionLink href="/hvac/free-pilot">Apply for 30 days free</ActionLink>
+              <ActionLink href="/hvac/demo" quiet>Explore the interactive demo</ActionLink>
             </div>
-          </div>
-          <SystemMap />
-        </div>
-        <div className="container hero-baseline">
-          <span>BUILD. AUTOMATE. SCALE. OWN.</span>
-          <span>A long-term company, built one system at a time.</span>
-          <a href="#operating">Explore below ↓</a>
-        </div>
-      </section>
-      <section className="section container" id="operating">
-        <div className="split">
-          <Eyebrow>01 / The operating idea</Eyebrow>
-          <div>
-            <h2>
-              Find the friction.
-              <br />
-              Build the system.
-              <br />
-              <em>Own the outcome.</em>
-            </h2>
-            <p className="lead">
-              Start with a real inefficiency. Understand it through the work.
-              Turn a proven solution into a repeatable process—and that process
-              into an asset.
-            </p>
-          </div>
-        </div>
-        <Flow items={["Identify", "Build", "Automate", "Scale", "Own"]} />
-      </section>
-      <section className="focus-section section">
-        <div className="container split">
-          <div>
-            <Eyebrow>02 / MONARDAS AI</Eyebrow>
-            <h2>
-              Revenue systems for businesses <em>with existing demand.</em>
-            </h2>
-            <p className="lead">
-              MONARDAS helps HVAC contractors recover revenue from unsold
-              replacement estimates they’ve already paid to generate.
-            </p>
-            <Button href="/contact?intent=hvac-pilot">
-              Get a Free Estimate Recovery Assessment
-            </Button>
-          </div>
-          <div className="focus-index">
-            <div className="focus-label">
-              MONARDAS AI <span>REVENUE RECOVERY</span>
+            <div className={styles.offerLine}>
+              <span><CheckCircle2 size={16} aria-hidden="true" /> Up to 25 eligible estimates</span>
+              <span><ShieldCheck size={16} aria-hidden="true" /> Your team controls outreach</span>
+              <span><LockKeyhole size={16} aria-hidden="true" /> No card or auto-renewal</span>
             </div>
-            <Link href="/hvac">
-              <span>01 / First commercial workflow</span>
-              <h3>HVAC</h3>
-              <p>Unsold Replacement Estimate Recovery</p>
-              <b aria-hidden="true">↗</b>
-            </Link>
-            <p>
-              A focused starting point. Prove the workflow before expanding into
-              future verticals.
-            </p>
+            <Link className={styles.textLink} href="/hvac">Explore HVAC Revenue Recovery <ArrowRight size={16} aria-hidden="true" /></Link>
+          </div>
+          <div className={styles.productVisual} role="group" aria-label="Fictional example of MONARDAS estimate follow-up tracking">
+            <div className={styles.mockTop}><span className={styles.mockBrand}><span className={styles.mockMark} aria-hidden="true" /> MONARDAS</span><span className={styles.mockDemo}>ILLUSTRATIVE WORKFLOW</span></div>
+            <div className={styles.mockBody}>
+              <div className={styles.mockHeader}><span>Estimate follow-up</span><span className={styles.mockPill}>Example only</span></div>
+              <div className={styles.mockIntro}>From open quotes to clear next steps</div>
+              <div className={styles.mockSteps} aria-label="Three parts of the review workflow">
+                <div><FileCheck2 size={20} aria-hidden="true"/><strong>Review</strong><small>Identify fit</small></div>
+                <div><ClipboardCheck size={20} aria-hidden="true"/><strong>Approve</strong><small>Next action</small></div>
+                <div><Gauge size={20} aria-hidden="true"/><strong>Report</strong><small>Track outcomes</small></div>
+              </div>
+              <div className={styles.sampleTitle}><span>Sample estimate list</span><span>Fictional records</span></div>
+              <div className={styles.mockRows}>
+                {exampleRows.map((row) => (
+                  <div className={styles.mockRow} key={row.job}>
+                    <span className={styles.mockFile}><FileCheck2 size={17} aria-hidden="true"/></span>
+                    <span className={styles.mockJob}><strong>{row.job}</strong><small>{row.note}</small></span>
+                    <span className={`${styles.mockStatus} ${row.tone==="amber"?styles.statusAmber:row.tone==="blue"?styles.statusBlue:styles.statusGreen}`}>{row.status}</span>
+                  </div>
+                ))}
+              </div>
+              <Link className={styles.mockExplore} href="/hvac/demo">Open the working demo <ArrowUpRight size={17} aria-hidden="true"/></Link>
+            </div>
+            <p className={styles.mockCaption}>A conceptual preview, not a client account, live automation or proof of recovered sales.</p>
           </div>
         </div>
-      </section>
-      <section className="section container" id="architecture">
-        <div className="section-heading-row">
-          <SectionHeading
-            label="03 / One company. Connected disciplines."
-            title="Designed to work together."
-          />
-          <p>
-            An umbrella architecture.
-            <br />
-            Built progressively, not all at once.
-          </p>
+        <div className={`container ${styles.heroFoot}`}>
+          <span>30 DAYS · FOUNDING PILOT · $0</span>
+          <span>For up to two selected U.S. businesses, subject to fit and capacity</span>
         </div>
-        <div className="unit-list">
-          {units.map(([name, title, desc, status], i) => (
-            <Link
-              className={`unit unit-${name.toLowerCase()}`}
-              key={name}
-              href={`/${name.toLowerCase()}`}
-            >
-              <span className="unit-number">0{i + 1}</span>
-              <div>
-                <span className="eyebrow">MONARDAS</span>
-                <h3>{name}</h3>
-              </div>
-              <div className="unit-description">
-                <h4>{title}</h4>
-                <p>{desc}</p>
-              </div>
-              <span className="unit-status">{status}</span>
-              <span className="unit-arrow" aria-hidden="true">
-                ↗
-              </span>
-            </Link>
+      </section>
+
+      <section className={`container ${styles.trust}`} aria-label="What you can verify today">
+        <div><Sparkles size={22} aria-hidden="true"/><strong>A real process, not a promise</strong><span>A defined service scope and founder support</span></div>
+        <div><PlayCircle size={22} aria-hidden="true"/><strong>Try before you talk</strong><span>A fictional-data demo with no account</span></div>
+        <div><ShieldCheck size={22} aria-hidden="true"/><strong>Contractor stays in charge</strong><span>Approved contact and clear exclusions</span></div>
+      </section>
+
+      <section className={`container ${styles.section}`} id="how-it-works">
+        <div className={styles.sectionLead}>
+          <span className={styles.sectionKicker}>THE PROBLEM AND THE PLAN</span>
+          <h2>You&apos;ve done the hard part. <em>Finish the conversation.</em></h2>
+          <p>Your estimator visited, scoped the job and sent a replacement quote. If no one owns the next step, a real opportunity can sit untouched. MONARDAS makes that work visible — without taking over your sales process.</p>
+        </div>
+        <div className={styles.stageGrid}>
+          {stages.map((stage) => (
+            <article className={styles.stage} key={stage.number}>
+              <div className={styles.stageTop}><span>{stage.number}</span><stage.icon size={29} strokeWidth={1.6} aria-hidden="true"/></div>
+              <h3>{stage.title}</h3><p>{stage.text}</p>
+              <div className={styles.stageDetail}><CheckCircle2 size={17} aria-hidden="true"/>{stage.detail}</div>
+            </article>
           ))}
         </div>
+        <div className={styles.sectionActions}><ActionLink href="/hvac/free-pilot">Apply for the free pilot</ActionLink><Link className={styles.inlineLink} href="/hvac#system">Read the complete workflow <ArrowRight size={17} aria-hidden="true"/></Link></div>
       </section>
-      <section className="section stone">
-        <div className="container">
-          <div className="split">
-            <Eyebrow>04 / From service to asset</Eyebrow>
-            <div>
-              <h2>
-                The destination is not more work.
-                <br />
-                <em>
-                  It is a system that can
-                  <br />
-                  work without us.
-                </em>
-              </h2>
-              <p className="lead">
-                Manual work creates understanding. A documented standard makes
-                that understanding repeatable. Technology scales the process
-                once it is stable.
-              </p>
-            </div>
-          </div>
-          <Flow
-            items={[
-              "Service",
-              "Productized service",
-              "Automation",
-              "SaaS",
-              "Ownership",
-            ]}
-          />
-          <Link className="text-link" href="/strategy">
-            Read the operating thesis ↗
-          </Link>
-        </div>
-      </section>
-      <Philosophy />
-      <section className="section container">
-        <div className="split">
-          <SectionHeading
-            label="05 / Long-term group architecture"
-            title="Earn. Build. Own. Allocate."
-            description="Operating businesses create cash flow. Retained capital can fund the next productive asset. Ownership connects the two."
-          />
-          <div className="flywheel">
-            {[
-              "Operating businesses",
-              "Cash flow",
-              "Retained capital",
-              "Investment / acquisitions",
-              "Owned productive assets",
-              "More cash flow",
-            ].map((t, i) => (
-              <div key={t}>
-                <span>0{i + 1}</span>
-                {t}
-                <span aria-hidden="true">{i === 5 ? "↺" : "↓"}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <p className="fine-print">
-          An internal capital-allocation philosophy, not investment services for
-          third parties.
-        </p>
-      </section>
-      <section className="founder-band">
-        <div className="container split">
+
+      <section className={styles.proofSection} aria-labelledby="proof-title">
+        <div className={`container ${styles.proofGrid}`}>
           <div>
-            <Eyebrow>06 / Founder</Eyebrow>
-            <h2>Iurii Shalygin</h2>
-            <p>Entrepreneur / System Builder / Owner</p>
+            <span className={styles.sectionKicker}>SEE IT BEFORE YOU COMMIT</span>
+            <h2 id="proof-title">Explore what&apos;s real. <em>No invented success stories.</em></h2>
+            <p>We are inviting our first founding participants. Until a contractor verifies actual results, we show the workflow, sample dashboard and exact program boundaries — not fabricated testimonials or recovered revenue.</p>
           </div>
-          <div>
-            <blockquote>
-              “I build systems that turn inefficiency into scalable value.”
-            </blockquote>
-            <Link className="text-link" href="/founder">
-              Founder philosophy ↗
-            </Link>
+          <div className={styles.proofCards}>
+            <Link href="/hvac/demo" className={styles.proofCard}><PlayCircle size={29} aria-hidden="true"/><strong>Interactive product demo</strong><span>Explore fictional estimates, pipeline actions and reports.</span><ArrowUpRight size={19} aria-hidden="true"/></Link>
+            <Link href="/hvac/scorecard" className={styles.proofCard}><Gauge size={29} aria-hidden="true"/><strong>3-minute follow-up scorecard</strong><span>Check your process without uploading homeowner details.</span><ArrowUpRight size={19} aria-hidden="true"/></Link>
+            <Link href="/hvac/free-pilot#pilot-faq" className={styles.proofCard}><FileCheck2 size={29} aria-hidden="true"/><strong>Exact 30-day scope</strong><span>See limits, privacy rules and what happens after the trial.</span><ArrowUpRight size={19} aria-hidden="true"/></Link>
           </div>
         </div>
       </section>
-      <section className="closing container">
-        <Eyebrow>A simple principle. A long horizon.</Eyebrow>
-        <h2>
-          Nature creates systems.
-          <br />
-          Intelligence improves them.
-          <br />
-          <em>Ownership compounds their value.</em>
-        </h2>
-        <Button href="/strategy" secondary>
-          Explore the Strategy
-        </Button>
+
+      <section className={`container ${styles.section} ${styles.audienceSection}`}>
+        <div className={styles.sectionLead}><span className={styles.sectionKicker}>CHOOSE YOUR ROLE</span><h2>One offer. Two ways to start.</h2></div>
+        <div className={styles.audienceGrid}>
+          <article className={styles.audiencePrimary}><span className={styles.audienceTag}>HVAC OWNER / GENERAL MANAGER</span><h3>Have open replacement quotes?</h3><p>Apply for a founder-supported 30-day pilot covering one agreed batch of up to 25 eligible estimates, with no payment details and no automatic continuation.</p><ActionLink href="/hvac/free-pilot">Request a founding pilot</ActionLink></article>
+          <article className={styles.audienceSecondary}><span className={styles.audienceTag}>AGENCY / CONSULTANT</span><h3>Work with HVAC contractors?</h3><p>Introduce a suitable business or explore a voluntary co-service conversation. No referral fee, partner certification or integration is implied.</p><ActionLink href="/contact?intent=agency-partner" quiet>Discuss a partnership</ActionLink></article>
+        </div>
       </section>
-    </>
+
+      <section className={`container ${styles.section} ${styles.faqSection}`} aria-labelledby="homepage-faq">
+        <div><span className={styles.sectionKicker}>THE IMPORTANT DETAILS</span><h2 id="homepage-faq">No surprises before you apply.</h2><Link className={styles.inlineLink} href="/hvac/free-pilot#pilot-faq">All pilot terms <ArrowRight size={16} aria-hidden="true"/></Link></div>
+        <div className={styles.faqItems}>{questions.map(([question,answer])=><details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div>
+      </section>
+
+      <section className={styles.lastSection} aria-labelledby="last-cta">
+        <div className={`container ${styles.lastInner}`}>
+          <div><span className={styles.sectionKicker}>NEXT STEP</span><h2 id="last-cta">Give your unsold estimates a clear next step.</h2><p>Start with a free, limited pilot. No homeowner data required to apply. Selection and scope are agreed before work begins.</p></div>
+          <div className={styles.lastActions}><ActionLink href="/hvac/free-pilot">Apply for 30 days free</ActionLink><Link href="/hvac/scorecard" className={styles.lastAlt}>Not ready? Take the free follow-up check <ArrowUpRight size={16} aria-hidden="true"/></Link></div>
+        </div>
+      </section>
+
+      <section className={`container ${styles.corporateNote}`} aria-label="About the MONARDAS group">
+        <div><strong>MONARDAS</strong><p>Starting with a focused HVAC revenue-recovery service, built with a long-term systems mindset. Our corporate strategy and other developing business areas remain separate from this offer.</p></div>
+        <Link href="/strategy">About the company <ArrowRight size={17} aria-hidden="true"/></Link>
+      </section>
+    </div>
   );
 }

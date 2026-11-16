@@ -32,11 +32,11 @@ const serif = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl || "http://127.0.0.1:3000"),
   title: {
-    default: "MONARDAS | Intelligence. Systems. Ownership.",
+    default: "MONARDAS | HVAC Estimate Recovery",
     template: "%s | MONARDAS",
   },
   description:
-    "We build, automate and scale businesses designed to become durable assets.",
+    "Founder-supported estimate follow-up and revenue recovery for U.S. residential HVAC businesses. Explore a free 30-day pilot or a fictional interactive demo.",
   robots: { index: true, follow: true },
 };
 export default function RootLayout({
@@ -47,7 +47,7 @@ export default function RootLayout({
     "@type": "Organization",
     name: "MONARDAS",
     description:
-      "We build, automate and scale businesses designed to become durable assets.",
+      "Independent MONARDAS business focused on founder-supported HVAC estimate follow-up and measurable workflow improvement.",
     founder: { "@type": "Person", name: "Iurii Shalygin" },
     ...(siteUrl ? { url: siteUrl } : {}),
   };

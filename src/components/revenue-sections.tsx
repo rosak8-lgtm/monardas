@@ -21,7 +21,7 @@ export function RecoveryProcess() {
     ],
     [
       "Respond",
-      "Start relevant, structured communication while the opportunity is still open.",
+      "Prepare next actions and contractor-approved drafts; your team retains control of homeowner contact.",
     ],
     [
       "Qualify",
@@ -139,12 +139,11 @@ export function RevenueCTA() {
             Before spending more to create new demand, find out what is being
             lost in the demand you already have.
           </p>
-          <Button href="/contact?intent=hvac-pilot">
-            Get a Free Estimate Recovery Assessment
-          </Button>
+          <Button href="/hvac/free-pilot">Apply for the Free 30-Day Founding Pilot</Button>
           <p className="fine-print">
-            Free initial review. No commitment. We assess your estimate backlog
-            before discussing a paid recovery pilot.
+            The free founding cohort is limited to two selected U.S. contractors
+            and up to 25 eligible estimates. No credit card or automatic renewal.
+            Any paid managed engagement is entirely separate.
           </p>
         </div>
       </div>

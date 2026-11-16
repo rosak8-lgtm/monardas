@@ -11,8 +11,8 @@ export function AIPage() {
       <section className="container page-hero product-hero">
         <Eyebrow>MONARDAS AI</Eyebrow>
         <h1>
-          Recover revenue from opportunities{" "}
-          <em>you&apos;ve already paid to generate.</em>
+          Keep your HVAC estimates{" "}
+          <em>from going quiet.</em>
         </h1>
         <p>
           MONARDAS AI builds focused revenue-recovery systems around gaps in
@@ -20,10 +20,8 @@ export function AIPage() {
           estimates and returns interested homeowners to your sales team.
         </p>
         <div className="button-row">
-          <Button href="/hvac">Explore HVAC Revenue Recovery</Button>
-          <Button href="/contact?intent=hvac-pilot" secondary>
-            Get a Free Estimate Recovery Assessment
-          </Button>
+          <Button href="/hvac/free-pilot">Apply for 30 Days Free</Button>
+          <Button href="/hvac/demo" secondary>Explore the Interactive Demo</Button>
         </div>
         <ul className="product-promises">
           <li>No more leads required.</li>

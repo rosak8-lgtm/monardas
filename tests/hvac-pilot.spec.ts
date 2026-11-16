@@ -87,10 +87,10 @@ test("HVAC anchors, pilot form validation, failure and success", async ({
   await expect(page.locator("#calc-rate")).toHaveValue("");
   await expect(page.locator(".header-cta")).toHaveAttribute(
     "href",
-    "/contact?intent=hvac-pilot",
+    "/hvac/free-pilot",
   );
   await expect(page.locator(".header-cta")).toHaveText(
-    "Get a Free Estimate Recovery Assessment",
+    "30 days free",
   );
   await expect(
     page

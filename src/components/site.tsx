@@ -73,7 +73,7 @@ export function Footer({ product = false }: { product?: boolean }) {
             <Logo />
             <p>
               {product
-                ? "Helping HVAC contractors recover revenue from unsold replacement estimates they’ve already paid to generate."
+                ? "Founder-supported follow-up for unsold residential HVAC replacement estimates. Clear approvals, real reporting and no guaranteed sales."
                 : "We build systems and businesses designed to compound value through technology, distribution and ownership."}
             </p>
           </div>
@@ -92,7 +92,7 @@ export function Footer({ product = false }: { product?: boolean }) {
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} MONARDAS</span>
-          <span>Intelligence. Systems. Ownership.</span>
+          <span>Focused HVAC estimate recovery · Independent MONARDAS company</span>
           <div>
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
@@ -163,10 +163,8 @@ export function FinalCTA() {
           </em>
         </h2>
         <div>
-          <Button href="/contact?intent=hvac-pilot">
-            Get a Free Estimate Recovery Assessment
-          </Button>
-          <p>A focused conversation. A practical next step.</p>
+          <Button href="/hvac/free-pilot">Apply for the Free 30-Day Founding Pilot</Button>
+          <p>Limited to two selected U.S. HVAC businesses. Any paid work is separate.</p>
         </div>
       </div>
     </section>
@@ -187,7 +185,7 @@ const faqs = [
   ],
   [
     "Can we start with a small batch?",
-    "Yes. Start with 25–50 old estimates, review the responses and decide whether a repeatable recovery workflow makes sense.",
+    "Yes. The limited free founding pilot covers up to 25 suitable replacement estimates. Larger 25–50-estimate paid programs are separately negotiated.",
   ],
   [
     "How is success measured?",
@@ -230,7 +228,7 @@ export const steps = [
   ],
   [
     "Re-engage",
-    "Send personalized follow-up with messaging approved by your team.",
+    "Your approved team sends eligible follow-ups using messaging and exclusions agreed in advance.",
   ],
   [
     "Understand intent",
@@ -258,29 +256,34 @@ export function Steps() {
   );
 }
 export function PricingCards() {
+  const offers = [
+    {
+      title: "30-day free founding pilot",
+      description: "Up to two selected U.S. residential HVAC businesses. Up to 25 eligible unsold replacement estimates, up to two agreed actions each and weekly founder support. $0, no card or automatic renewal.",
+      href: "/hvac/free-pilot",
+      cta: "Apply for 30 Days Free",
+    },
+    {
+      title: "Free 3-minute follow-up check",
+      description: "Review gaps in your existing estimate process, inside your browser. No signup, CRM migration or homeowner data upload required.",
+      href: "/hvac/scorecard",
+      cta: "Take the Free Scorecard",
+    },
+    {
+      title: "Optional paid managed service",
+      description: "A separately agreed, founder-led engagement may cover a larger 25–50-estimate batch. Scope, eligibility, responsibilities and pricing are negotiated in writing before any work.",
+      href: "/contact?intent=hvac-pilot",
+      cta: "Discuss Separate Paid Work",
+    },
+  ];
   return (
     <div className="three-column">
-      {[
-        [
-          "Free review",
-          "Review your unsold replacement estimate backlog. No commitment to a paid pilot.",
-        ],
-        [
-          "Founder-led Recovery Pilot",
-          "Start with 25–50 suitable estimates. Pilot pricing is agreed after scope review.",
-        ],
-        [
-          "Pilot report",
-          "Review follow-up activity, replies and sales handoffs. Decide on any next steps separately; no subscription is required.",
-        ],
-      ].map(([t, d]) => (
-        <article key={t}>
-          <Eyebrow>Scope agreed before launch</Eyebrow>
-          <h3>{t}</h3>
-          <p>{d}</p>
-          <Button href="/contact?intent=hvac-pilot" secondary>
-            Get a Free Estimate Recovery Assessment
-          </Button>
+      {offers.map((offer) => (
+        <article key={offer.title}>
+          <Eyebrow>Clear scope before any engagement</Eyebrow>
+          <h3>{offer.title}</h3>
+          <p>{offer.description}</p>
+          <Button href={offer.href} secondary>{offer.cta}</Button>
         </article>
       ))}
     </div>

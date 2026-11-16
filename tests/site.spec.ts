@@ -37,10 +37,10 @@ test("public routes, metadata, links, accessibility and browser errors", async (
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.locator(".header-cta")).toHaveAttribute(
       "href",
-      "/contact?intent=hvac-pilot",
+      "/hvac/free-pilot",
     );
     await expect(page.locator(".header-cta")).toContainText(
-      "Get a Free Estimate Recovery Assessment",
+      "30 days free",
     );
     const title = await page.title();
     expect(titles.has(title), `Unique title for ${route}`).toBe(false);
@@ -111,13 +111,13 @@ test("desktop and mobile navigation support keyboard and dismissal", async ({
 }) => {
   await page.goto("/");
   await page.setViewportSize({ width: 1440, height: 1000 });
-  const build = page.getByRole("button", { name: "Build", exact: true });
+  const build = page.getByRole("button", { name: "Explore", exact: true });
   await build.focus();
   await page.keyboard.press("Enter");
   await expect(build).toHaveAttribute("aria-expanded", "true");
   await page.keyboard.press("Tab");
   await expect(
-    page.locator("#nav-Build").getByRole("link", { name: "AI", exact: true }),
+    page.locator("#nav-Explore").getByRole("link", { name: "Interactive demo", exact: true }),
   ).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(build).toBeFocused();

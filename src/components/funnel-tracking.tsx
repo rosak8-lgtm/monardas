@@ -22,6 +22,7 @@ export function FunnelTracking() {
     };
     if (lastView.current !== pathname) {
       lastView.current = pathname;
+      if (pathname === "/") send("home_page_view");
       if (pathname === "/hvac") send("hvac_page_view");
       if (pathname === "/hvac/scorecard") send("scorecard_page_view");
       if (pathname === "/contact") send("contact_form_view");
@@ -36,6 +37,11 @@ export function FunnelTracking() {
       if (!link) return;
       const url = new URL(link.href);
       if (url.origin !== location.origin) return;
+      if (pathname === "/") {
+        if (url.pathname === "/hvac/free-pilot") send("home_free_pilot_cta_click");
+        if (url.pathname === "/hvac/demo") send("home_demo_cta_click");
+        if (url.pathname === "/hvac/scorecard") send("home_scorecard_cta_click");
+      }
       if (pathname === "/hvac") {
         if (url.pathname === "/hvac/scorecard") send("hvac_scorecard_cta_click");
         if (url.pathname === "/hvac/free-pilot") send("hvac_free_pilot_cta_click");
