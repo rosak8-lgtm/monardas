@@ -1,0 +1,37 @@
+name: Outbound evidence QA (read-only)
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/outbound-evidence-qa.yml"
+      - "scripts/outbound-evidence-gate.mjs"
+      - "scripts/dsn_evidence_review.py"
+      - "tests/outbound-evidence-gate.test.mjs"
+      - "tests/test_dsn_evidence_review.py"
+      - "docs/OUTBOUND_EVIDENCE_REVIEW.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-evidence-regressions:
+    name: Fail-closed outbound / DSN evidence tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify outbound gate (12 tests)
+        run: node --test tests/outbound-evidence-gate.test.mjs
+      - name: Verify DSN evidence classification (16 tests)
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -B -m unittest discover -s tests -p "test_dsn_evidence_review.py" -v
