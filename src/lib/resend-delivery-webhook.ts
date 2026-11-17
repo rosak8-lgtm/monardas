@@ -55,7 +55,10 @@ export async function verifyResendWebhook(
   try {
     const rawSecret = decodeBase64(signingSecret.slice(6));
     if (rawSecret.length < 16) return null;
-    const key = await crypto.subtle.importKey("raw", rawSecret, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+    // WebCrypto requires an ArrayBuffer (not a potentially shared ArrayBufferLike).
+    const keyBuffer = new ArrayBuffer(rawSecret.byteLength);
+    new Uint8Array(keyBuffer).set(rawSecret);
+    const key = await crypto.subtle.importKey("raw", keyBuffer, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
     const signed = new TextEncoder().encode(webhookId + "." + seconds + "." + body);
     const calculated = new Uint8Array(await crypto.subtle.sign("HMAC", key, signed));
     for (const part of headerSig.trim().split(/\s+/)) {
