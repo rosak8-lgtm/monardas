@@ -38,6 +38,7 @@ test("minimal assessment API payload reaches mocked Resend with optional fields 
   const calls: Record<string, unknown>[] = [];
   const events: unknown[][] = [];
   let status = 200;
+  let responseId: string | undefined = "mock-resend-id";
   const modules: Record<string, unknown> = {
     "next/server": { NextResponse },
     "cloudflare:workers": {
@@ -74,7 +75,7 @@ test("minimal assessment API payload reaches mocked Resend with optional fields 
       fetch: async (url: string, options: RequestInit) => {
         expect(url).toBe("https://api.resend.com/emails");
         calls.push(JSON.parse(options.body as string));
-        return new Response(JSON.stringify({ id: "mock-resend-id" }), {
+        return new Response(JSON.stringify({ id: responseId }), {
           status,
         });
       },
@@ -106,7 +107,7 @@ test("minimal assessment API payload reaches mocked Resend with optional fields 
     },
   });
   expect(response.status).toBe(201);
-  expect(await response.json()).toMatchObject({ id: "mock-resend-id" });
+  expect(await response.json()).toMatchObject({ id: "mock-resend-id", delivery_status: "provider_accepted" });
   expect(calls[0]).toMatchObject({
     from: "MONARDAS Leads <website@send.monardas.com>",
     to: "yurii@monardas.com",
@@ -155,6 +156,15 @@ test("minimal assessment API payload reaches mocked Resend with optional fields 
   // Server-only accepted events are deliberately rejected on the public endpoint.
   expect(validFunnelEvent("hvac_free_pilot_provider_accepted", "/contact")).toBe(false);
   expect(validFunnelEvent("hvac_agency_provider_accepted", "/contact")).toBe(false);
+
+  // A provider response without an ID must never produce a synthetic receipt.
+  responseId = undefined;
+  const missingId = await send(minimal, { DNT: "1" });
+  expect(missingId.status).toBe(201);
+  expect(await missingId.json()).toMatchObject({
+    id: null,
+    delivery_status: "provider_accepted",
+  });
 });
 
 test("minimal form carries campaign context across navigation and survives analytics failure", async ({
