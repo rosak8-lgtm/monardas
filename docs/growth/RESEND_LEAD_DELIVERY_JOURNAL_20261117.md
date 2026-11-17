@@ -17,10 +17,10 @@ This PR does **not** add an active webhook in Resend, a Cloudflare D1 binding in
 
 1. Review and merge only after repository CI and staging checks pass.
 2. Provision a D1 database; apply migrations/0001_lead_delivery_events.sql.
-3. Bind the database with the exact name LEAD_DELIVERY_DB in the Worker deployment.
-4. Add RESEND_WEBHOOK_SECRET through Cloudflare encrypted secrets (never commit it to Git).
-5. Deploy, configure a Resend webhook for email.delivered, email.delivery_delayed, email.bounced, email.failed, email.complained, email.suppressed, directed to https://monardas.com/api/resend-webhook.
-6. Validate with a signed provider test webhook, inspect webhook retries, then reconcile a matching Resend email_id against D1. Do not send real test marketing messages.
+3. Bind the database as LEAD_DELIVERY_DB and deploy the handler in disabled (no-secret) mode.
+4. In a controlled setup window, create a Resend webhook for email.delivered, email.delivery_delayed, email.bounced, email.failed, email.complained, email.suppressed, targeting https://monardas.com/api/resend-webhook. Capture its signing secret privately; do not paste the secret into chat.
+5. Store RESEND_WEBHOOK_SECRET through Cloudflare Worker secrets (never in Git), redeploy, then use a signed provider test webhook. Before step 5, callbacks will fail closed (503), so do not enable normal traffic until test events are acknowledged.
+6. Validate signature handling, provider retries, and matching Resend email_id against D1; never send test marketing messages to real prospects.
 
 This is a **delivery-event journal**, not the durable Lead CRM: actual inbound details remain in the separately operated Lark V2/V3 local queue. A later approved phase must make the original website lead durable and reconcile by provider email_id. Do not represent local QA or a Resend delivery event as a paying client.
 
