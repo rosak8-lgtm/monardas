@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CompliancePage } from "@/components/compliance-layout";
 import { pageMetadata } from "@/lib/seo";
 
@@ -35,7 +36,7 @@ export default function RefundPolicyPage() {
       </section>
       <section>
         <h2>5. Questions</h2>
-        <p>Operator: Individual Entrepreneur Iurii Shalygin, MONARDAS, Georgia. Email: <a href="mailto:yurii@monardas.com">yurii@monardas.com</a>. See also our <a href="/terms">Terms of Service</a> and <a href="/pricing">Pricing page</a>.</p>
+        <p>Operator: Individual Entrepreneur Iurii Shalygin, MONARDAS, Georgia. Email: <a href="mailto:yurii@monardas.com">yurii@monardas.com</a>. See also our <Link href="/terms">Terms of Service</Link> and <Link href="/pricing">Pricing page</Link>.</p>
       </section>
     </CompliancePage>
   );
