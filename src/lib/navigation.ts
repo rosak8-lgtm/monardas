@@ -12,6 +12,7 @@ export const commercialNavigation = {
     ["Interactive demo", "/hvac/demo"],
     ["Follow-up scorecard", "/hvac/scorecard"],
     ["How it works", "/hvac#system"],
+    ["Pricing & availability", "/pricing"],
     ["HVAC solution", "/hvac"],
   ],
   "For teams": [
@@ -34,6 +35,7 @@ export const commercialNavigation = {
 export const productGroups = {
   Product: [
     ["HVAC estimate recovery", "/hvac"],
+    ["Pricing & availability", "/pricing"],
     ["Live demo (fictional data)", "/hvac/demo"],
     ["Free follow-up scorecard", "/hvac/scorecard"],
   ],

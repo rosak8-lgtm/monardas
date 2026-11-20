@@ -9,9 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "hvac/scorecard",
     "hvac/free-pilot",
     ...Object.keys(commercialPages),
-    ...Object.keys(pages).filter(
-      (p) => !["privacy", "terms", "refund-policy"].includes(p),
-    ),
+    ...Object.keys(pages),
   ].map((path) => ({
     url: new URL(`/${path}`, siteUrl).href,
     changeFrequency: "monthly" as const,

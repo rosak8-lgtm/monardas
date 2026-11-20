@@ -55,7 +55,7 @@ To check the contact development adapter directly, set `QA_BASE_URL=http://local
 
 - Corporate: `/`, `/systems`, `/ventures`, `/capital`, `/commerce`, `/nature`, `/strategy`, `/founder`.
 - Commercial: `/ai`, `/roofing`, `/hvac`, `/how-it-works`, `/pricing`, `/contact`.
-- Legal placeholders: `/privacy`, `/terms` (both noindex).
+- Paddle domain-review pages: `/pricing`, `/privacy`, `/terms`, `/refund-policy` (public, linked from the footer).
 - Metadata: `/robots.txt`, `/sitemap.xml`, `/opengraph-image`, `/icon.svg`.
 
 All pre-existing public routes remain available. There are no ecommerce routes or checkout integration in this directory.
@@ -103,7 +103,7 @@ The site previously accepted form inquiries through Resend but a verified test m
 ## Deployment gates
 
 1. Set `NEXT_PUBLIC_SITE_URL` to the confirmed HTTPS corporate origin **before building**. Without it, canonicals are omitted, the sitemap is empty and social-image URLs use the explicit local development origin. No public domain is guessed.
-2. Publish approved privacy/terms. The current legal pages are intentionally labeled placeholders.
+2. Review and publish `/privacy`, `/terms`, `/refund-policy` and `/pricing` on the confirmed SaaS domain, then verify HTTPS responses and visible links. The current branch adds prelaunch-safe legal language; it does not create a live subscription.
 3. Inventory the existing botanical store's exact indexed product/category URLs, product metadata, cart, checkout, account and payment routes. They are not present here. Preserve them through the existing storefront or an explicitly reviewed routing integration before replacing any homepage. No ecommerce URL rewrites or redirects have been added.
 4. Confirm content, product availability and commercial pilot terms with the operator. No customers, acquired businesses, returns or operating metrics are invented.
 
