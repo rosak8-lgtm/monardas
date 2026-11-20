@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CompliancePage } from "@/components/compliance-layout";
 import { pageMetadata } from "@/lib/seo";
 
@@ -36,7 +37,7 @@ export default function TermsPage() {
       </section>
       <section>
         <h2>5. Website use and personal data</h2>
-        <p>Do not submit homeowner personal data, confidential customer files, credentials or other sensitive information through the public contact form. Provide only your own business contact information and a summary of your needs. Our <a href="/privacy">Privacy Policy</a> explains the current handling of inquiries and basic site analytics.</p>
+        <p>Do not submit homeowner personal data, confidential customer files, credentials or other sensitive information through the public contact form. Provide only your own business contact information and a summary of your needs. Our <Link href="/privacy">Privacy Policy</Link> explains the current handling of inquiries and basic site analytics.</p>
       </section>
       <section>
         <h2>6. Intellectual property and disclaimers</h2>

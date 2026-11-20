@@ -30,7 +30,7 @@ export default function PrivacyPage() {
       </section>
       <section>
         <h2>4. Service providers and international processing</h2>
-        <p>MONARDAS uses infrastructure providers for website delivery and an email delivery provider (Resend) to route accepted form inquiries to our controlled business mailbox. Processing and storage may occur outside your country subject to the providers' terms and applicable safeguards. We do not sell business contact information to advertisers.</p>
+        <p>MONARDAS uses infrastructure providers for website delivery and an email delivery provider (Resend) to route accepted form inquiries to our controlled business mailbox. Processing and storage may occur outside your country subject to the providers&apos; terms and applicable safeguards. We do not sell business contact information to advertisers.</p>
         <p>If software purchases become available, the approved checkout provider will process payment information under its own notices and terms. We do not currently operate an active paid checkout on this website.</p>
       </section>
       <section>

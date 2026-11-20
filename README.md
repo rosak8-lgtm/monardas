@@ -41,7 +41,7 @@ Cloudflare deploy command (run only when ready to publish):
 npm run deploy
 ```
 
-The deploy script uses the installed `vinext-cloudflare deploy --config dist/server/wrangler.json`, equivalent to the guide's `npx @vinext/cloudflare deploy` with the generated configuration selected explicitly. It builds before publishing. After a separate successful build, `npm run deploy -- --skip-build` reuses that output. `npm run deploy -- --dry-run` only validates configuration and does not build or publish.
+The deploy script calls `node scripts/deploy-cloudflare.mjs`, which invokes Wrangler with `--config dist/server/wrangler.json --keep-vars` after a successful `build:vinext`. Cloudflare Git Builds currently runs `npm run deploy -- --skip-build`; this wrapper explicitly consumes that obsolete flag because Wrangler 4 rejects it as an unknown option. The wrapper also preserves `--dry-run` and rejects all unrecognized arguments. Run `npm run test:deploy` to verify the safe argument handling. **Do not place secrets in Git or replace a production storefront without domain/routing review.**
 
 Set the existing public `NEXT_PUBLIC_SITE_URL` build variable to the confirmed production origin before the Cloudflare build, as described below. Authenticate with Cloudflare separately when actually deploying; no credentials or secrets are stored in this project. Local Workers variable files (`.dev.vars*`) and generated output are ignored by Git.
 
