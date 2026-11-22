@@ -179,9 +179,12 @@ export async function POST(request: Request) {
     }
     return NextResponse.json(
       {
+        // HTTP success confirms Resend acceptance, not downstream inbox delivery.
         message:
-          "Thanks — your request was sent successfully. We’ll be in touch soon.",
-        id: result.id ?? crypto.randomUUID(),
+          "Thanks — your request was accepted for delivery. We’ll be in touch soon.",
+        delivery_status: "provider_accepted",
+        // Never invent an ID that cannot be found in the provider's logs.
+        id: typeof result.id === "string" && result.id ? result.id : null,
       },
       { status: 201 },
     );
