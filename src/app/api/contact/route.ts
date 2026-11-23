@@ -9,6 +9,7 @@ import { env as workerEnv } from "cloudflare:workers";
 import { sanitizeAttribution } from "@/lib/attribution";
 import { logFunnelEvent } from "@/lib/funnel";
 import { makeOptInChallenge } from "@/lib/marketing-optin";
+import { asMarketingReceiptDatabase } from "@/lib/marketing-consent-receipt";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
@@ -172,7 +173,8 @@ export async function POST(request: Request) {
       );
     const result = (await resend.json()) as { id?: string };
     let marketingConfirmationSent = false;
-    if (data.marketingOptIn && origin === expectedOrigin && data.turnstileToken) {
+    if (data.marketingOptIn && origin === expectedOrigin && data.turnstileToken &&
+        asMarketingReceiptDatabase((workerEnv as Record<string, unknown>)["MARKETING_DB"])) {
       // Fail closed: a lead may be received without silently subscribing it.
       const optinSecret = readRuntimeValueExactly("MARKETING_OPTIN_SECRET");
       const turnstileSecret = readRuntimeValueExactly("TURNSTILE_SECRET_KEY");
