@@ -2,10 +2,12 @@
 import { useRef, useState, useSyncExternalStore } from "react";
 import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
+import Script from "next/script";
 import { validate, type ContactData, type Errors } from "@/lib/contact";
 import { captureAttribution } from "@/lib/attribution";
 
 const subscribe = () => () => {};
+const marketingTurnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 const fields = [
   ["firstName", "Name", "text", "name"],
   ["company", "Company", "text", "organization"],
@@ -31,6 +33,7 @@ export function ContactForm({
     () => false,
   );
   const [errors, setErrors] = useState<Errors>({});
+  const [marketingNotice, setMarketingNotice] = useState<"none" | "sent" | "failed">("none");
   const [state, setState] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
   );
@@ -38,9 +41,10 @@ export function ContactForm({
     event.preventDefault();
     if (submissionLocked.current) return;
     const form = event.currentTarget;
-    const data = Object.fromEntries(
-      new FormData(form),
-    ) as unknown as ContactData;
+    const submission = new FormData(form);
+    const data = Object.fromEntries(submission) as unknown as ContactData;
+    data.marketingOptIn = Boolean(marketingTurnstileSiteKey) && submission.get("marketingOptIn") === "yes";
+    data.turnstileToken = data.marketingOptIn ? String(submission.get("cf-turnstile-response") ?? "") : "";
     const found = validate(data);
     setErrors(found);
     if (Object.keys(found).length) {
@@ -58,6 +62,8 @@ export function ContactForm({
         body: JSON.stringify(data),
       });
       if (!response.ok) throw new Error("delivery-failed");
+      const result = (await response.json()) as { marketing_confirmation_sent?: boolean };
+      setMarketingNotice(data.marketingOptIn ? (result.marketing_confirmation_sent ? "sent" : "failed") : "none");
       setState("success");
     } catch {
       submissionLocked.current = false;
@@ -225,6 +231,17 @@ export function ContactForm({
         )}
       </div>
       {!freePilot && replyPreferences}
+      {marketingTurnstileSiteKey && (
+        <div className="full-field">
+          <label htmlFor="marketingOptIn">
+            <input id="marketingOptIn" name="marketingOptIn" type="checkbox" value="yes" />{" "}
+            Optional: I want occasional MONARDAS HVAC recovery tips and offers by email. I can unsubscribe at any time.
+          </label>
+          <p className="form-note">Not required for your enquiry. A separate email confirmation is required before subscription.</p>
+          <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
+          <div className="cf-turnstile" data-sitekey={marketingTurnstileSiteKey} />
+        </div>
+      )}
       <div className="honeypot" aria-hidden="true">
         <label htmlFor="website">
           Website
@@ -270,6 +287,12 @@ export function ContactForm({
                   : "I’ll review your current estimate follow-up process and get back to you directly."}
             </span>
           </p>
+        )}
+        {state === "success" && marketingNotice === "sent" && (
+          <p className="form-note">Please check your email to confirm the optional subscription. You are not subscribed yet.</p>
+        )}
+        {state === "success" && marketingNotice === "failed" && (
+          <p className="form-note">Your business enquiry was accepted, but optional subscription verification could not be sent. You are not subscribed.</p>
         )}
         {state === "error" && (
           <p className="field-error">
