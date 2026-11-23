@@ -6,6 +6,9 @@ on:
   pull_request:
     paths:
       - "src/lib/marketing-optin.ts"
+      - "src/lib/marketing-consent-receipt.ts"
+      - "migrations/0001_marketing_optin_receipts.sql"
+      - "tools/test-marketing-consent-receipt.mjs"
       - "src/app/api/contact/route.ts"
       - "src/app/api/marketing/confirm/route.ts"
       - "src/components/contact-form.tsx"
