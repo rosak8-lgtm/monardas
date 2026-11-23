@@ -24,7 +24,7 @@ jobs:
           node-version: "24"
           cache: npm
       - run: npm ci
-      - run: node --experimental-strip-types --test tools/test-marketing-optin.mjs
+      - run: node --experimental-strip-types --test tools/test-marketing-*.mjs
       - run: npx tsc --noEmit
       - run: npm run lint
       - run: npm run build:vinext
