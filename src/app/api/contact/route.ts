@@ -8,11 +8,12 @@ import {
 import { env as workerEnv } from "cloudflare:workers";
 import { sanitizeAttribution } from "@/lib/attribution";
 import { logFunnelEvent } from "@/lib/funnel";
+import { makeOptInChallenge } from "@/lib/marketing-optin";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
 function readRuntimeValueExactly(
-  name: "RESEND_API_KEY" | "CONTACT_TO" | "CONTACT_FROM" | "CONTACT_BACKUP_TO",
+  name: "RESEND_API_KEY" | "CONTACT_TO" | "CONTACT_FROM" | "CONTACT_BACKUP_TO" | "MARKETING_OPTIN_SECRET" | "TURNSTILE_SECRET_KEY" | "RESEND_OPTIN_SEGMENT_ID",
 ) {
   return (
     (workerEnv as Record<string, unknown>)[name] ??
@@ -111,6 +112,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid reply channel." }, { status: 400 });
     data.preferredChannel = values.preferredChannel === "whatsapp" ? "whatsapp" :
       values.preferredChannel === "telegram" ? "telegram" : "email";
+    if (values.marketingOptIn !== undefined && typeof values.marketingOptIn !== "boolean")
+      return NextResponse.json({ error: "Invalid marketing preference." }, { status: 400 });
+    if (values.turnstileToken !== undefined && (typeof values.turnstileToken !== "string" || values.turnstileToken.length > 2048))
+      return NextResponse.json({ error: "Invalid verification token." }, { status: 400 });
+    data.marketingOptIn = values.marketingOptIn === true;
+    data.turnstileToken = typeof values.turnstileToken === "string" ? values.turnstileToken : "";
     if (data.website)
       return NextResponse.json(
         { error: "Unable to accept this submission." },
@@ -164,6 +171,48 @@ export async function POST(request: Request) {
         { status: 502 },
       );
     const result = (await resend.json()) as { id?: string };
+    let marketingConfirmationSent = false;
+    if (data.marketingOptIn && origin === expectedOrigin && data.turnstileToken) {
+      // Fail closed: a lead may be received without silently subscribing it.
+      const optinSecret = readRuntimeValueExactly("MARKETING_OPTIN_SECRET");
+      const turnstileSecret = readRuntimeValueExactly("TURNSTILE_SECRET_KEY");
+      const segment = readRuntimeValueExactly("RESEND_OPTIN_SEGMENT_ID");
+      if (
+        typeof optinSecret === "string" && optinSecret.length >= 32 &&
+        typeof turnstileSecret === "string" && turnstileSecret.length > 0 &&
+        typeof segment === "string" && segment.length > 0
+      ) {
+        try {
+          const challenge = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ secret: turnstileSecret, response: data.turnstileToken }),
+          });
+          const verification = challenge.ok
+            ? await challenge.json() as { success?: boolean; hostname?: string }
+            : { success: false };
+          if (verification.success === true && verification.hostname === requestUrl.hostname) {
+            const token = await makeOptInChallenge(data.email, data.firstName, optinSecret);
+            const confirm = new URL("https://monardas.com/api/marketing/confirm");
+            confirm.searchParams.set("token", token);
+            const response = await fetch(RESEND_ENDPOINT, {
+              method: "POST",
+              headers: { Authorization: "Bearer " + apiKey, "Content-Type": "application/json" },
+              body: JSON.stringify({
+                from: "MONARDAS <website@send.monardas.com>",
+                to: [data.email],
+                subject: "Please confirm your MONARDAS HVAC email updates",
+                text: "You requested optional MONARDAS HVAC updates.\n\nConfirm your email and subscription by opening:\n" +
+                  confirm.toString() + "\n\nThe link expires in 48 hours. If you did not request this, ignore this email. You are not subscribed.\n\nMONARDAS | yurii@monardas.com",
+              }),
+            });
+            marketingConfirmationSent = response.ok; // Accepted by provider, not proof of inbox.
+          }
+        } catch {
+          marketingConfirmationSent = false;
+        }
+      }
+    }
     // Event-only instrumentation: Resend HTTP acceptance is NOT final inbox delivery,
     // a qualified lead, or a started pilot. Never log contact or attribution fields.
     if (
@@ -182,6 +231,7 @@ export async function POST(request: Request) {
         message:
           "Thanks — your request was sent successfully. We’ll be in touch soon.",
         id: result.id ?? crypto.randomUUID(),
+        marketing_confirmation_sent: marketingConfirmationSent,
       },
       { status: 201 },
     );
