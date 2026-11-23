@@ -1,0 +1,73 @@
+import { env as workerEnv } from "cloudflare:workers";
+import { verifyOptInChallenge } from "@/lib/marketing-optin";
+
+const RESEND_CONTACTS = "https://api.resend.com/contacts";
+function envValue(name: string): string | null {
+  const raw = (workerEnv as Record<string, unknown>)[name] ??
+    (process.env as Record<string, string | undefined>)[name];
+  return typeof raw === "string" && raw.trim() ? raw.trim() : null;
+}
+
+function page(message: string, status = 200, action = ""): Response {
+  const html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MONARDAS email updates</title></head><body style="font:16px/1.6 system-ui,sans-serif;max-width:680px;margin:8vh auto;padding:24px"><h1>MONARDAS HVAC updates</h1><p>' +
+    message + '</p>' + action + '<p><a href="https://monardas.com/hvac">Back to MONARDAS</a></p></body></html>';
+  return new Response(html, { status, headers: {
+    "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store",
+    "Referrer-Policy": "no-referrer", "X-Robots-Tag": "noindex",
+    "X-Content-Type-Options": "nosniff",
+    "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
+  } });
+}
+function headers(key: string) {
+  return { Authorization: "Bearer " + key, "Content-Type": "application/json" };
+}
+
+export async function GET(request: Request) {
+  const secret = envValue("MARKETING_OPTIN_SECRET");
+  if (!secret) return page("Subscription confirmation is unavailable.", 503);
+  const token = new URL(request.url).searchParams.get("token") ?? "";
+  const consent = await verifyOptInChallenge(token, secret);
+  if (!consent) return page("This link is invalid or expired. You have not been subscribed.", 400);
+  // Deliberately read-only. Email security scanners may visit verification links.
+  return page("If you requested optional MONARDAS HVAC email updates, confirm your subscription below. This is separate from your pilot enquiry.",
+    200, '<form method="post" action="/api/marketing/confirm"><input type="hidden" name="token" value="' +
+    token + '"><button type="submit" style="padding:10px 20px">Confirm my email subscription</button></form>');
+}
+
+export async function POST(request: Request) {
+  const secret = envValue("MARKETING_OPTIN_SECRET");
+  const apiKey = envValue("RESEND_API_KEY");
+  const segment = envValue("RESEND_OPTIN_SEGMENT_ID");
+  if (!secret || !apiKey || !segment) return page("Subscription confirmation is unavailable.", 503);
+  if (!request.headers.get("content-type")?.includes("application/x-www-form-urlencoded")) return page("Invalid request.", 415);
+  const raw = await request.text();
+  if (raw.length > 3000) return page("Invalid request.", 413);
+  const token = new URLSearchParams(raw).get("token") ?? "";
+  const consent = await verifyOptInChallenge(token, secret);
+  if (!consent) return page("This link is invalid or expired. You have not been subscribed.", 400);
+  const contact = RESEND_CONTACTS + "/" + encodeURIComponent(consent.email);
+  const requestHeaders = headers(apiKey);
+  try {
+    const current = await fetch(contact, { method: "GET", headers: requestHeaders, cache: "no-store" });
+    if (current.ok) {
+      const existing = (await current.json()) as { unsubscribed?: unknown };
+      // Never silently reactivate globally unsubscribed contacts.
+      if (existing.unsubscribed !== false) return page("This address has a subscription restriction. Contact MONARDAS to review it.", 409);
+      const added = await fetch(contact + "/segments/" + encodeURIComponent(segment), {
+        method: "POST", headers: requestHeaders, body: "{}",
+      });
+      if (!added.ok && added.status !== 409) return page("We could not confirm your subscription. Please try again.", 503);
+    } else if (current.status === 404) {
+      const created = await fetch(RESEND_CONTACTS, { method: "POST", headers: requestHeaders,
+        body: JSON.stringify({ email: consent.email, first_name: consent.firstName,
+          unsubscribed: false, segments: [{ id: segment }] }),
+      });
+      if (!created.ok) return page("We could not confirm your subscription. Please try again.", 503);
+    } else {
+      return page("Subscription verification is unavailable. Please try again later.", 503);
+    }
+    return page("Your voluntary email subscription is confirmed. You can unsubscribe from future messages at any time.");
+  } catch {
+    return page("Subscription verification is unavailable. Please try again later.", 503);
+  }
+}
