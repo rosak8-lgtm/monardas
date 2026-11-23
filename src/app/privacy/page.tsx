@@ -24,6 +24,11 @@ export default function PrivacyPage() {
         <p>Please do not send homeowner names, addresses, telephone numbers, customer exports, credentials or other sensitive client records through public forms.</p>
       </section>
       <section>
+        <h2>Optional marketing updates and email confirmation</h2>
+        <p>Marketing updates are separate from business inquiries. You may explicitly request them using an unchecked optional checkbox. That request first requires Cloudflare Turnstile anti-abuse verification, followed by a confirmation email sent through Resend. Merely submitting an inquiry or opening the verification link does not subscribe you. Subscription occurs only if you submit the confirmation form. The link expires after 48 hours.</p>
+        <p>Resend processes the confirmation email, confirmed subscriber contact and subscription preference. Existing globally unsubscribed contacts are not automatically reactivated. You may unsubscribe from marketing messages at any time, or contact yurii@monardas.com to review or withdraw your choice. Publicly available company email addresses and pilot enquiries are not automatically added as marketing subscribers.</p>
+      </section>
+      <section>
         <h2>3. Technical and campaign information</h2>
         <p>The site may use temporary session storage to retain basic campaign tags and a sanitized landing-page path or referrer origin so a business inquiry can be attributed to its source. The site also records limited first-party, event-only visit or button-click counts for operational measurement, without deliberately including form contact details in those event records.</p>
         <p>Our attribution and optional event measurement are disabled when the browser signals Do Not Track or Global Privacy Control, as implemented in the current website. Hosting and infrastructure providers may process necessary technical logs for service delivery and security.</p>
