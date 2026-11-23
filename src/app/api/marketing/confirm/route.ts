@@ -1,5 +1,6 @@
 import { env as workerEnv } from "cloudflare:workers";
 import { verifyOptInChallenge } from "@/lib/marketing-optin";
+import { asMarketingReceiptDatabase, reserveConfirmationReceipt, confirmReceiptAfterSegmentAcceptance } from "@/lib/marketing-consent-receipt";
 
 const RESEND_CONTACTS = "https://api.resend.com/contacts";
 function envValue(name: string): string | null {
@@ -38,7 +39,8 @@ export async function POST(request: Request) {
   const secret = envValue("MARKETING_OPTIN_SECRET");
   const apiKey = envValue("RESEND_API_KEY");
   const segment = envValue("RESEND_OPTIN_SEGMENT_ID");
-  if (!secret || !apiKey || !segment) return page("Subscription confirmation is unavailable.", 503);
+  const receiptDb = asMarketingReceiptDatabase((workerEnv as Record<string, unknown>)["MARKETING_DB"]);
+  if (!secret || !apiKey || !segment || !receiptDb) return page("Subscription confirmation is unavailable.", 503);
   if (!request.headers.get("content-type")?.includes("application/x-www-form-urlencoded")) return page("Invalid request.", 415);
   const raw = await request.text();
   if (raw.length > 3000) return page("Invalid request.", 413);
@@ -49,23 +51,35 @@ export async function POST(request: Request) {
   const requestHeaders = headers(apiKey);
   try {
     const current = await fetch(contact, { method: "GET", headers: requestHeaders, cache: "no-store" });
+    // A previously unsubscribed contact may never be silently reactivated.
+    // Unknown Resend state fails closed before a consent receipt is reserved.
     if (current.ok) {
       const existing = (await current.json()) as { unsubscribed?: unknown };
-      // Never silently reactivate globally unsubscribed contacts.
       if (existing.unsubscribed !== false) return page("This address has a subscription restriction. Contact MONARDAS to review it.", 409);
+    } else if (current.status !== 404) {
+      return page("Subscription verification is unavailable. Please try again later.", 503);
+    }
+    // No marketing enrollment without durable server-side evidence of a
+    // human POST, the displayed disclosure version, and this exact challenge.
+    const receipt = await reserveConfirmationReceipt({
+      db: receiptDb, token, email: consent.email, signingSecret: secret,
+      segmentId: segment, challengeIssuedMs: consent.issuedMs,
+    });
+    if (!receipt.reserved) return page("This confirmation link was already processed. Request a new link if needed.", 409);
+
+    if (current.ok) {
       const added = await fetch(contact + "/segments/" + encodeURIComponent(segment), {
         method: "POST", headers: requestHeaders, body: "{}",
       });
-      if (!added.ok && added.status !== 409) return page("We could not confirm your subscription. Please try again.", 503);
-    } else if (current.status === 404) {
+      if (!added.ok && added.status !== 409) return page("We could not confirm your subscription. Please request a new link.", 503);
+    } else {
       const created = await fetch(RESEND_CONTACTS, { method: "POST", headers: requestHeaders,
         body: JSON.stringify({ email: consent.email, first_name: consent.firstName,
           unsubscribed: false, segments: [{ id: segment }] }),
       });
-      if (!created.ok) return page("We could not confirm your subscription. Please try again.", 503);
-    } else {
-      return page("Subscription verification is unavailable. Please try again later.", 503);
+      if (!created.ok) return page("We could not confirm your subscription. Please request a new link.", 503);
     }
+    await confirmReceiptAfterSegmentAcceptance(receiptDb, receipt.tokenHash);
     return page("Your voluntary email subscription is confirmed. You can unsubscribe from future messages at any time.");
   } catch {
     return page("Subscription verification is unavailable. Please try again later.", 503);
