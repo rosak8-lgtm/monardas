@@ -70,6 +70,7 @@ export function createResendPayload(
       ? [["Company website", data.companyWebsite || "Not provided"]]
       : []),
     ["Email", data.email],
+    ["Marketing updates (not verified)", data.marketingOptIn ? "REQUESTED — confirmation required" : "NO"],
     ["Phone", data.phone],
     ["Preferred reply channel", data.preferredChannel || "email"],
     ["Telegram username", data.preferredChannel === "telegram" ? data.telegramHandle || "" : "Not requested"],

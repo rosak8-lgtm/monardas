@@ -56,6 +56,14 @@ test("minimal assessment API payload reaches mocked Resend with optional fields 
     "@/lib/funnel": {
       logFunnelEvent: (...args: unknown[]) => events.push(args),
     },
+    "@/lib/marketing-optin": {
+      // The minimal business enquiry must remain valid without any marketing consent.
+      makeOptInChallenge: async () => { throw Error("OPTIN_MUST_NOT_RUN"); },
+    },
+    "@/lib/marketing-consent-receipt": {
+      // The ordinary business enquiry must never access the opt-in D1 database.
+      asMarketingReceiptDatabase: () => { throw Error("CONSENT_DB_MUST_NOT_RUN"); },
+    },
   };
   const exports: { POST?: (request: Request) => Promise<Response> } = {};
   runInNewContext(

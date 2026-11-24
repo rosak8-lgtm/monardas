@@ -12,6 +12,10 @@ export type ContactData = {
   attribution?: Attribution;
   intent?: "hvac-pilot" | "agency-partner" | "hvac-free-pilot";
   companyWebsite?: string;
+  /** Optional marketing newsletter subscription; never consent by default. */
+  marketingOptIn?: boolean;
+  /** One-use Cloudflare Turnstile token for opt-in challenge generation. */
+  turnstileToken?: string;
   preferredChannel?: "email" | "whatsapp" | "telegram";
   telegramHandle?: string;
   firstName: string;

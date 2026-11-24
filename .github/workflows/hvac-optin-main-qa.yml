@@ -1,0 +1,35 @@
+name: Verify HVAC marketing consent intake
+on:
+  push:
+    branches:
+      - feature/hvac-double-optin-main-20261123
+  pull_request:
+    paths:
+      - "src/lib/marketing-optin.ts"
+      - "src/lib/marketing-consent-receipt.ts"
+      - "migrations/0001_marketing_optin_receipts.sql"
+      - "tools/test-marketing-consent-receipt.mjs"
+      - "src/app/api/contact/route.ts"
+      - "src/app/api/marketing/confirm/route.ts"
+      - "src/components/contact-form.tsx"
+      - "src/lib/contact.ts"
+      - "src/lib/contact-delivery.ts"
+      - "tools/test-marketing-optin.mjs"
+      - ".github/workflows/hvac-optin-main-qa.yml"
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: node --experimental-strip-types --test tools/test-marketing-*.mjs
+      - run: npx tsc --noEmit
+      - run: npm run lint
+      - run: npm run build:vinext
+      - run: npx --no-install playwright install --with-deps chromium
+      - run: npx --no-install playwright test --config playwright.growth.config.ts

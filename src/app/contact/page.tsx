@@ -12,9 +12,10 @@ export const metadata = pageMetadata(
 export default async function Contact({
   searchParams,
 }: {
-  searchParams: Promise<{ intent?: string }>;
+  searchParams: Promise<{ intent?: string; optin_qa?: string }>;
 }) {
-  const { intent } = await searchParams;
+  const { intent, optin_qa } = await searchParams;
+  const internalOptInQa = optin_qa === "1" && process.env.NEXT_PUBLIC_MARKETING_OPTIN_MODE !== "live";
   const foundingPartner = intent === "founding-partner";
   const agencyPartner = intent === "agency-partner";
   const freePilot = intent === "hvac-free-pilot";
@@ -71,7 +72,7 @@ export default async function Contact({
             Ask on WhatsApp
           </Button>
         </div>
-        <ContactForm agencyPartner={agencyPartner} freePilot={freePilot} />
+        <ContactForm agencyPartner={agencyPartner} freePilot={freePilot} internalOptInQa={internalOptInQa} />
       </section>
     );
   return (
@@ -112,7 +113,7 @@ export default async function Contact({
           Ask on WhatsApp
         </Button>
       </div>
-      <ContactForm foundingPartner={foundingPartner} />
+      <ContactForm foundingPartner={foundingPartner} internalOptInQa={internalOptInQa} />
     </section>
   );
 }
