@@ -8,7 +8,7 @@ import {
 import { env as workerEnv } from "cloudflare:workers";
 import { sanitizeAttribution } from "@/lib/attribution";
 import { logFunnelEvent } from "@/lib/funnel";
-import { makeOptInChallenge } from "@/lib/marketing-optin";
+import { makeOptInChallenge, normalizeOptInEmail, resolveMarketingTarget } from "@/lib/marketing-optin";
 import { asMarketingReceiptDatabase } from "@/lib/marketing-consent-receipt";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
@@ -176,14 +176,12 @@ export async function POST(request: Request) {
     if (data.marketingOptIn && origin === expectedOrigin && data.turnstileToken &&
         asMarketingReceiptDatabase((workerEnv as Record<string, unknown>)["MARKETING_DB"])) {
       // Fail closed: a lead may be received without silently subscribing it.
-      const optinSecret = readRuntimeValueExactly("MARKETING_OPTIN_SECRET");
+      const target = resolveMarketingTarget({ ...process.env, ...workerEnv }, requestUrl.origin);
       const turnstileSecret = readRuntimeValueExactly("TURNSTILE_SECRET_KEY");
-      const segment = readRuntimeValueExactly("RESEND_OPTIN_SEGMENT_ID");
       const contactsKey = readRuntimeValueExactly("RESEND_CONTACTS_API_KEY");
       if (
-        typeof optinSecret === "string" && optinSecret.length >= 32 &&
+        target && (!target.qaEmail || normalizeOptInEmail(data.email) === target.qaEmail) &&
         typeof turnstileSecret === "string" && turnstileSecret.length > 0 &&
-        typeof segment === "string" && segment.length > 0 &&
         typeof contactsKey === "string" && contactsKey.length > 0
       ) {
         try {
@@ -196,7 +194,7 @@ export async function POST(request: Request) {
             ? await challenge.json() as { success?: boolean; hostname?: string }
             : { success: false };
           if (verification.success === true && verification.hostname === requestUrl.hostname) {
-            const token = await makeOptInChallenge(data.email, data.firstName, optinSecret);
+            const token = await makeOptInChallenge(data.email, data.firstName, target.challengeSecret);
             const confirm = new URL("https://monardas.com/api/marketing/confirm");
             confirm.searchParams.set("token", token);
             const response = await fetch(RESEND_ENDPOINT, {
