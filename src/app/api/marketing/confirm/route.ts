@@ -37,7 +37,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const secret = envValue("MARKETING_OPTIN_SECRET");
-  const apiKey = envValue("RESEND_API_KEY");
+  const apiKey = envValue("RESEND_CONTACTS_API_KEY");
   const segment = envValue("RESEND_OPTIN_SEGMENT_ID");
   const receiptDb = asMarketingReceiptDatabase((workerEnv as Record<string, unknown>)["MARKETING_DB"]);
   if (!secret || !apiKey || !segment || !receiptDb) return page("Subscription confirmation is unavailable.", 503);
@@ -79,6 +79,22 @@ export async function POST(request: Request) {
       });
       if (!created.ok) return page("We could not confirm your subscription. Please request a new link.", 503);
     }
+    // A provider conflict or create response alone is not proof of enrollment.
+    // Re-read both current subscription status and explicit segment membership.
+    const verifiedContact = await fetch(contact, {
+      method: "GET", headers: requestHeaders, cache: "no-store",
+    });
+    if (!verifiedContact.ok) return page("Subscription verification is unavailable. Please request a new link.", 503);
+    const verified = (await verifiedContact.json()) as { id?: unknown; unsubscribed?: unknown };
+    if (typeof verified.id !== "string" || !verified.id || verified.unsubscribed !== false)
+      return page("Subscription verification is unavailable. Please request a new link.", 503);
+    const membership = await fetch(RESEND_CONTACTS + "/" + encodeURIComponent(verified.id) + "/segments", {
+      method: "GET", headers: requestHeaders, cache: "no-store",
+    });
+    if (!membership.ok) return page("Subscription verification is unavailable. Please request a new link.", 503);
+    const memberships = (await membership.json()) as { data?: { id?: unknown }[] };
+    if (!Array.isArray(memberships.data) || !memberships.data.some(item => item?.id === segment))
+      return page("Subscription verification is unavailable. Please request a new link.", 503);
     await confirmReceiptAfterSegmentAcceptance(receiptDb, receipt.tokenHash);
     return page("Your voluntary email subscription is confirmed. You can unsubscribe from future messages at any time.");
   } catch {
