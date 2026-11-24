@@ -8,7 +8,11 @@
   "main": "vinext/server/app-router-entry",
   "vars": {
     "CONTACT_TO": "yurii@monardas.com",
-    "CONTACT_FROM": "MONARDAS Leads <website@send.monardas.com>"
+    "CONTACT_FROM": "MONARDAS Leads <website@send.monardas.com>",
+    "MARKETING_OPTIN_MODE": "qa",
+    "MARKETING_QA_EMAIL": "yurii@monardas.com",
+    "MARKETING_QA_SEGMENT_ID": "dfef2b7a-a2f9-4e35-a578-b9466d900eea",
+    "RESEND_OPTIN_SEGMENT_ID": "c0729422-ded7-4bc6-bef9-a4d591aa2818"
   },
   "observability": {
     "logs": {
