@@ -82,3 +82,25 @@ export async function verifyOptInChallenge(
     return value as MarketingConsentChallenge;
   } catch { return null; }
 }
+
+/** Live credentials are never used to enroll contacts from preview hosts.
+ * QA uses an explicit owner address and separate segment on the canonical host.
+ * The encryption context prevents QA links being redeemed after switching to live.
+ */
+export function resolveMarketingTarget(env: Record<string, unknown>, origin: string) {
+  if (origin !== "https://monardas.com") return null;
+  const mode = env.MARKETING_OPTIN_MODE;
+  const secret = env.MARKETING_OPTIN_SECRET;
+  const live = env.RESEND_OPTIN_SEGMENT_ID;
+  const validSegment = (v: unknown): v is string =>
+    typeof v === "string" && /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(v);
+  if (typeof secret !== "string" || secret.length < 32 || !validSegment(live)) return null;
+  if (mode === "live") {
+    return { segmentId: live, receiptSecret: secret, challengeSecret: secret + ":live:" + live, qaEmail: null };
+  }
+  if (mode !== "qa") return null;
+  const qa = env.MARKETING_QA_SEGMENT_ID;
+  const email = typeof env.MARKETING_QA_EMAIL === "string" ? normalizeOptInEmail(env.MARKETING_QA_EMAIL) : null;
+  if (!validSegment(qa) || qa.toLowerCase() === live.toLowerCase() || !email) return null;
+  return { segmentId: qa, receiptSecret: secret, challengeSecret: secret + ":qa:" + qa, qaEmail: email };
+}
