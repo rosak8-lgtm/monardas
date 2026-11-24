@@ -21,11 +21,14 @@ export function ContactForm({
   foundingPartner = false,
   agencyPartner = false,
   freePilot = false,
+  internalOptInQa = false,
 }: {
   foundingPartner?: boolean;
   agencyPartner?: boolean;
   freePilot?: boolean;
+  internalOptInQa?: boolean;
 }) {
+  const showMarketingOptIn = Boolean(marketingTurnstileSiteKey) && (process.env.NEXT_PUBLIC_MARKETING_OPTIN_MODE === "live" || internalOptInQa);
   const submissionLocked = useRef(false);
   const ready = useSyncExternalStore(
     subscribe,
@@ -43,7 +46,7 @@ export function ContactForm({
     const form = event.currentTarget;
     const submission = new FormData(form);
     const data = Object.fromEntries(submission) as unknown as ContactData;
-    data.marketingOptIn = Boolean(marketingTurnstileSiteKey) && submission.get("marketingOptIn") === "yes";
+    data.marketingOptIn = showMarketingOptIn && submission.get("marketingOptIn") === "yes";
     data.turnstileToken = data.marketingOptIn ? String(submission.get("cf-turnstile-response") ?? "") : "";
     const found = validate(data);
     setErrors(found);
@@ -231,8 +234,9 @@ export function ContactForm({
         )}
       </div>
       {!freePilot && replyPreferences}
-      {marketingTurnstileSiteKey && (
+      {showMarketingOptIn && (
         <div className="full-field">
+          {internalOptInQa && <p className="form-note">Internal subscription test only — use the designated company mailbox. This is not a customer registration.</p>}
           <label htmlFor="marketingOptIn">
             <input id="marketingOptIn" name="marketingOptIn" type="checkbox" value="yes" />{" "}
             Optional: I want occasional MONARDAS HVAC recovery tips and offers by email. I can unsubscribe at any time.
