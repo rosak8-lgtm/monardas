@@ -25,5 +25,13 @@
     "directory": "dist/client",
     "not_found_handling": "none",
     "binding": "ASSETS"
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "MARKETING_DB",
+      "database_name": "monardas-marketing-consent",
+      "database_id": "b446e6af-2e96-4f1f-aef5-6731915e1c6b",
+      "migrations_dir": "migrations"
+    }
+  ]
 }
