@@ -1,5 +1,5 @@
 import { env as workerEnv } from "cloudflare:workers";
-import { verifyOptInChallenge } from "@/lib/marketing-optin";
+import { verifyOptInChallenge, resolveMarketingTarget } from "@/lib/marketing-optin";
 import { asMarketingReceiptDatabase, reserveConfirmationReceipt, confirmReceiptAfterSegmentAcceptance } from "@/lib/marketing-consent-receipt";
 
 const RESEND_CONTACTS = "https://api.resend.com/contacts";
@@ -24,11 +24,11 @@ function headers(key: string) {
 }
 
 export async function GET(request: Request) {
-  const secret = envValue("MARKETING_OPTIN_SECRET");
-  if (!secret) return page("Subscription confirmation is unavailable.", 503);
+  const target = resolveMarketingTarget({ ...process.env, ...workerEnv }, new URL(request.url).origin);
+  if (!target) return page("Subscription confirmation is unavailable.", 503);
   const token = new URL(request.url).searchParams.get("token") ?? "";
-  const consent = await verifyOptInChallenge(token, secret);
-  if (!consent) return page("This link is invalid or expired. You have not been subscribed.", 400);
+  const consent = await verifyOptInChallenge(token, target.challengeSecret);
+  if (!consent || (target.qaEmail && consent.email !== target.qaEmail)) return page("This link is invalid or expired. You have not been subscribed.", 400);
   // Deliberately read-only. Email security scanners may visit verification links.
   return page("If you requested optional MONARDAS HVAC email updates, confirm your subscription below. This is separate from your pilot enquiry.",
     200, '<form method="post" action="/api/marketing/confirm"><input type="hidden" name="token" value="' +
@@ -36,17 +36,17 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const secret = envValue("MARKETING_OPTIN_SECRET");
+  const target = resolveMarketingTarget({ ...process.env, ...workerEnv }, new URL(request.url).origin);
   const apiKey = envValue("RESEND_CONTACTS_API_KEY");
-  const segment = envValue("RESEND_OPTIN_SEGMENT_ID");
   const receiptDb = asMarketingReceiptDatabase((workerEnv as Record<string, unknown>)["MARKETING_DB"]);
-  if (!secret || !apiKey || !segment || !receiptDb) return page("Subscription confirmation is unavailable.", 503);
+  if (!target || !apiKey || !receiptDb) return page("Subscription confirmation is unavailable.", 503);
+  const segment = target.segmentId;
   if (!request.headers.get("content-type")?.includes("application/x-www-form-urlencoded")) return page("Invalid request.", 415);
   const raw = await request.text();
   if (raw.length > 3000) return page("Invalid request.", 413);
   const token = new URLSearchParams(raw).get("token") ?? "";
-  const consent = await verifyOptInChallenge(token, secret);
-  if (!consent) return page("This link is invalid or expired. You have not been subscribed.", 400);
+  const consent = await verifyOptInChallenge(token, target.challengeSecret);
+  if (!consent || (target.qaEmail && consent.email !== target.qaEmail)) return page("This link is invalid or expired. You have not been subscribed.", 400);
   const contact = RESEND_CONTACTS + "/" + encodeURIComponent(consent.email);
   const requestHeaders = headers(apiKey);
   try {
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     // No marketing enrollment without durable server-side evidence of a
     // human POST, the displayed disclosure version, and this exact challenge.
     const receipt = await reserveConfirmationReceipt({
-      db: receiptDb, token, email: consent.email, signingSecret: secret,
+      db: receiptDb, token, email: consent.email, signingSecret: target.receiptSecret,
       segmentId: segment, challengeIssuedMs: consent.issuedMs,
     });
     if (!receipt.reserved) return page("This confirmation link was already processed. Request a new link if needed.", 409);
