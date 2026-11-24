@@ -34,7 +34,7 @@ function harness({ missingDb = false, initialStatus = 200, unsubscribed = false,
     throw Error("unexpected DB operation");
   } }; } }; } };
   let reads = 0;
-  const env = { MARKETING_OPTIN_SECRET: secret, RESEND_CONTACTS_API_KEY: "offline-key",
+  const env = { MARKETING_OPTIN_MODE: "live", MARKETING_OPTIN_SECRET: secret, RESEND_CONTACTS_API_KEY: "offline-key",
     RESEND_OPTIN_SEGMENT_ID: segment, ...(missingDb ? {} : { MARKETING_DB: db }) };
   const exports = {};
   const modules = {
@@ -65,7 +65,8 @@ function harness({ missingDb = false, initialStatus = 200, unsubscribed = false,
   });
   return { ...exports, calls, records };
 }
-const makeToken = () => challenges.makeOptInChallenge(email, "QA", secret);
+const liveSecret = secret + ":live:" + segment;
+const makeToken = () => challenges.makeOptInChallenge(email, "QA", liveSecret);
 const post = (h, token) => h.POST(new Request(path, { method: "POST",
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
   body: new URLSearchParams({ token }) }));
@@ -106,7 +107,7 @@ for (const [name, opts, expected] of [
 test("malformed and expired challenges never touch provider", async () => {
   const h = harness();
   assert.equal((await post(h, "invalid")).status, 400);
-  const expired = await challenges.makeOptInChallenge(email, "QA", secret, Date.now() - 49 * 60 * 60 * 1000);
+  const expired = await challenges.makeOptInChallenge(email, "QA", liveSecret, Date.now() - 49 * 60 * 60 * 1000);
   assert.equal((await post(h, expired)).status, 400);
   assert.equal(h.calls.length, 0);
   assert.equal(h.records.size, 0);
