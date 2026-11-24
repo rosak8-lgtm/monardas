@@ -14,7 +14,7 @@ import { asMarketingReceiptDatabase } from "@/lib/marketing-consent-receipt";
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
 function readRuntimeValueExactly(
-  name: "RESEND_API_KEY" | "CONTACT_TO" | "CONTACT_FROM" | "CONTACT_BACKUP_TO" | "MARKETING_OPTIN_SECRET" | "TURNSTILE_SECRET_KEY" | "RESEND_OPTIN_SEGMENT_ID",
+  name: "RESEND_API_KEY" | "CONTACT_TO" | "CONTACT_FROM" | "CONTACT_BACKUP_TO" | "MARKETING_OPTIN_SECRET" | "TURNSTILE_SECRET_KEY" | "RESEND_OPTIN_SEGMENT_ID" | "RESEND_CONTACTS_API_KEY",
 ) {
   return (
     (workerEnv as Record<string, unknown>)[name] ??
@@ -179,10 +179,12 @@ export async function POST(request: Request) {
       const optinSecret = readRuntimeValueExactly("MARKETING_OPTIN_SECRET");
       const turnstileSecret = readRuntimeValueExactly("TURNSTILE_SECRET_KEY");
       const segment = readRuntimeValueExactly("RESEND_OPTIN_SEGMENT_ID");
+      const contactsKey = readRuntimeValueExactly("RESEND_CONTACTS_API_KEY");
       if (
         typeof optinSecret === "string" && optinSecret.length >= 32 &&
         typeof turnstileSecret === "string" && turnstileSecret.length > 0 &&
-        typeof segment === "string" && segment.length > 0
+        typeof segment === "string" && segment.length > 0 &&
+        typeof contactsKey === "string" && contactsKey.length > 0
       ) {
         try {
           const challenge = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
