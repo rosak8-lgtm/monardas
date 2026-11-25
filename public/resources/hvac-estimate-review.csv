@@ -1,0 +1,4 @@
+estimate_reference,quote_date,quote_amount_usd,eligibility,exclusion_reason,next_action_owner_role,last_contact_date,next_review_date,outcome
+DEMO-001,2026-11-01,8500,REVIEW_REQUIRED,Permission not yet verified,Service manager,,2026-11-30,OPEN
+DEMO-002,2026-11-02,6900,EXCLUDED,Opted out,Service manager,,,NO_CONTACT
+DEMO-003,2026-11-03,7200,EXCLUDED,Already sold,Sales manager,,,SOLD

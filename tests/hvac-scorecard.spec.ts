@@ -82,3 +82,21 @@ test("scorecard is keyboard and mobile accessible at basic navigation level", as
   await expect(page.getByRole("link", { name: /Discuss a Free Backlog Assessment/ })).toBeVisible();
   await expect(page.locator("body")).toHaveJSProperty("scrollWidth", await page.locator("body").evaluate(el => el.clientWidth));
 });
+
+test("free estimate worksheet is available without registration and contains fictional references only", async ({ page }) => {
+  await page.goto("/hvac/scorecard");
+  const link = page.getByRole("link", { name: /Download free estimate review CSV/ });
+  await expect(link).toBeVisible();
+  await expect(link).toHaveAttribute("download", "monardas-hvac-estimate-review.csv");
+  const response = await page.request.get("/resources/hvac-estimate-review.csv");
+  expect(response.ok()).toBe(true);
+  const content = await response.text();
+  expect(content.trim().split(/\r?\n/)).toHaveLength(4);
+  expect(content).toContain("DEMO-001");
+  expect(content).toContain("REVIEW_REQUIRED");
+  expect(content).toContain("Opted out");
+  expect(content).toContain("Already sold");
+  expect(content).not.toContain("@");
+  expect(content).not.toContain("APPROVED");
+  await expect(page.getByRole("button", { name: "Share the free resources" })).toBeVisible();
+});
