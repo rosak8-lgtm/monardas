@@ -4,7 +4,7 @@ import {
   createResendPayload,
   isValidRuntimeContactConfig,
 } from "../src/lib/contact-delivery";
-import { validate } from "../src/lib/contact";
+import { needsMarketingVerification, validate } from "../src/lib/contact";
 import { validFunnelEvent } from "../src/lib/funnel";
 import { readFileSync } from "node:fs";
 import { runInNewContext } from "node:vm";
@@ -328,4 +328,14 @@ test("www redirect preserves path and campaign query without redirecting apex", 
       })
     ).status(),
   ).toBe(200);
+});
+
+
+test("opt-in preflight waits for a token without making ordinary enquiries require consent", () => {
+  expect(needsMarketingVerification(true, "")).toBe(true);
+  expect(needsMarketingVerification(true, "   ")).toBe(true);
+  expect(needsMarketingVerification(true, "x".repeat(2049))).toBe(true);
+  expect(needsMarketingVerification(true, "test-token-not-server-verified")).toBe(false);
+  expect(needsMarketingVerification(false, "")).toBe(false);
+  expect(needsMarketingVerification(false, "x".repeat(2049))).toBe(false);
 });
