@@ -36,7 +36,7 @@ export function ContactForm({
     () => false,
   );
   const [errors, setErrors] = useState<Errors>({});
-  const [marketingNotice, setMarketingNotice] = useState<"none" | "sent" | "failed">("none");
+  const [marketingNotice, setMarketingNotice] = useState<"none" | "sent" | "failed" | "verification-required">("none");
   const [state, setState] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
   );
@@ -65,8 +65,8 @@ export function ContactForm({
         body: JSON.stringify(data),
       });
       if (!response.ok) throw new Error("delivery-failed");
-      const result = (await response.json()) as { marketing_confirmation_sent?: boolean };
-      setMarketingNotice(data.marketingOptIn ? (result.marketing_confirmation_sent ? "sent" : "failed") : "none");
+      const result = (await response.json()) as { marketing_confirmation_sent?: boolean; marketing_confirmation_status?: string };
+      setMarketingNotice(data.marketingOptIn ? (result.marketing_confirmation_sent ? "sent" : result.marketing_confirmation_status === "verification_required" ? "verification-required" : "failed") : "none");
       setState("success");
     } catch {
       submissionLocked.current = false;
@@ -234,6 +234,12 @@ export function ContactForm({
         )}
       </div>
       {!freePilot && replyPreferences}
+      {internalOptInQa && !marketingTurnstileSiteKey && (
+        <p className="field-error" role="status">
+          Subscription QA is unavailable: the public Turnstile site key was not included in this build.
+          The business enquiry can still be submitted, but no subscription will be created.
+        </p>
+      )}
       {showMarketingOptIn && (
         <div className="full-field">
           {internalOptInQa && <p className="form-note">Internal subscription test only — use the designated company mailbox. This is not a customer registration.</p>}
@@ -294,6 +300,9 @@ export function ContactForm({
         )}
         {state === "success" && marketingNotice === "sent" && (
           <p className="form-note">Please check your email to confirm the optional subscription. You are not subscribed yet.</p>
+        )}
+        {state === "success" && marketingNotice === "verification-required" && (
+          <p className="form-note">Your business enquiry was accepted, but the optional subscription verification was incomplete. You are not subscribed.</p>
         )}
         {state === "success" && marketingNotice === "failed" && (
           <p className="form-note">Your business enquiry was accepted, but optional subscription verification could not be sent. You are not subscribed.</p>
