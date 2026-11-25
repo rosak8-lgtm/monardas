@@ -173,12 +173,22 @@ export async function POST(request: Request) {
       );
     const result = (await resend.json()) as { id?: string };
     let marketingConfirmationSent = false;
+    let marketingConfirmationStatus: "not_requested" | "verification_required" | "unavailable" | "provider_accepted" =
+      !data.marketingOptIn ? "not_requested" : !data.turnstileToken ? "verification_required" : "unavailable";
+    // Only fixed diagnostic codes; never emit an email, token, URL, IP or provider response.
+    let marketingDiagnostic = !data.marketingOptIn ? "not_requested" :
+      origin !== expectedOrigin ? "origin_mismatch" :
+      !data.turnstileToken ? "missing_verification" : "receipt_binding_unavailable";
     if (data.marketingOptIn && origin === expectedOrigin && data.turnstileToken &&
         asMarketingReceiptDatabase((workerEnv as Record<string, unknown>)["MARKETING_DB"])) {
       // Fail closed: a lead may be received without silently subscribing it.
       const target = resolveMarketingTarget({ ...process.env, ...workerEnv }, requestUrl.origin);
       const turnstileSecret = readRuntimeValueExactly("TURNSTILE_SECRET_KEY");
       const contactsKey = readRuntimeValueExactly("RESEND_CONTACTS_API_KEY");
+      marketingDiagnostic = !target ? "target_unavailable" :
+        target.qaEmail && normalizeOptInEmail(data.email) !== target.qaEmail ? "qa_address_mismatch" :
+        !turnstileSecret ? "verification_config_unavailable" :
+        !contactsKey ? "contacts_config_unavailable" : "verification_pending";
       if (
         target && (!target.qaEmail || normalizeOptInEmail(data.email) === target.qaEmail) &&
         typeof turnstileSecret === "string" && turnstileSecret.length > 0 &&
@@ -209,12 +219,20 @@ export async function POST(request: Request) {
               }),
             });
             marketingConfirmationSent = response.ok; // Accepted by provider, not proof of inbox.
+            marketingConfirmationStatus = response.ok ? "provider_accepted" : "unavailable";
+            marketingDiagnostic = response.ok ? "provider_accepted" : "provider_rejected";
+          } else {
+            marketingConfirmationStatus = "verification_required";
+            marketingDiagnostic = "verification_failed";
           }
         } catch {
           marketingConfirmationSent = false;
+          marketingConfirmationStatus = "unavailable";
+          marketingDiagnostic = "verification_or_provider_exception";
         }
       }
     }
+    if (data.marketingOptIn) console.info("marketing_optin", marketingDiagnostic);
     // Event-only instrumentation: Resend HTTP acceptance is NOT final inbox delivery,
     // a qualified lead, or a started pilot. Never log contact or attribution fields.
     if (
@@ -234,6 +252,7 @@ export async function POST(request: Request) {
           "Thanks — your request was sent successfully. We’ll be in touch soon.",
         id: result.id ?? crypto.randomUUID(),
         marketing_confirmation_sent: marketingConfirmationSent,
+        marketing_confirmation_status: marketingConfirmationStatus,
       },
       { status: 201 },
     );
