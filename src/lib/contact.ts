@@ -30,6 +30,10 @@ export type ContactData = {
   website: string;
 };
 export type Errors = Partial<Record<keyof ContactData, string>>;
+/** Browser preflight only; the server must independently verify Turnstile. */
+export function needsMarketingVerification(optIn: boolean, token: string): boolean {
+  return optIn && (token.trim().length === 0 || token.length > 2048);
+}
 export function validate(data: ContactData): Errors {
   const errors: Errors = {};
   const pilot = data.intent === "hvac-pilot";

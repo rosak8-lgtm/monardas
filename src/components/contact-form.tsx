@@ -3,7 +3,7 @@ import { useRef, useState, useSyncExternalStore } from "react";
 import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
 import Script from "next/script";
-import { validate, type ContactData, type Errors } from "@/lib/contact";
+import { needsMarketingVerification, validate, type ContactData, type Errors } from "@/lib/contact";
 import { captureAttribution } from "@/lib/attribution";
 
 const subscribe = () => () => {};
@@ -36,6 +36,7 @@ export function ContactForm({
     () => false,
   );
   const [errors, setErrors] = useState<Errors>({});
+  const [verificationPending, setVerificationPending] = useState(false);
   const [marketingNotice, setMarketingNotice] = useState<"none" | "sent" | "failed" | "verification-required">("none");
   const [state, setState] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
@@ -55,6 +56,14 @@ export function ContactForm({
       (form.elements.namedItem(Object.keys(found)[0]) as HTMLElement)?.focus();
       return;
     }
+    // A requested opt-in must not silently degrade into a completed lead while the widget is still loading.
+    // The user can wait for verification or explicitly uncheck the optional consent.
+    if (needsMarketingVerification(data.marketingOptIn, data.turnstileToken)) {
+      setVerificationPending(true);
+      setState("idle");
+      return;
+    }
+    setVerificationPending(false);
     data.attribution = captureAttribution();
     setState("loading");
     submissionLocked.current = true;
@@ -244,12 +253,18 @@ export function ContactForm({
         <div className="full-field">
           {internalOptInQa && <p className="form-note">Internal subscription test only — use the designated company mailbox. This is not a customer registration.</p>}
           <label htmlFor="marketingOptIn">
-            <input id="marketingOptIn" name="marketingOptIn" type="checkbox" value="yes" />{" "}
+            <input id="marketingOptIn" name="marketingOptIn" type="checkbox" value="yes" onChange={() => setVerificationPending(false)} />{" "}
             Optional: I want occasional MONARDAS HVAC recovery tips and offers by email. I can unsubscribe at any time.
           </label>
           <p className="form-note">Not required for your enquiry. A separate email confirmation is required before subscription.</p>
           <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
           <div className="cf-turnstile" data-sitekey={marketingTurnstileSiteKey} />
+          {verificationPending && (
+            <p className="field-error" role="alert">
+              Please wait for the security verification to finish, then submit again.
+              You can also uncheck the optional email updates box to send your enquiry without subscribing.
+            </p>
+          )}
         </div>
       )}
       <div className="honeypot" aria-hidden="true">
