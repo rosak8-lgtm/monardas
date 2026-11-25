@@ -154,6 +154,18 @@ export function HVACScorecard() {
           <Link className={styles.cta} href="/hvac/free-pilot?utm_source=scorecard&utm_medium=founding-cohort">Apply for the Free 30-Day HVAC Pilot <ArrowUpRight size={17} /></Link>
         </aside>
       </section>
+      <section className={"container " + styles.partner} aria-labelledby="estimate-workbook-heading">
+        <div>
+          <span className="eyebrow">FREE WORKSHEET / NO SIGN-UP</span>
+          <h2 id="estimate-workbook-heading">Organize your open estimates before following up.</h2>
+          <p>Download a simple CSV review worksheet for Excel or Google Sheets. Three fictional rows illustrate review-required, opted-out and sold estimates. Delete the sample rows and work in your own approved system.</p>
+          <p>Use internal references rather than homeowner names or contact details. Review eligibility first; the worksheet does not authorize outreach or send messages.</p>
+        </div>
+        <div className={styles.partnerLinks}>
+          <a href="/resources/hvac-estimate-review.csv" download="monardas-hvac-estimate-review.csv">Download free estimate review CSV <ArrowUpRight size={17} /></a>
+          <button type="button" data-growth-share="true" onClick={() => void share(publicUrl + "?utm_source=worksheet&utm_medium=referral")}><Share2 size={17} /> Share the free resources</button>
+        </div>
+      </section>
       <section className={"container " + styles.partner}>
         <div>
           <span className="eyebrow">FOR HVAC MARKETING AGENCIES & CONSULTANTS</span>
