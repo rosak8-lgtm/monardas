@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "contact",
     "hvac/scorecard",
     "hvac/free-pilot",
+    "hvac/follow-up-playbook",
     ...Object.keys(commercialPages),
     ...Object.keys(pages),
   ].map((path) => ({
