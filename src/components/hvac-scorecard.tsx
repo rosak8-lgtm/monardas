@@ -180,6 +180,7 @@ export function HVACScorecard() {
       <section className={"container " + styles.bottom}>
         <Link href="/hvac">← MONARDAS HVAC Recovery</Link>
         <Link href="/hvac/demo">Try the fictional estimate demo →</Link>
+        <Link href="/hvac/follow-up-playbook?utm_source=scorecard&utm_medium=resource">Read the free five-step follow-up playbook →</Link>
       </section>
     </div>
   );
