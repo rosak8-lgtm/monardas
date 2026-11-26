@@ -100,3 +100,16 @@ test("free estimate worksheet is available without registration and contains fic
   expect(content).not.toContain("APPROVED");
   await expect(page.getByRole("button", { name: "Share the free resources" })).toBeVisible();
 });
+
+test("free playbook is discoverable and links to existing pilot without collecting data", async ({ page }) => {
+  await page.goto("/hvac/scorecard");
+  await page.getByRole("link", { name: /Read the free five-step follow-up playbook/ }).click();
+  await expect(page).toHaveURL(/\/hvac\/follow-up-playbook/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("unsold HVAC estimates");
+  await expect(page.locator("article")).toHaveCount(5);
+  await expect(page.getByRole("link", { name: "Explore the free pilot" })).toHaveAttribute("href", "/hvac/free-pilot?utm_source=playbook&utm_medium=resource");
+  await expect(page.locator("form")).toHaveCount(0);
+  const sitemap = await page.request.get("/sitemap.xml");
+  expect(sitemap.ok()).toBe(true);
+  expect(await sitemap.text()).toContain("/hvac/follow-up-playbook");
+});
