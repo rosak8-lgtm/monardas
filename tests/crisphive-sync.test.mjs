@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createSandboxFeed} from '../src/lib/crisphive-sync.mjs';
+const customerId='11111111-1111-4111-8111-111111111111';
+const key='chsk_test_fixture';
+const next_since='2026-11-26T12:00:00Z';
+const response=(data)=>({ok:true,json:async()=>({error_code:0,data})});
+const feed=(transport)=>createSandboxFeed({key,customerId,transport});
+test('first poll omits since and restricts customer',async()=>{const r=feed(async(url,o)=>{const u=new URL(url);assert.equal(u.origin,'https://api.crisphive.com');assert.equal(u.searchParams.get('customer_id'),customerId);assert.equal(u.searchParams.has('since'),false);assert.equal(o.method,'GET');assert.equal(o.redirect,'error');return response({items:[],next_since,has_more:false});});assert.equal((await r()).next_since,next_since);});
+test('cursor passed unchanged',async()=>{const r=feed(async(url)=>{assert.equal(new URL(url).searchParams.get('since'),next_since);return response({items:[],next_since,has_more:false});});await r({since:next_since});});
+test('production and malformed customer rejected',()=>{assert.throws(()=>createSandboxFeed({key:'chsk_live_x',customerId}));assert.throws(()=>createSandboxFeed({key,customerId:'../jobs'}));});
+test('invalid inputs rejected before network',async()=>{const r=feed(()=>assert.fail('unexpected request'));await assert.rejects(r({since:'not a date'}),/INVALID_CURSOR/);await assert.rejects(r({limit:101}),/INVALID_CURSOR/);});
+test('invalid feed rejected',async()=>{await assert.rejects(feed(async()=>response({items:[],next_since:'bad',has_more:false}))(),/INVALID_FEED/);});
+test('stalled cursor fails closed',async()=>{await assert.rejects(feed(async()=>response({items:[{}],next_since,has_more:true}))({since:next_since}),/CURSOR_STALLED/);});
+test('transport failure sanitized',async()=>{await assert.rejects(feed(async()=>{throw Error(key)})(),e=>e.message==='TRANSPORT_ERROR');});
