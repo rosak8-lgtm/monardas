@@ -35,6 +35,11 @@ export default function FollowUpPlaybook() {
         </div>
         <p className="fine-print">Educational workflow only. This is not legal advice, authorization to contact customers, a sales forecast or a promise of recovered revenue.</p>
       </section>
+      <section className="container section" aria-label="Optional HVAC newsletter">
+        <h2>Get free HVAC growth tips</h2>
+        <p>Subscribe to practical estimate follow-up strategies and automation insights. Optional email newsletter, with confirmation and unsubscribe. The worksheet and scorecard remain free without signing up.</p>
+        <a href="https://monardas-hvac-growth-revenue-recovery.kit.com/0e27c069e8?utm_source=monardas&utm_medium=website&utm_campaign=hvac_playbook">Subscribe to the free MONARDAS newsletter</a>
+      </section>
       <section className="container section" aria-label="Share with your team">
         <h2>Share the workflow with a contractor</h2>
         <p>Send this public resource to a colleague who requests it, or share it in a community that permits resource posts. No customer list or attachments are needed.</p>
