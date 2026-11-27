@@ -113,3 +113,13 @@ test("free playbook is discoverable and links to existing pilot without collecti
   expect(sitemap.ok()).toBe(true);
   expect(await sitemap.text()).toContain("/hvac/follow-up-playbook");
 });
+
+test("newsletter is optional and uses the expected public Kit landing page", async ({ page }) => {
+  for (const [path, campaign] of [["/hvac/scorecard", "hvac_scorecard"], ["/hvac/follow-up-playbook", "hvac_playbook"]]) {
+    await page.goto(path);
+    const link = page.getByRole("link", { name: "Subscribe to the free MONARDAS newsletter" });
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute("href", "https://monardas-hvac-growth-revenue-recovery.kit.com/0e27c069e8?utm_source=monardas&utm_medium=website&utm_campaign=" + campaign);
+    await expect(page.locator('input[type="email"]')).toHaveCount(0);
+  }
+});
