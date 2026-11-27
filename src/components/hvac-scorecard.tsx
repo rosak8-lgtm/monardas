@@ -177,6 +177,16 @@ export function HVACScorecard() {
           <Link href="/contact?intent=agency-partner&utm_source=scorecard&utm_medium=partner">Discuss a partner introduction <ArrowUpRight size={17} /></Link>
         </div>
       </section>
+      <section className={"container " + styles.partner} aria-label="Optional HVAC newsletter">
+        <div>
+          <span className="eyebrow">FREE EMAIL NEWSLETTER / OPTIONAL</span>
+          <h2>Get practical HVAC growth tips in your inbox.</h2>
+          <p>Subscribe for estimate follow-up strategies, free resources and automation insights. Confirm your email on Kit and unsubscribe anytime. No subscription is required to use the scorecard.</p>
+        </div>
+        <div className={styles.partnerLinks}>
+          <a href="https://monardas-hvac-growth-revenue-recovery.kit.com/0e27c069e8?utm_source=monardas&utm_medium=website&utm_campaign=hvac_scorecard">Subscribe to the free MONARDAS newsletter <ArrowUpRight size={17} /></a>
+        </div>
+      </section>
       <section className={"container " + styles.bottom}>
         <Link href="/hvac">← MONARDAS HVAC Recovery</Link>
         <Link href="/hvac/demo">Try the fictional estimate demo →</Link>
